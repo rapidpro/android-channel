@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custom_rules">
+  <target name="-set-mode-check">
+    <fail if="build.is.mode.set"
+          message="Cannot run two different modes at the same time. If you are running more than one debug/release/instrument type targets, call them from different Ant calls." />
+    <property environment="env" />
+     <echo message="Building number ${env.PACK_NUMBER}.."/>
+     <copy file="config/AndroidManifest.xml" todir="." overwrite="true" encoding="utf-8">
+       <filterset>
+          <filter token="CONFIG.APP_PACKAGE_NAME" value="io.rapidpro.androidchannel.pack${env.PACK_NUMBER}" />
+       </filterset>
+     </copy>           
+  </target>
+</project>

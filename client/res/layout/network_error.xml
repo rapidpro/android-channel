@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/error_background"
+                android:visibility="gone"
+                android:padding="10dp">
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+            android:id="@+id/network_error_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
+            android:text="@string/icon_tower"
+            android:textColor="@color/font_red"
+            android:textSize="25dp"/>
+
+    <TextView
+            android:id="@+id/network_error_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/network_error_icon"
+            android:text="Network Error"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/font_red"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    <TextView
+            android:id="@+id/network_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/network_error_title"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/font_black"
+            android:text="@string/network_error_message"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"/>
+
+</RelativeLayout>

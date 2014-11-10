@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="servers">
+        <item>IP Address</item>
+        <item>RapidPRO</item>
+    </string-array>
+
+    <string-array name="servers_values">
+        <item>ip</item>
+        <item>https://rapidpro.io</item>
+    </string-array>
+
+    <string-array name="networks">
+        <item>WiFi</item>
+        <item>Cellular Data</item>
+        <item>No Preference</item>
+    </string-array>
+
+    <string-array name="networks_values">
+        <item>wifi</item>
+        <item>data</item>
+        <item>none</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+    <TextView
+            android:textSize="20dp"
+            android:text="Nice work! You are one step away."
+            android:layout_margin="30dp"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"/>
+
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="20dp"
+            android:background="@color/bg_grey"
+            >
+    <TextView
+            android:textSize="20dp"
+            android:text="Your claim code"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/font_grey"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"/>
+
+    <TextView
+            android:id="@+id/claim_code"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            android:text="123 GPY H26"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/claim_code"
+            android:textSize="20dp"
+            android:text="@string/claim_instructions"
+            android:layout_margin="30dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_width="fill_parent"/>
+
+
+
+</LinearLayout>

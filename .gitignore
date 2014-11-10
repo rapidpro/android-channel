@@ -1,0 +1,7 @@
+.idea
+*.iml
+gen/
+bin/
+client/src/io/rapidpro/androidchannel/Config.java
+packs/store
+packs/AndroidManifest.xml

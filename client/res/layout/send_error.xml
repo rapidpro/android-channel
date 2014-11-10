@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/warning_background"
+                android:visibility="gone"
+                android:padding="10dp">
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+            android:id="@+id/send_error_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/icon_bubble_bang"
+            android:textColor="@color/font_orange"
+            android:textSize="25dp"/>
+
+    <TextView
+            android:id="@+id/send_error_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/send_error_icon"
+            android:text="Sending Errors"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/font_orange"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    <TextView
+            android:id="@+id/send_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/send_error_title"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/font_black"
+            android:text="@string/send_error_message"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"/>
+
+</RelativeLayout>
