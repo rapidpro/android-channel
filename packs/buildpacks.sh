@@ -5,7 +5,7 @@ do
     echo "Building pack $i"
     export PACK_NUMBER=$i
     ant release
-    cp bin/packs-release.apk store/pack$i.apk
+    cp bin/packs-release.apk store/apks/pack$i.apk
     i=`expr $i + 1`
 done
 
