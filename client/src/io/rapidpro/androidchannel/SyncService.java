@@ -325,8 +325,9 @@ public class SyncService extends WakefulIntentService {
 
                 updateStatus("");
             }
+
             // error 1 means invalid signing, which means our secret is wrong
-            else {
+            else if (response.errorId == SyncPayload.INVALID_SECRET) {
                 RapidPro.LOG.d("ErrorId: " + response.errorId);
                 updateStatus("Error");
 
@@ -337,6 +338,18 @@ public class SyncService extends WakefulIntentService {
                 editor.remove(SettingsActivity.RESET);
                 editor.commit();
                 showAsUnclaimed();
+            }
+
+            // error 3 means our clock is out of date compared to the server
+            else if (response.errorId == SyncPayload.OLD_REQUEST){
+                updateStatus("Time Wrong");
+                connectionOk = isGoogleUp();
+            }
+
+            // Other kind of application error
+            else {
+                updateStatus("App Error");
+                connectionOk = isGoogleUp();
             }
         } else {
             updateStatus("Network Error");

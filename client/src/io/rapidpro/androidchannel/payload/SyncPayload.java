@@ -33,6 +33,7 @@ public class SyncPayload {
 
     public static final int NO_ERROR = -1;
     public static final int INVALID_SECRET = 1;
+    public static final int OLD_REQUEST = 3;
 
     public SyncPayload(){}
 
