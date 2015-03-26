@@ -3,7 +3,7 @@
 
     <string-array name="servers">
         <item>IP Address</item>
-        <item>RapidPRO</item>
+        <item>RapidPro</item>
     </string-array>
 
     <string-array name="servers_values">
