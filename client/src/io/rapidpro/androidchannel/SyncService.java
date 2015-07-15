@@ -389,7 +389,7 @@ public class SyncService extends WakefulIntentService {
         String relayerId = prefs.getString(SettingsActivity.RELAYER_ID, null);
         String secret = prefs.getString(SettingsActivity.RELAYER_SECRET, null);
         String endpoint = prefs.getString(SettingsActivity.SERVER, ENDPOINT);
-        String ip = prefs.getString(SettingsActivity.IP_ADDRESS, null);
+        String ip = prefs.getString(SettingsActivity.CUSTOM_ENDPOINT, null);
 
         boolean force = intent.getBooleanExtra(Intents.FORCE_EXTRA, false) || !RapidPro.get().isClaimed();
         long syncTime = intent.getLongExtra(Intents.SYNC_TIME, 0);
@@ -403,14 +403,6 @@ public class SyncService extends WakefulIntentService {
         if (syncTime < lastSync){
             updateStatus("");
             return;
-        }
-
-        // if our endpoint is an ip, add :8000 to it
-        if (endpoint.startsWith("ip")){
-            endpoint = "http://" + ip;
-            if (!ip.contains(":")) {
-                endpoint += ":8000";
-            }
         }
 
         syncTime = System.currentTimeMillis();

@@ -55,9 +55,9 @@
 
         <EditTextPreference
                 android:defaultValue="192.168.0.100"
-                android:key="ip_address"
+                android:key="custom_endpoint"
                 android:summary="The ip address to use when enabled"
-                android:title="IP Address" />
+                android:title="Custom URL" />
 
     </PreferenceCategory>
 
