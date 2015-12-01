@@ -450,30 +450,13 @@ public class RapidPro extends Application {
         String uuid = prefs.getString(SettingsActivity.UUID, null);
 
         if (uuid == null){
-            uuid = generateUUID();
+            uuid = UUID.randomUUID().toString();
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(SettingsActivity.UUID, uuid);
             editor.commit();
         }
 
         return uuid;
-    }
-
-    /**
-     * Generates a UUID that should be constant across devices.  This uses a combination of the IMEI if available
-     * and the AndroidId.  Note that both of these could be empty but it is very unlikely both are.
-     *
-     * @return
-     */
-    public String generateUUID(){
-        final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-
-        final String tmDevice, androidId;
-        tmDevice = "" + tm.getDeviceId();
-        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-
-        UUID deviceUUID = new UUID(androidId.hashCode(), tmDevice.hashCode());
-        return deviceUUID.toString();
     }
 
     public void printDebug() {
