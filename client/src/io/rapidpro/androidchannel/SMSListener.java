@@ -56,8 +56,6 @@ public class SMSListener implements SMSModem.SmsModemListener {
 
     @Override
     public void onSMSDelivered(Context context, String token) {
-
-
         RapidPro.LOG.d("SMS Delivered: " + token);
         int msgId = Integer.parseInt(token);
 
@@ -75,8 +73,6 @@ public class SMSListener implements SMSModem.SmsModemListener {
 
     @Override
     public void onSMSSendError(Context context, String token, String errorDetails) {
-
-
         int msgId = Integer.parseInt(token);
 
         MTTextMessage msg = (MTTextMessage) DBCommandHelper.withServerId(context, MTTextMessage.CMD, msgId);
@@ -103,24 +99,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
 
     @Override
     public void onSMSSendFailed(Context context, String token){
-
-
-
-        int msgId = Integer.parseInt(token);
-
-        DBCommandHelper.updateCommandStateWithServerId(context, MTTextMessage.CMD, msgId, MTTextMessage.FAILED, null);
-        RapidPro.LOG.d("SMS Send Failure: " + token);
-        RapidPro.broadcastUpdatedCounts(context);
-
-        MTTextMessage msg = (MTTextMessage) DBCommandHelper.withServerId(context, MTTextMessage.CMD, msgId);
-        if (msg != null){
-            DBCommandHelper.queueCommand(context, new MTTextFailed(msgId, msg.getPhone()));
-
-            RapidPro.get().refreshHome();
-            RapidPro.broadcastUpdatedCounts(context);
-            RapidPro.get().sync();
-        }
+        // go through same path as send errors, we will continue trying up to 10 times
+        onSMSSendError(context, token, "SMS Send Failed");
     }
-
-
 }

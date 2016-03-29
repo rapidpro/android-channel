@@ -150,7 +150,8 @@ public class RapidPro extends Application {
 
         List<String> packs = new ArrayList<String>();
         for (ApplicationInfo packageInfo : packages) {
-            if (packageInfo.packageName.startsWith("io.rapidpro.androidchannel")) {
+            if (packageInfo.packageName.startsWith("io.rapidpro.androidchannel") &&
+                    packageInfo.packageName.indexOf("surveyor") <= 0) {
                 packs.add(packageInfo.packageName);
             }
         }
@@ -311,6 +312,7 @@ public class RapidPro extends Application {
 
     @Override
     public void onTerminate(){
+        super.onTerminate();
         getContentResolver().unregisterContentObserver(m_callObserver);
         getContentResolver().unregisterContentObserver(m_incomingSMSObserver);
     }
