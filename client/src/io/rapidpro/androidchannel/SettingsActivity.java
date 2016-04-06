@@ -37,7 +37,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public static final String RELAYER_SECRET = "relayer_secret";
     public static final String RELAYER_CLAIM_CODE = "relayer_claim_code";
     public static final String SERVER = "server";
-    public static final String IP_ADDRESS = "ip_address";
+    public static final String CUSTOM_ENDPOINT = "custom_endpoint";
     public static final String RELAYER_ORG = "relayer_org";
     public static final String CONNECTION_UP = "connection_up";
     public static final String LAST_AIRPLANE_TOGGLE = "last_airplane_toggle";

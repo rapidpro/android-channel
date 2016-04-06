@@ -2,7 +2,7 @@
 <resources>
 
     <string-array name="servers">
-        <item>IP Address</item>
+        <item>Custom URL</item>
         <item>RapidPro</item>
     </string-array>
 
