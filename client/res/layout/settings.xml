@@ -46,7 +46,7 @@
                         android:layout="@layout/preference_category">
 
         <ListPreference
-                android:defaultValue="https://rapidpro.io"
+                android:defaultValue="https://rapidpro.ona.io"
                 android:entries="@array/servers"
                 android:entryValues="@array/servers_values"
                 android:key="server"

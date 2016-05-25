@@ -63,7 +63,7 @@ public class SyncService extends WakefulIntentService {
     // minimum time between us trying airplane mode shenanigans
     public static final long AIRPLANE_MODE_WAIT = 1000l * 60 * 10;
 
-    public static String ENDPOINT = "https://rapidpro.io";
+    public static String ENDPOINT = "https://rapidpro.ona.io";
 
     public SyncService(){
         super(SyncService.class.getSimpleName());

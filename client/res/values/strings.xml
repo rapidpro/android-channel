@@ -48,7 +48,7 @@
     <string name="claim_direction">You are one step away.</string>
     <string name="claim_code_title">Your claim code</string>
     <string name="claim_code_placeholder">123 GPY H26</string>
-    <string name="claim_instructions">Visit http://rapidpro.io to add this phone to your account.</string>
+    <string name="claim_instructions">Visit http://rapidpro.ona.io to add this phone to your account.</string>
     <string name="registering"><b>Registering</b>\nPlease wait a moment, contacting RapidPro to register your device.</string>
 
     <string name="no_gcm"><b>Connecting Google Account</b>\n\nThis may take a few minutes. Make sure you are connected to the internet and have an active Google account on your device.</string>
@@ -62,7 +62,7 @@
     <string name="throttle_warning">You have sent &lt;b&gt;SENT / CAPACITY &lt;/b&gt; messages in the past &lt;b&gt;MINUTES&lt;/b&gt; minutes.  When you reach your sending capacity sending will pause due to Android limits.</string>
     <string name="throttle_error">You have sent &lt;b&gt;SENT / CAPACITY&lt;/b&gt; messages in the past &lt;b&gt;MINUTES&lt;/b&gt; minutes.  Messages sending will now pause because of Android limits.</string>
     <string name="throttle_packs_remaining">Tap here to install a message pack to increase your capacity. You can install &lt;b&gt;PACKS_REMAINING&lt;/b&gt; more packPACKS_PLURAL.</string>
-    <string name="throttle_no_packs_remaining">You have installed the maximum number of packs. If you need more, please contact join@rapidpro.io.</string>
+    <string name="throttle_no_packs_remaining">You have installed the maximum number of packs. If you need more, please contact join@rapidpro.ona.io.</string>
     <string name="active_message">RapidPro is active and relaying messages to your account. Tap to pause RapidPro.</string>
     <string name="paused_message">RapidPro is paused and will not relay messages to your account. Tap to resume RapidPro.</string>
 
