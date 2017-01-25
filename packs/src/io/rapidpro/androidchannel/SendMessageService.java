@@ -1,1 +1,1 @@
-../../../../../client/src/io/rapidpro/androidchannel/SendMessageService.java
+../../../../../app/src/main/java/io/rapidpro/androidchannel/SendMessageService.java
