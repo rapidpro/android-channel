@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="UpdatingTextView">
-        <attr name="onUpdateText" format="string"/>
-        <attr name="updateFrequency" format="integer"/>
-    </declare-styleable>
-</resources>
