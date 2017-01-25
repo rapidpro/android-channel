@@ -1,0 +1,7 @@
+#Wed Jan 25 18:45:07 BRT 2017
+base.0=/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_67a8655f4565259e3881840763522827e48d0185
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_de1b756d426962c8b40ffc4dd0d0d9061ff121fb/classes.dex
+base.1=/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_de1b756d426962c8b40ffc4dd0d0d9061ff121fb
+file.0=/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_67a8655f4565259e3881840763522827e48d0185/classes.dex

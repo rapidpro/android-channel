@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_alignParentTop="true"
+             android:layout_alignParentLeft="true"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:background="#fff"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+        <include
+                android:id="@+id/network_error"
+                layout="@layout/network_error"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"/>
+
+        <include
+                android:id="@+id/send_error"
+                layout="@layout/send_error"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"/>
+
+        <include
+                android:id="@+id/status_active"
+                layout="@layout/status_active"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:layout_below="@+id/network_error"
+                android:layout_alignParentLeft="true"/>
+
+        <include android:id="@+id/status_paused"
+                 layout="@layout/status_paused"
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="10dp"
+                 android:visibility="gone"
+                 android:layout_below="@+id/network_error"
+                 android:layout_alignParentLeft="true"/>
+
+        <include
+                android:id="@+id/throttle"
+                layout="@layout/throttle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/ok_status" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_launcher.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_three_dots.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-mdpi/ic_three_dots.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_notification.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-mdpi/ic_notification.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_action_search.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-mdpi/ic_action_search.png"
+    }
+]

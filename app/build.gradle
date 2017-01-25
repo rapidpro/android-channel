@@ -1,0 +1,26 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 9
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "io.rapidpro.androidchannel"
+        minSdkVersion 9
+        targetSdkVersion 14
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/android-support-v4.jar')
+    compile files('libs/gcm-server.jar')
+    compile files('libs/gcm.jar')
+    compile files('libs/json_simple-1.1.jar')
+}

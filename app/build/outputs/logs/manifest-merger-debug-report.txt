@@ -1,0 +1,329 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:1:1-158:12
+	package
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:2:5-41
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:4:5-32
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+	android:versionCode
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:3:5-30
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:1:11-69
+uses-sdk
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:6:5-8:41
+	android:targetSdkVersion
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:8:9-38
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:7:9-34
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml
+permission#io.rapidpro.androidchannel.permission.C2D_MESSAGE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:10:5-120
+	android:protectionLevel
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:10:82-117
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:10:17-81
+uses-permission#io.rapidpro.androidchannel.permission.C2D_MESSAGE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:11:5-89
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:11:22-86
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:14:5-82
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:14:22-79
+uses-permission#android.permission.INTERNET
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:16:5-67
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:16:22-64
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:18:5-71
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:18:22-68
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:21:5-68
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:21:22-65
+uses-permission#android.permission.BATTERY_STATS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:22:5-72
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:22:22-69
+uses-permission#android.permission.RECEIVE_SMS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:23:5-70
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:23:22-67
+uses-permission#android.permission.SEND_SMS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:24:5-67
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:24:22-64
+uses-permission#android.permission.READ_SMS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:25:5-67
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:25:22-64
+uses-permission#android.permission.WRITE_SMS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:26:5-68
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:26:22-65
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:27:5-73
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:27:22-70
+uses-permission#android.permission.READ_LOGS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:29:5-67
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:29:22-65
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:30:5-81
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:30:22-78
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:32:5-79
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:32:22-76
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:33:5-75
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:33:22-72
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:34:5-75
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:34:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:35:5-75
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:35:22-73
+uses-permission#android.permission.READ_CALL_LOG
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:37:5-72
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:37:22-69
+uses-permission#android.permission.READ_CONTACTS
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:38:5-72
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:38:22-69
+uses-permission#android.permission.DEVICE_POWER
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:39:5-71
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:39:22-68
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:41:5-81
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:41:22-78
+uses-permission#io.rapidpro.androidchannel.SEND_MESSAGE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:42:5-78
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:42:22-76
+permission#io.rapidpro.androidchannel.SEND_MESSAGE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:44:5-119
+	android:label
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:44:72-105
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:44:17-71
+uses-feature#android.hardware.wifi
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:46:5-83
+	android:required
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:46:56-80
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:46:19-55
+uses-feature#android.hardware.telephony
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:47:5-87
+	android:required
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:47:61-84
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:47:19-60
+supports-screens
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:49:5-53
+	android:largeScreens
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:49:23-50
+application
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:51:5-156:19
+	android:label
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:53:9-41
+	android:icon
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:52:9-45
+	android:theme
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:54:9-40
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:55:9-33
+activity#io.rapidpro.androidchannel.HomeActivity
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:57:9-66:20
+	android:screenOrientation
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:59:17-53
+	android:label
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:61:17-49
+	android:configChanges
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:60:17-67
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:58:17-45
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:62:13-65:29
+action#android.intent.action.MAIN
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:63:17-69
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:63:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:64:17-77
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:64:27-74
+activity#io.rapidpro.androidchannel.SettingsActivity
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:67:9-76:20
+	android:exported
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:70:17-41
+	android:configChanges
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:69:17-67
+	android:theme
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:71:17-48
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:68:17-49
+intent-filter#android.intent.category.DEFAULT+io.rapidpro.androidchannel.ShowSettings
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:72:13-75:29
+action#io.rapidpro.androidchannel.ShowSettings
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:73:17-82
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:73:25-79
+category#android.intent.category.DEFAULT
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:74:17-76
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:74:27-73
+service#io.rapidpro.androidchannel.GCMIntentService
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:77:9-53
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:77:18-50
+service#io.rapidpro.androidchannel.SendMessageService
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:79:9-88:19
+	android:enabled
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:81:17-39
+	android:exported
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:82:17-40
+	android:permission
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:83:17-77
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:80:17-77
+intent-filter#io.rapidpro.androidchannel+io.rapidpro.androidchannel.SendMessage
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:84:13-87:29
+action#io.rapidpro.androidchannel.SendMessage
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:85:17-81
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:85:25-78
+category#io.rapidpro.androidchannel
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:86:17-71
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:86:27-68
+service#io.rapidpro.androidchannel.SyncService
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:90:9-97:19
+	android:enabled
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:92:17-39
+	android:exported
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:93:17-41
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:91:17-44
+intent-filter#io.rapidpro.androidchannel.StartSync
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:94:13-96:29
+action#io.rapidpro.androidchannel.StartSync
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:95:17-79
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:95:25-76
+service#io.rapidpro.androidchannel.GCMPingService
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:99:9-106:19
+	android:enabled
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:101:17-39
+	android:exported
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:102:17-41
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:100:17-47
+intent-filter#io.rapidpro.androidchannel.PingGCM
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:103:13-105:29
+action#io.rapidpro.androidchannel.PingGCM
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:104:17-77
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:104:25-74
+service#io.rapidpro.androidchannel.CommandRunner
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:108:9-115:19
+	android:enabled
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:110:17-39
+	android:exported
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:111:17-41
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:109:17-46
+intent-filter#io.rapidpro.androidchannel.RunLocalCommands
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:112:13-114:29
+action#io.rapidpro.androidchannel.RunLocalCommands
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:113:17-86
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:113:25-83
+receiver#io.rapidpro.androidchannel.PackageChangeReceiver
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:117:9-123:20
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:117:19-56
+intent-filter#android.intent.action.PACKAGE_ADDED+android.intent.action.PACKAGE_REMOVED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:118:13-122:29
+action#android.intent.action.PACKAGE_ADDED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:119:17-78
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:119:25-75
+action#android.intent.action.PACKAGE_REMOVED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:120:17-80
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:120:25-77
+data
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:121:17-50
+	android:scheme
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:121:23-47
+receiver#io.rapidpro.androidchannel.BootStrapper
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:126:9-133:20
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:126:19-47
+intent-filter#android.intent.action.BOOT_COMPLETED+android.intent.category.HOME+android.provider.Telephony.SMS_RECEIVED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:127:13-132:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:128:17-79
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:128:25-76
+action#android.provider.Telephony.SMS_RECEIVED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:129:17-82
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:129:25-79
+category#android.intent.category.HOME
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:131:17-73
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:131:27-70
+receiver#com.google.android.gcm.GCMBroadcastReceiver
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:135:9-141:20
+	android:permission
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:135:78-138
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:135:19-77
+intent-filter#com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION+io.rapidpro.androidchannel
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:136:13-140:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:137:17-81
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:137:25-78
+action#com.google.android.c2dm.intent.REGISTRATION
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:138:17-86
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:138:25-83
+receiver#com.commonsware.cwac.wakeful.AlarmReceiver
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:143:9-151:20
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:143:19-76
+intent-filter#android.intent.action.BOOT_COMPLETED
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:144:13-146:29
+meta-data#com.commonsware.cwac.wakeful
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:148:13-150:54
+	android:resource
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:150:21-52
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:149:21-64
+provider#io.rapidpro.androidchannel.contentprovider.DBCommandContentProvider
+ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:153:9-154:79
+	android:authorities
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:154:19-76
+	android:name
+		ADDED from /Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/AndroidManifest.xml:153:19-75

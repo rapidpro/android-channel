@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+    <PreferenceCategory android:title="Network Settings"
+                        android:layout="@layout/preference_category">
+
+        <CheckBoxPreference
+                android:key="network_wifi"
+                android:summary="Whether to use WiFi to deliver messages"
+                android:defaultValue="true"
+                android:title="Enable WiFi" />
+
+        <CheckBoxPreference
+                android:key="network_data"
+                android:summary="Whether to use cellular data to deliver messages"
+                android:defaultValue="true"
+                android:title="Enable Data" />
+
+        <ListPreference
+                android:defaultValue="none"
+                android:entries="@array/networks"
+                android:entryValues="@array/networks_values"
+                android:key="default_network"
+                android:summary="The default method to use when delivering messages. RapidPro will back down to other methods if it encounters a network error."
+                android:title="Preferred Network" />
+
+        <CheckBoxPreference
+                android:key="airplane_reset"
+                android:summary="Whether to toggle Airplane Mode to recover from network errors"
+                android:defaultValue="false"
+                android:title="Enable Airplane Reset" />
+
+        <CheckBoxPreference
+                android:key="sms_auto_delete"
+                android:summary="Whether SMS messages should be deleted automatically from the inbox after they are sent to RapidPro."
+                android:defaultValue="false"
+                android:title="Delete Messages" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Advanced Settings"
+                        android:key="advanced_settings"
+                        android:layout="@layout/preference_category">
+
+        <ListPreference
+                android:defaultValue="https://rapidpro.io"
+                android:entries="@array/servers"
+                android:entryValues="@array/servers_values"
+                android:key="server"
+                android:summary="Which server to point to"
+                android:title="Server" />
+
+        <EditTextPreference
+                android:defaultValue="192.168.0.100"
+                android:key="ip_address"
+                android:summary="The ip address to use when enabled"
+                android:title="IP Address" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Reset"
+                        android:layout="@layout/preference_category">
+
+        <Preference
+            android:key="reset"
+            android:summary="Reset relayer, removing it from your account"
+            android:title="Reset" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,158 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.rapidpro.androidchannel"
+    android:versionCode="180"
+    android:versionName="1.8.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="14" />
+
+    <permission android:name="io.rapidpro.androidchannel.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="io.rapidpro.androidchannel.permission.C2D_MESSAGE" />
+
+    <!-- App receives GCM messages. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!-- GCM connects to Google Services. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <!-- Keeps the processor from sleeping when a command is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE"/>
+
+    <permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" android:label="RapidPro Messages"></permission>
+
+    <uses-feature android:name="android.hardware.wifi" android:required="false" />
+    <uses-feature android:name="android.hardware.telephony" android:required="true" />
+
+    <supports-screens android:largeScreens="true" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:name=".RapidPro">
+
+        <activity
+                android:name=".HomeActivity"
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden"
+                android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".SettingsActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:exported="false"
+                android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="io.rapidpro.androidchannel.ShowSettings" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <service android:name=".GCMIntentService" />
+
+        <service
+                android:name="io.rapidpro.androidchannel.SendMessageService"
+                android:enabled="true"
+                android:exported="true"
+                android:permission="io.rapidpro.androidchannel.SEND_MESSAGE">
+            <intent-filter>
+                <action android:name="io.rapidpro.androidchannel.SendMessage" />
+                <category android:name="io.rapidpro.androidchannel" />
+            </intent-filter>
+        </service>
+
+        <service
+                android:name=".SyncService"
+                android:enabled="true"
+                android:exported="false" >
+            <intent-filter>
+                <action android:name="io.rapidpro.androidchannel.StartSync" />
+            </intent-filter>
+        </service>
+
+        <service
+                android:name=".GCMPingService"
+                android:enabled="true"
+                android:exported="false" >
+            <intent-filter>
+                <action android:name="io.rapidpro.androidchannel.PingGCM" />
+            </intent-filter>
+        </service>
+
+        <service
+                android:name=".CommandRunner"
+                android:enabled="true"
+                android:exported="false" >
+            <intent-filter>
+                <action android:name="io.rapidpro.androidchannel.RunLocalCommands" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".PackageChangeReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!--  Listen for boot events to make sure our service is running -->
+        <receiver android:name=".BootStrapper">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="io.rapidpro.androidchannel" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.commonsware.cwac.wakeful.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+
+            <meta-data
+                    android:name="com.commonsware.cwac.wakeful"
+                    android:resource="@xml/wakeful"/>
+        </receiver>
+
+        <provider android:name=".contentprovider.DBCommandContentProvider"
+                  android:authorities="io.rapidpro.androidchannel.commands" />
+
+    </application>
+
+</manifest>

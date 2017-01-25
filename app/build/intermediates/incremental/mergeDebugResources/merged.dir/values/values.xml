@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="networks">
+        <item>WiFi</item>
+        <item>Cellular Data</item>
+        <item>No Preference</item>
+    </string-array>
+    <string-array name="networks_values">
+        <item>wifi</item>
+        <item>data</item>
+        <item>none</item>
+    </string-array>
+    <string-array name="servers">
+        <item>IP Address</item>
+        <item>RapidPro</item>
+    </string-array>
+    <string-array name="servers_values">
+        <item>ip</item>
+        <item>https://rapidpro.io</item>
+    </string-array>
+    <color name="bg_black">#333333</color>
+    <color name="bg_blue">#4890CE</color>
+    <color name="bg_dark_blue">#006498</color>
+    <color name="bg_dark_grey">#333333</color>
+    <color name="bg_darker_blue">#094C71</color>
+    <color name="bg_grey">#666666</color>
+    <color name="bg_orange">#FFA500</color>
+    <color name="bg_status_bottom">#ff407ab0</color>
+    <color name="bg_status_top">#4890CE</color>
+    <color name="bg_white">#FFFFFF</color>
+    <color name="commandBody">#666666</color>
+    <color name="commandDate">#747474</color>
+    <color name="commandItemBackground">#ffffff</color>
+    <color name="commandListBackground">#000000</color>
+    <color name="commandStatus">#ff898989</color>
+    <color name="commandTitle">#4890CE</color>
+    <color name="font_black">#444</color>
+    <color name="font_blue">#49afcd</color>
+    <color name="font_dark_grey">#666666</color>
+    <color name="font_green">#5bb75b</color>
+    <color name="font_grey">#999999</color>
+    <color name="font_light_blue">#ff4aa2e2</color>
+    <color name="font_light_grey">#bbbbbb</color>
+    <color name="font_orange">#FFA500</color>
+    <color name="font_red">#ffc6211e</color>
+    <color name="font_status_bar">#a0ffffff</color>
+    <color name="font_white">#ffffff</color>
+    <declare-styleable name="UpdatingTextView"><attr format="string" name="onUpdateText"/><attr format="integer" name="updateFrequency"/></declare-styleable>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <string name="active_message">RapidPro is active and relaying messages to your account. Tap to pause RapidPro.</string>
+    <string name="app_name">RapidPro</string>
+    <string name="claim_code_placeholder">123 GPY H26</string>
+    <string name="claim_code_title">Your claim code</string>
+    <string name="claim_direction">You are one step away.</string>
+    <string name="claim_instructions">Visit http://rapidpro.io to add this phone to your account.</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="icon_android">\ue00a</string>
+    <string name="icon_arrow_left">\ue035</string>
+    <string name="icon_arrow_right">\ue036</string>
+    <string name="icon_bubble">\ue060</string>
+    <string name="icon_bubble_bang">\ue062</string>
+    <string name="icon_bubble_check">\ue061</string>
+    <string name="icon_bubble_dots">\ue05f</string>
+    <string name="icon_bubble_left">\ue033</string>
+    <string name="icon_bubble_person">\ue070</string>
+    <string name="icon_bubble_right">\ue034</string>
+    <string name="icon_call">\ue01c</string>
+    <string name="icon_checked">\ue003</string>
+    <string name="icon_clock">\ue01f</string>
+    <string name="icon_cloud">\ue095</string>
+    <string name="icon_cog">\ue024</string>
+    <string name="icon_computer">\ue077</string>
+    <string name="icon_contact_card">\ue02c</string>
+    <string name="icon_envelope">\ue02b</string>
+    <string name="icon_inbox">\ue074</string>
+    <string name="icon_outbox">\ue075</string>
+    <string name="icon_throttle_danger">\ue07b</string>
+    <string name="icon_throttle_okay">\ue028</string>
+    <string name="icon_throttle_warning">\ue029</string>
+    <string name="icon_tower">\ue012</string>
+    <string name="icon_unchecked">\ue004</string>
+    <string name="menu_dump_stats">Dump Stats</string>
+    <string name="menu_install_pack">Add Message Pack</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_sync">Sync</string>
+    <string name="network_error_message">RapidPro is unable to connect to the internet. Make sure you are connected to WiFi and that your mobile data is enabled.  If problems persist, try rebooting your device.</string>
+    <string name="no_gcm"><b>Connecting Google Account</b>\n\nThis may take a few minutes. Make sure you are connected to the internet and have an active Google account on your device.</string>
+    <string name="no_secret">Not Registered</string>
+    <string name="paused_message">RapidPro is paused and will not relay messages to your account. Tap to resume RapidPro.</string>
+    <string name="registering"><b>Registering</b>\nPlease wait a moment, contacting RapidPro to register your device.</string>
+    <string name="resetting"><b>Contacting RapidPro</b>\n\nWe are contacting the RapidPro server to remove this device from your account.</string>
+    <string name="sample_last_sync">Last sync <b>5 minutes ago</b></string>
+    <string name="sample_outgoing_message"><b>5,232</b> outgoing messages</string>
+    <string name="send_error_message">RapidPro is experiencing problems sending SMS messages. This may be a temporary problem with your network or may be an indication that your SIM is out of credit.  Messages will be retried, but if problems persist, check your phone\'s credit or try rebooting your device.</string>
+    <string name="sync">Sync</string>
+    <string name="throttle_error">You have sent &lt;b>SENT / CAPACITY&lt;/b> messages in the past &lt;b>MINUTES&lt;/b> minutes.  Messages sending will now pause because of Android limits.</string>
+    <string name="throttle_no_packs_remaining">You have installed the maximum number of packs. If you need more, please contact join@rapidpro.io.</string>
+    <string name="throttle_ok">You have sent &lt;b>SENT / CAPACITY &lt;/b> messages in the past &lt;b>MINUTES&lt;/b> minutes.</string>
+    <string name="throttle_packs_remaining">Tap here to install a message pack to increase your capacity. You can install &lt;b>PACKS_REMAINING&lt;/b> more packPACKS_PLURAL.</string>
+    <string name="throttle_title_error">Capacity Reached</string>
+    <string name="throttle_title_ok">Increase Your Capacity</string>
+    <string name="throttle_title_warning">Capacity Warning</string>
+    <string name="throttle_warning">You have sent &lt;b>SENT / CAPACITY &lt;/b> messages in the past &lt;b>MINUTES&lt;/b> minutes.  When you reach your sending capacity sending will pause due to Android limits.</string>
+    <string name="title_activity_home">RapidPro</string>
+    <string name="title_dashboard_home">Dashboard</string>
+    <style name="AppTheme" parent="android:Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

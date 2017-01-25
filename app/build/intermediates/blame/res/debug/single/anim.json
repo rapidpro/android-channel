@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/anim/out_to_right.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/anim/out_to_right.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/anim/in_from_right.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/anim/in_from_right.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/anim/in_from_left.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/anim/in_from_left.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/anim/out_to_left.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/anim/out_to_left.xml"
+    }
+]

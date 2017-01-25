@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:padding="7dp"
+     android:background="@color/commandItemBackground"
+     android:layout_height="wrap_content" android:orientation="vertical">
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+            android:id="@+id/commandIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"
+            android:text="@string/icon_bubble_right"
+            android:textColor="@color/bg_orange"
+            android:textSize="40dp"/>
+
+    <TextView android:textColor="@color/commandTitle"
+              android:text="0788383383"
+              android:textSize="16sp"
+              android:textStyle="bold"
+              android:layout_height="wrap_content"
+              android:layout_alignParentTop="true"
+              android:layout_toRightOf="@+id/commandIcon"
+              android:id="@+id/commandTitle"
+              android:layout_width="wrap_content" />
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+            android:id="@+id/small2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/font_orange"
+            android:text="@string/icon_bubble_check"/>
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+            android:id="@+id/small1"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/small2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/font_orange"
+            android:text="@string/icon_bubble_right" />
+
+    <TextView android:id="@+id/commandBody"
+    		  android:text="Hi Nicolas, Here's your message."
+	          android:textSize="16sp"
+		      android:textColor="@color/commandBody"
+              android:layout_below="@+id/commandTitle"
+              android:layout_toRightOf="@+id/commandIcon"
+        	  android:layout_width="match_parent"
+         	  android:layout_height="wrap_content"/>
+
+    <TextView android:id="@+id/commandLog"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+    />
+         	  
+    <TextView android:textSize="12sp"
+              android:textColor="@color/commandDate"
+              android:text="Friday, June 10th, 2001"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/commandBody"
+              android:layout_alignParentRight="true"
+              android:id="@+id/commandDate"/>
+</RelativeLayout>

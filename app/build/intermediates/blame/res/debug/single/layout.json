@@ -1,0 +1,74 @@
+[
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/preference_category.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/preference_category.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/registering.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/registering.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/notification_box.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/notification_box.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/status_active.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/status_active.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/settings.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/settings.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/no_gcm.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/no_gcm.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/status_paused.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/status_paused.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/command.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/command.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/unregistered.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/unregistered.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/network_error.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/network_error.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/home.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/home.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/icon_status.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/icon_status.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/status_bar.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/status_bar.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/throttle.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/throttle.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/dashboard.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/dashboard.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/send_error.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/send_error.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/resetting.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/resetting.xml"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/layout/unclaimed.xml",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/layout/unclaimed.xml"
+    }
+]

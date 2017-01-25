@@ -1,0 +1,98 @@
+[
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/battery.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/battery.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/settings.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/settings.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_launcher.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_notification.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/ic_notification.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/call_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/call_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/sync.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/sync.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/sync_small_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/sync_small_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/delivered_small.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/delivered_small.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/sent_small.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/sent_small.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/battery_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/battery_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/call.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/call.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/settings_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/settings_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/delivered_small_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/delivered_small_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/text_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/text_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_three_dots.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/ic_three_dots.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/complete_small.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/complete_small.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/sent_small_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/sent_small_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/sync_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/sync_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/sync_small.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/sync_small.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/text.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/text.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/android_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/android_ok.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/android.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/android.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_action_search.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/ic_action_search.png"
+    },
+    {
+        "merged": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/build/intermediates/res/merged/debug/drawable-hdpi/complete_small_ok.png",
+        "source": "/Users/john-mac/Documents/workspace_unicef/android-channel-ilhasoft/app/src/main/res/drawable-hdpi/complete_small_ok.png"
+    }
+]

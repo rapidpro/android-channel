@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/active_background"
+                android:visibility="visible"
+                android:padding="10dp"
+                android:onClick="pauseRapidProApp">
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+            android:id="@+id/active_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/icon_bubble_check"
+            android:textColor="@color/font_green"
+            android:textSize="25dp"/>
+
+    <TextView
+            android:id="@+id/active_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/active_icon"
+            android:text="RapidPro Active"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/font_green"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+    <TextView
+            android:id="@+id/active_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/active_title"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/font_black"
+            android:text="@string/active_message"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"/>
+
+</RelativeLayout>
