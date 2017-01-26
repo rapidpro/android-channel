@@ -7,8 +7,18 @@ packs/store/apks
 packs/AndroidManifest.xml
 secure.properties
 
+# Keystore files
+*.jks
 
-### Gradle ###
+# Android
+*.dex
+*.class
+out/
+.idea/gradle.xml
+.idea/libraries
+
+# Gradle
+build/
 .gradle
 /build/
 
@@ -33,7 +43,3 @@ gradle-app.setting
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
-
-# Gradle:
-.idea/gradle.xml
-.idea/libraries
