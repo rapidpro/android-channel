@@ -9,6 +9,7 @@ secure.properties
 
 # Local configuration file (sdk path, etc)
 local.properties
+!packs/local.properties
 
 # Keystore files
 *.jks
