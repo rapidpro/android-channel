@@ -280,7 +280,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
                                                         15 * MINUTE,
                                                         30 * MINUTE,
                                                         30 * MINUTE,
-                                                        60 * MINUTE  };
+                                                        60 * MINUTE};
 
     /**
      * Builds the query and executes trying to get all commands which need to be tried.  We use the last modified date
