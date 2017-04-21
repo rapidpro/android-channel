@@ -27,27 +27,25 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.TelephonyManager;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.ResetCommand;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.*;
 
 public class RapidPro extends Application {
     public final int NOTIFICATION_ID = 1;
@@ -138,9 +136,9 @@ public class RapidPro extends Application {
         return !isResetting() && (prefs.getString(SettingsActivity.RELAYER_ID, null) != null);
     }
 
-    public boolean hasGCM(){
+    public boolean hasFCM(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return !isResetting() && (prefs.getString(SettingsActivity.GCM_ID, "").length() > 0);
+        return !isResetting() && (prefs.getString(SettingsActivity.FCM_ID, "").length() > 0);
     }
 
     public void refreshInstalledPacks() {
@@ -289,7 +287,7 @@ public class RapidPro extends Application {
         // Stop if RapidPro is paused
         if (isPaused()) return;
 
-        Intent intent = new Intent(Intents.START_SYNC);
+        Intent intent = new Intent(this, SyncService.class);
         intent.putExtra(Intents.SYNC_TIME, System.currentTimeMillis());
         if (force){
             intent.putExtra(Intents.FORCE_EXTRA, true);
@@ -298,12 +296,12 @@ public class RapidPro extends Application {
         WakefulIntentService.sendWakefulWork(this, intent);
     }
 
-    public void pingGCM(){
-        WakefulIntentService.sendWakefulWork(this, new Intent(Intents.PING_GCM));
+    public void pingFCM(){
+        WakefulIntentService.sendWakefulWork(this, new Intent(this, FCMPingService.class));
     }
 
     public void runCommands(){
-        WakefulIntentService.sendWakefulWork(this, new Intent(Intents.RUN_LOCAL_COMMANDS));
+        WakefulIntentService.sendWakefulWork(this, new Intent(this, CommandRunner.class));
     }
 
     public SMSModem getModem() {

@@ -4,21 +4,18 @@
     android:versionName="1.8.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="14" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="25" />
 
-    <permission android:name="io.rapidpro.androidchannel.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-    <uses-permission android:name="io.rapidpro.androidchannel.permission.C2D_MESSAGE" />
 
-    <!-- App receives GCM messages. -->
+    <!-- App receives FCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <!-- GCM connects to Google Services. -->
+    <!-- FCM connects to Google Services. -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- GCM requires a Google account. -->
+    <!-- FCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <!-- Keeps the processor from sleeping when a command is received. -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
@@ -74,7 +71,22 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <service android:name=".GCMIntentService" />
+
+        <service
+            android:name=".RapidProFirebaseMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+
+            android:name=".RapidProFirebaseRegistrationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
 
         <service
                 android:name="io.rapidpro.androidchannel.SendMessageService"
@@ -96,12 +108,14 @@
             </intent-filter>
         </service>
 
+
+
         <service
-                android:name=".GCMPingService"
+                android:name=".FCMPingService"
                 android:enabled="true"
                 android:exported="false" >
             <intent-filter>
-                <action android:name="io.rapidpro.androidchannel.PingGCM" />
+                <action android:name="io.rapidpro.androidchannel.PingFCM" />
             </intent-filter>
         </service>
 
@@ -129,14 +143,6 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
 
                 <category android:name="android.intent.category.HOME" />
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <category android:name="io.rapidpro.androidchannel" />
             </intent-filter>
         </receiver>
 

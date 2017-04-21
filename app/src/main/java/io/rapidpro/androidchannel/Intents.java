@@ -23,7 +23,7 @@ public interface Intents {
 
     public static final String SHOW_SETTINGS = "io.rapidpro.androidchannel.ShowSettings";
     public static final String RUN_LOCAL_COMMANDS = "io.rapidpro.androidchannel.RunLocalCommands";
-    public static final String PING_GCM = "io.rapidpro.androidchannel.PingGCM";
+    public static final String PING_FCM = "io.rapidpro.androidchannel.PingFCM";
 
     public static final String UPDATE_COUNTS = "io.rapidpro.androidchannel.UpdateCounts";
     public static final String UPDATE_STATUS = "io.rapidpro.androidchannel.UpdateStatus";

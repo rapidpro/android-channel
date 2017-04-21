@@ -16,35 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.rapidpro.androidchannel.payload;
+package io.rapidpro.androidchannel;
 
-import android.content.Context;
-import io.rapidpro.androidchannel.json.JSON;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class GCM extends Command {
-    public static final String CMD = "gcm";
-    public static final String GCM_ID = "gcm_id";
-    public static final String UUID = "uuid";
-
-    private String m_gcmId;
-    private String m_uuid;
-
-    public GCM(String gcmId, String uuid){
-        super(CMD);
-        m_gcmId = gcmId;
-        m_uuid = uuid;
-    }
-
-    public JSON asJSON(){
-        JSON json = new JSON();
-        json.put(COMMAND, CMD);
-        json.put(GCM_ID, m_gcmId);
-        json.put(UUID, m_uuid);
-        return json;
-    }
-
+public class NoFcmFragment extends Fragment {
     @Override
-    public void ack(Context context, Ack ack){
-        // no-op for this command
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.no_fcm, container, false);
     }
+
 }

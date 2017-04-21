@@ -34,11 +34,11 @@ public class RapidProAlarmListener implements WakefulIntentService.AlarmListener
     public static final long MAX_AGE = ONE_SECOND * 90;
 
     public static final String LAST_SYNC_TIME = "lastSync";
-    public static final String LAST_GCM_TIME = "lastGcm";
+    public static final String LAST_FCM_TIME = "lastFcm";
     public static final String LAST_RUN_COMMANDS_TIME = "lastRun";
-    public static final String FIRST_GCM_TIME = "firstGcm";
+    public static final String FIRST_FCM_TIME = "firstGcm";
 
-    public static final long MAX_GCM_AGE = ONE_MINUTE * 4;
+    public static final long MAX_FCM_AGE = ONE_MINUTE * 4;
     public static final long SYNC_FREQUENCY = ONE_MINUTE * 5;
     public static final long COMMAND_FREQUENCY = ONE_MINUTE * 1;
     public static final long UNCLAIMED_SYNC_FREQUENCY = ONE_SECOND * 60;
@@ -64,18 +64,18 @@ public class RapidProAlarmListener implements WakefulIntentService.AlarmListener
 
         long now = System.currentTimeMillis();
 
-        // if we aren't on battery, ping GCM every time for faster pushes, otherwise only every 4 mins
-        long lastGCMTime = prefs.getLong(LAST_GCM_TIME, 0);
-        if (powerStatus == BatteryManager.BATTERY_STATUS_CHARGING || now - lastGCMTime >= MAX_GCM_AGE){
-            RapidPro.get().pingGCM();
+        // if we aren't on battery, ping FCM every time for faster pushes, otherwise only every 4 mins
+        long lastFCMTime = prefs.getLong(LAST_FCM_TIME, 0);
+        if (powerStatus == BatteryManager.BATTERY_STATUS_CHARGING || now - lastFCMTime >= MAX_FCM_AGE){
+            RapidPro.get().pingFCM();
         }
 
         long lastSent = prefs.getLong(SettingsActivity.LAST_SMS_SENT, 0);
         long lastSyncTime = prefs.getLong(LAST_SYNC_TIME, 0);
-        long firstGcm = prefs.getLong(FIRST_GCM_TIME, 0);
+        long firstFcm = prefs.getLong(FIRST_FCM_TIME, 0);
         long lastReceived = prefs.getLong(SettingsActivity.LAST_SMS_RECEIVED, 0);
 
-        if (now - lastSyncTime >= SYNC_FREQUENCY || now - firstGcm < UNCLAIMED_ACTIVE_PERIOD || now - lastSent < ACTIVE_PERIOD || now - lastReceived < ACTIVE_PERIOD){
+        if (now - lastSyncTime >= SYNC_FREQUENCY || now - firstFcm < UNCLAIMED_ACTIVE_PERIOD || now - lastSent < ACTIVE_PERIOD || now - lastReceived < ACTIVE_PERIOD){
             RapidPro.LOG.d("Scheduled task SYNC STARTED");
             RapidPro.get().sync(true);
         }
