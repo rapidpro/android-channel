@@ -114,7 +114,7 @@ public final class SMSModem extends BroadcastReceiver {
                 final ArrayList<String> parts = smsManager.divideMessage(message);
 
                 Intent sendMessageIntent = new Intent(c, SendMessageService.class);
-                sendMessageIntent.setAction("io.rapidpro.androidchannel.SendMessageService");
+                sendMessageIntent.setAction("io.rapidpro.androidchannel.SendMessage");
                 sendMessageIntent.addCategory(pack);
                 sendMessageIntent.putExtra("address", address);
                 sendMessageIntent.putExtra("message", parts);
