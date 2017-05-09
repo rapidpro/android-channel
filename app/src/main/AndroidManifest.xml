@@ -3,11 +3,6 @@
     android:versionCode="180"
     android:versionName="1.8.0" >
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="25" />
-
-
     <!-- App receives FCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- FCM connects to Google Services. -->
@@ -33,12 +28,13 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.DEVICE_POWER" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE"/>
+    <uses-permission android:name="io.rapidpro.androidchannel.SERVICE_PERMISSION" />
 
-    <permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" android:label="RapidPro Messages"></permission>
+    <permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" android:label="RapidPro Messages" android:description="@string/permission_send_message" />
+    <permission android:name="io.rapidpro.androidchannel.SERVICE_PERMISSION" android:label="RapidPro services" android:description="@string/permission_services" />
 
     <uses-feature android:name="android.hardware.wifi" android:required="false" />
     <uses-feature android:name="android.hardware.telephony" android:required="true" />
@@ -73,15 +69,16 @@
         </activity>
 
         <service
-            android:name=".RapidProFirebaseMessageService">
+            android:name=".RapidProFirebaseMessageService"
+            android:permission="io.rapidpro.androidchannel.SERVICE_PERMISSION">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-
-            android:name=".RapidProFirebaseRegistrationService">
+            android:name=".RapidProFirebaseRegistrationService"
+            android:permission="io.rapidpro.android.androidchannel.SERVICE_PERMISSION">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
@@ -100,9 +97,9 @@
         </service>
 
         <service
-                android:name=".SyncService"
-                android:enabled="true"
-                android:exported="false" >
+            android:name=".SyncService"
+            android:permission="io.rapidpro.androidchannel.SERVICE_PERMISSION"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="io.rapidpro.androidchannel.StartSync" />
             </intent-filter>
@@ -111,18 +108,19 @@
 
 
         <service
-                android:name=".FCMPingService"
-                android:enabled="true"
-                android:exported="false" >
+            android:name=".FCMPingService"
+            android:enabled="true"
+            android:permission="io.rapidpro.androidchannel.SERVICE_PERMISSION" >
             <intent-filter>
                 <action android:name="io.rapidpro.androidchannel.PingFCM" />
             </intent-filter>
         </service>
 
         <service
-                android:name=".CommandRunner"
-                android:enabled="true"
-                android:exported="false" >
+            android:name=".CommandRunner"
+            android:enabled="true"
+            android:permission="io.rapidpro.androidchannel.SERVICE_PERMISSION" >
+
             <intent-filter>
                 <action android:name="io.rapidpro.androidchannel.RunLocalCommands" />
             </intent-filter>
@@ -156,8 +154,11 @@
                     android:resource="@xml/wakeful"/>
         </receiver>
 
-        <provider android:name=".contentprovider.DBCommandContentProvider"
-                  android:authorities="io.rapidpro.androidchannel.commands" />
+        <provider
+            android:exported="true"
+            android:name=".contentprovider.DBCommandContentProvider"
+            android:authorities="io.rapidpro.androidchannel.commands"
+            android:permission="io.rapidpro.androidchannel.SERVICE_PERMISSION" />
 
     </application>
 

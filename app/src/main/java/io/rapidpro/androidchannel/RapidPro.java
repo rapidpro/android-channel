@@ -34,7 +34,6 @@ import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.telephony.TelephonyManager;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import java.util.ArrayList;
