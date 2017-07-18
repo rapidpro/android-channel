@@ -8,7 +8,7 @@ android {
         if (project.hasProperty('packNumber')) {
             applicationId "io.rapidpro.androidchannel.pack$packNumber"
         } else {
-            applicationId "io.rapidpro.androidchannel.pack"
+            applicationId "io.rapidpro.androidchannel.pack1"
         }
 
         minSdkVersion 14
