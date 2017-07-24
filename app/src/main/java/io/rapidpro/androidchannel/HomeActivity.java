@@ -18,7 +18,11 @@
 
 package io.rapidpro.androidchannel;
 
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,9 +34,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import io.rapidpro.androidchannel.ui.UpdatingTextView;
 import io.rapidpro.androidchannel.util.DateUtil;
 
@@ -42,7 +46,7 @@ public class HomeActivity extends BaseActivity implements Intents {
     private static final String FRAGMENT_UNCLAIMED = "fragmentUnclaimed";
     private static final String FRAGMENT_DASHBOARD = "fragmentDashboard";
     private static final String FRAGMENT_UNREGISTERED = "fragmentUnregistered";
-    private static final String FRAGMENT_NO_GCM = "fragmentNoGCM";
+    private static final String FRAGMENT_NO_FCM = "fragmentNoFCM";
     private static final String FRAGMENT_RESETTING = "fragmentResetting";
 
     public static final String SHOW_ADVANCED_SETTINGS = "showAdvancedSettings";
@@ -190,9 +194,9 @@ public class HomeActivity extends BaseActivity implements Intents {
         m_statusBar.setVisibility(View.GONE);
     }
 
-    public void showNoGCM(){
+    public void showNoFCM(){
         setUpdatedVisibility(View.GONE);
-        showFragment(new NoGcmFragment(), FRAGMENT_NO_GCM, null, true);
+        showFragment(new NoFcmFragment(), FRAGMENT_NO_FCM, null, true);
         m_statusBar.setVisibility(View.GONE);
     }
 
@@ -321,10 +325,10 @@ public class HomeActivity extends BaseActivity implements Intents {
                         showResetting();
                     }
                 }
-                // we don't have a GCM id, oh noes, show that progress
-                if (!RapidPro.get().hasGCM()){
-                    if (!isFragmentVisible(FRAGMENT_NO_GCM)) {
-                        showNoGCM();
+                // we don't have a FCM id, oh noes, show that progress
+                if (!RapidPro.get().hasFCM()){
+                    if (!isFragmentVisible(FRAGMENT_NO_FCM)) {
+                        showNoFCM();
                     }
                 }
                 // if we don't have a secret, time to register

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="@CONFIG.APP_PACKAGE_NAME@"
+          package="io.rapidpro.androidchannel"
           android:versionCode="4"
 	  android:versionName="1.1" >
 
@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
 
-    <permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" android:label="SMS Channel"></permission>
+    <permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" android:label="RapidPro Messages" android:description="@string/permission_send_message" />
     <uses-permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" />
 
     <application
@@ -26,7 +26,7 @@
                 android:permission="io.rapidpro.androidchannel.SEND_MESSAGE">
             <intent-filter>
                 <action android:name="io.rapidpro.androidchannel.SendMessage" />
-                <category android:name="@CONFIG.APP_PACKAGE_NAME@" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </service>
 

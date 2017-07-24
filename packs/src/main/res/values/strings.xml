@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SMS Channel Pack</string>
+    <string name="permission_send_message">Allows the app to send messages</string>
 </resources>

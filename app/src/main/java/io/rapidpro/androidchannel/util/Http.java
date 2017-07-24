@@ -20,11 +20,9 @@ package io.rapidpro.androidchannel.util;
 
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
-import io.rapidpro.androidchannel.RapidPro;
-import io.rapidpro.androidchannel.json.JSON;
+
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
@@ -32,7 +30,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import io.rapidpro.androidchannel.RapidPro;
+import io.rapidpro.androidchannel.json.JSON;
 
 /**
  * HttpWrapper wraps all http interaction to allow for intelligent
