@@ -23,6 +23,9 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.telephony.SmsManager;
+import android.text.TextUtils;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
 
@@ -61,8 +64,18 @@ public class IncomingSMSObserver extends ContentObserver{
 
         Uri inboxUri = Uri.parse("content://sms/inbox");
 
+        String ignoredMessage = prefs.getString(SettingsActivity.SMS_IGNORED_MESSAGE, "");
+        String selection = null;
+        String [] selectionArgs = null;
+
+        if (!TextUtils.isEmpty(ignoredMessage)) {
+            selection = "body NOT LIKE %?%";
+            selectionArgs = new String[]{ignoredMessage};
+        }
+
         // get any new SMS in the inbox
-        Cursor cursor = RapidPro.get().getContentResolver().query(inboxUri, null, null, null, "date DESC");
+        Cursor cursor = RapidPro.get().getContentResolver().query(inboxUri, null, selection,
+                selectionArgs, "date DESC");
 
         // whether we need to sync
         boolean doSync = false;
