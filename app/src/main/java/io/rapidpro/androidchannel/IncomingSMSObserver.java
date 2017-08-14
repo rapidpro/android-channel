@@ -69,8 +69,8 @@ public class IncomingSMSObserver extends ContentObserver{
         String [] selectionArgs = null;
 
         if (!TextUtils.isEmpty(ignoredMessage)) {
-            selection = "body NOT LIKE %?%";
-            selectionArgs = new String[]{ignoredMessage};
+            selection = "body NOT LIKE ?";
+            selectionArgs = new String[]{"%" + ignoredMessage + "%"};
         }
 
         // get any new SMS in the inbox
