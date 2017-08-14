@@ -39,6 +39,12 @@
                 android:defaultValue="false"
                 android:title="Delete Messages" />
 
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="sms_ignored_message"
+            android:summary="Enter a text that when in the body of the message will not send it to the server"
+            android:title="Ignored message" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Advanced Settings"
