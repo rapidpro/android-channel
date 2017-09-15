@@ -36,8 +36,12 @@ public class CommandRunner extends WakefulIntentService {
 
     @Override
     protected void doWakefulWork(Intent intent) {
-        int commandsRun = 0;
 
+        // prune any of our pending messages we should give up on
+        int pruned = DBCommandHelper.prunePendingMessages(this);
+        RapidPro.LOG.d("Old pending messages updated to sent: " + pruned);
+
+        int commandsRun = 0;
         int allotted = RapidPro.get().getSendCapacity();
         int sent = RapidPro.get().getTotalSentInWindow();
         int remaining = allotted - sent;
