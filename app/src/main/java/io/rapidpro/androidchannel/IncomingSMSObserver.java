@@ -23,7 +23,6 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.telephony.SmsManager;
 import android.text.TextUtils;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
@@ -65,17 +64,10 @@ public class IncomingSMSObserver extends ContentObserver{
         Uri inboxUri = Uri.parse("content://sms/inbox");
 
         String ignoredMessage = prefs.getString(SettingsActivity.SMS_IGNORED_MESSAGE, "");
-        String selection = null;
-        String [] selectionArgs = null;
-
-        if (!TextUtils.isEmpty(ignoredMessage)) {
-            selection = "body NOT LIKE ?";
-            selectionArgs = new String[]{"%" + ignoredMessage + "%"};
-        }
+        String blacklistedNumbers = prefs.getString(SettingsActivity.SMS_BLACKLISTED_NUMBERS, "");
 
         // get any new SMS in the inbox
-        Cursor cursor = RapidPro.get().getContentResolver().query(inboxUri, null, selection,
-                selectionArgs, "date DESC");
+        Cursor cursor = RapidPro.get().getContentResolver().query(inboxUri, null, null, null, "date DESC");
 
         // whether we need to sync
         boolean doSync = false;
@@ -102,6 +94,12 @@ public class IncomingSMSObserver extends ContentObserver{
 
             String address = cursor.getString(cursor.getColumnIndex("address"));
             String message = cursor.getString(cursor.getColumnIndex("body"));
+
+            // if message content or address are ignored
+            if (matchIgnoredMessage(ignoredMessage, message) || matchBlacklistedNumbers(blacklistedNumbers, address)) {
+                break;
+            }
+
             RapidPro.LOG.d("SMS[" + id + "] Arrived: " + time + " From: " + address + " message body: " + message + " (last seen " + m_lastSMS + ")");
 
             DBCommandHelper.queueCommand(RapidPro.get(), new MOTextMessage(address, message, new Date(time)));
@@ -124,5 +122,22 @@ public class IncomingSMSObserver extends ContentObserver{
             RapidPro.broadcastUpdatedCounts(RapidPro.get().getApplicationContext());
             RapidPro.get().sync(true);
         }
+    }
+
+    private boolean matchBlacklistedNumbers(String blacklistedNumbers, String address) {
+        if (!TextUtils.isEmpty(blacklistedNumbers)) {
+            String [] numbers = blacklistedNumbers.split(",");
+            for (String number : numbers) {
+                if (address.toLowerCase().contains(number.trim().toLowerCase())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean matchIgnoredMessage(String ignoredContent, String content) {
+        return !TextUtils.isEmpty(ignoredContent)
+            && content.toLowerCase().contains(ignoredContent.toLowerCase());
     }
 }
