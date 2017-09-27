@@ -45,6 +45,12 @@
             android:summary="Enter a text that when in the body of the message will not send it to the server"
             android:title="Ignored message" />
 
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="sms_blacklist_numbers"
+            android:summary="Enter numbers that will be ignored when a message is received from them"
+            android:title="Blacklist numbers" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Advanced Settings"
