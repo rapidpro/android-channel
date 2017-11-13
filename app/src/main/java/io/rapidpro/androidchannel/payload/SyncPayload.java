@@ -18,12 +18,13 @@
 
 package io.rapidpro.androidchannel.payload;
 
-import io.rapidpro.androidchannel.RapidPro;
-import io.rapidpro.androidchannel.json.JSON;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import io.rapidpro.androidchannel.RapidPro;
+import io.rapidpro.androidchannel.json.JSON;
 
 public class SyncPayload {
     public static final String CMDS = "cmds";

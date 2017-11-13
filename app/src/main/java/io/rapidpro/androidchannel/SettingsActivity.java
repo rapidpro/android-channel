@@ -18,7 +18,6 @@
 
 package io.rapidpro.androidchannel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,13 +25,11 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.ViewGroup;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
     // These strings are not camel case because they represent commands sent to the server
-    public static final String GCM_ID = "gcm_id";
+    public static final String FCM_ID = "fcm_id";
     public static final String RELAYER_ID = "relayer_id";
     public static final String RELAYER_SECRET = "relayer_secret";
     public static final String RELAYER_CLAIM_CODE = "relayer_claim_code";
@@ -74,14 +71,14 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         findPreference(RESET).setOnPreferenceClickListener(this);
     }
 
-    public static void setGCM(Context context, String id){
-        RapidPro.LOG.d("=== Setting GCM: " + id);
+    public static void setFCM(Context context, String id){
+        RapidPro.LOG.d("=== Setting FCM: " + id);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         if (id == null){
-            editor.remove(SettingsActivity.GCM_ID);
+            editor.remove(SettingsActivity.FCM_ID);
         } else {
-            editor.putString(SettingsActivity.GCM_ID, id);
-            editor.putLong(RapidProAlarmListener.FIRST_GCM_TIME, System.currentTimeMillis());
+            editor.putString(SettingsActivity.FCM_ID, id);
+            editor.putLong(RapidProAlarmListener.FIRST_FCM_TIME, System.currentTimeMillis());
         }
         editor.commit();
 

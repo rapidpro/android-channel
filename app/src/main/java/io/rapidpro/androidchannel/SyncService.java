@@ -28,13 +28,9 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Base64;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
-import io.rapidpro.androidchannel.data.DBCommandHelper;
-import io.rapidpro.androidchannel.payload.*;
-import io.rapidpro.androidchannel.util.Http;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+import com.commonsware.cwac.wakeful.WakefulIntentService;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -44,6 +40,17 @@ import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import io.rapidpro.androidchannel.data.DBCommandHelper;
+import io.rapidpro.androidchannel.payload.Command;
+import io.rapidpro.androidchannel.payload.FCM;
+import io.rapidpro.androidchannel.payload.MTTextMessage;
+import io.rapidpro.androidchannel.payload.StatusCommand;
+import io.rapidpro.androidchannel.payload.SyncPayload;
+import io.rapidpro.androidchannel.util.Http;
 
 /**
  * Syncs our messages with the server.
@@ -374,7 +381,7 @@ public class SyncService extends WakefulIntentService {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
         String network = prefs.getString(SettingsActivity.DEFAULT_NETWORK, "none");
-        String gcmId = prefs.getString(SettingsActivity.GCM_ID, "");
+        String fcmId = prefs.getString(SettingsActivity.FCM_ID, "");
         boolean useAirplane = prefs.getBoolean(SettingsActivity.AIRPLANE_RESET, false);
 
         RapidPro.LOG.d("Use airplane: " + useAirplane);
@@ -382,7 +389,7 @@ public class SyncService extends WakefulIntentService {
         String uuid = RapidPro.get().getUUID();
 
         // no gcm id?  don't even try to sync
-        if (gcmId.length() == 0){
+        if (fcmId.length() == 0){
             return;
         }
 
@@ -426,12 +433,12 @@ public class SyncService extends WakefulIntentService {
         setNetworkType(network);
 
         SyncPayload payload = new SyncPayload();
-        payload.addCommand(new GCM(gcmId, uuid));
+        payload.addCommand(new FCM(fcmId, uuid));
         payload.addCommand(new StatusCommand(this));
         boolean synced = false;
 
         // we've got everything we need to do proper syncing, go for it
-        if (gcmId != null && relayerId != null && secret != null && secret.length() > 0){
+        if (fcmId != null && relayerId != null && secret != null && secret.length() > 0){
             for (Command command: commands){
                 payload.addCommand(command);
             }
@@ -440,9 +447,10 @@ public class SyncService extends WakefulIntentService {
             synced = firePayload(payload, url, secret);
         }
         // we don't know our secret or relayer payloadId, we should register
-        else if (gcmId != null){
+        else if (fcmId != null){
             updateStatus("Registering");
 
+            RapidPro.LOG.d("Endpoint:" + endpoint);
             String url = endpoint + "/relayers/relayer/register/";
             synced = firePayload(payload, url, null);
         }

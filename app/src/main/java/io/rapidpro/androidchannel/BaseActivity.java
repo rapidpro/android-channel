@@ -22,28 +22,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gcm.GCMRegistrar;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class BaseActivity extends FragmentActivity {
 
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
 
-        GCMRegistrar.checkDevice(this);
-        GCMRegistrar.checkManifest(this);
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        String regId = GCMRegistrar.getRegistrationId(this);
-        if (regId.equals("")) {
-            GCMRegistrar.register(this, Config.GCM_APP_ID);
-        } else {
-            regId = GCMRegistrar.getRegistrationId(this);
-            SettingsActivity.setGCM(this, regId);
+        if (refreshedToken != null) {
+            SettingsActivity.setFCM(this, refreshedToken);
             RapidPro.get().sync(true);
         }
+
     }
 
     @Override
