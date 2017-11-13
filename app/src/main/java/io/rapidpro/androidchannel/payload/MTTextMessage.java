@@ -88,8 +88,12 @@ public class MTTextMessage extends QueueingCommand {
             RapidPro.get().addSendForPack(pack, numMessages);
 
             RapidPro.LOG.d("\n\n\n\nSending [" + m_serverId + "] - " + m_phone + " - "+ m_message + " (" + pack + ")  attempt: " + getExtra() + "\n\n");
-            modem.sendSms(context, m_phone, m_message, "" + m_serverId, pack);
+
+            // first mark this message as handed off to android
             DBCommandHelper.updateCommandStateWithServerId(context, CMD, m_serverId, PENDING, null);
+
+            // then actually hand it off
+            modem.sendSms(context, m_phone, m_message, "" + m_serverId, pack);
 
             Thread.sleep(RapidPro.MESSAGE_RATE_LIMITER);
         } catch (Throwable t){

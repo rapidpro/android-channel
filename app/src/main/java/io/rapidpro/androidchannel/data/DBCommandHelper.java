@@ -30,6 +30,7 @@ import io.rapidpro.androidchannel.contentprovider.DBCommandContentProvider;
 import io.rapidpro.androidchannel.payload.Command;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
+import io.rapidpro.androidchannel.payload.MTTextSent;
 import io.rapidpro.androidchannel.payload.QueueingCommand;
 
 import java.util.ArrayList;
@@ -172,6 +173,34 @@ public class DBCommandHelper extends SQLiteOpenHelper {
 
         context.getContentResolver().update(DBCommandContentProvider.CONTENT_URI,
                 values, "_id = ?", new String[]{ "" + commandId });
+    }
+
+    /**
+     * Convert any pending commands to SENT if we haven't heard anything for 24 hours
+     */
+    public static int prunePendingMessages(Context context) {
+        Log.d(DBCommandHelper.class.getSimpleName(), "Pruning pending messages");
+
+        long createdBefore = new Date().getTime() - 60 * 60 * 24;
+
+        int updated = 0;
+        List<Command> pending = DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, MTTextMessage.PENDING, -1, MTTextMessage.CMD, false);
+        for (Command command : pending) {
+            if (command.getCreated() < createdBefore) {
+                MTTextMessage mt = (MTTextMessage) command;
+                int msgId = (int) mt.getServerId();
+
+                // mark our old command as sent
+                DBCommandHelper.updateCommandStateWithServerId(context, MTTextMessage.CMD, msgId, MTTextMessage.SENT, null);
+
+                // queue a new one for the server to tell them we are sent
+                DBCommandHelper.queueCommand(context, new MTTextSent(msgId, mt.getPhone()));
+
+                updated++;
+            }
+        }
+
+        return updated;
     }
 
     public static void updateCommandStateWithServerId(Context context, String cmd, int serverId, int state, String extra){
