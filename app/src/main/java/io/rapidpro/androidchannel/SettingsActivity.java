@@ -53,6 +53,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public static final String LAST_SMS_SENT = "last_sms_sent";
     public static final String LAST_SMS_RECEIVED = "last_sms_received";
     public static final String SMS_AUTO_DELETE = "sms_auto_delete";
+    public static final String SMS_IGNORED_MESSAGE = "sms_ignored_message";
+    public static final String SMS_BLACKLISTED_NUMBERS = "sms_blacklist_numbers";
 
 
     public void onCreate(Bundle savedInstanceState) {
