@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.rapidpro.androidchannel"
-    android:versionCode="190"
-    android:versionName="1.9.0" >
+    android:versionCode="191"
+    android:versionName="1.9.1" >
 
     <!-- App receives FCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
