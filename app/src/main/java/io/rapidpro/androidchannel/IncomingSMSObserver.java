@@ -23,6 +23,8 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.Telephony;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
 
@@ -59,7 +61,7 @@ public class IncomingSMSObserver extends ContentObserver{
             return;
         }
 
-        Uri inboxUri = Uri.parse("content://sms/inbox");
+        Uri inboxUri = Telephony.Sms.Inbox.CONTENT_URI;
 
         // get any new SMS in the inbox
         Cursor cursor = RapidPro.get().getContentResolver().query(inboxUri, null, null, null, "date DESC");

@@ -78,7 +78,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             editor.remove(SettingsActivity.FCM_ID);
         } else {
             editor.putString(SettingsActivity.FCM_ID, id);
-            editor.putLong(RapidProAlarmListener.FIRST_FCM_TIME, System.currentTimeMillis());
+            editor.putLong(RapidPro.FIRST_FCM_TIME, System.currentTimeMillis());
         }
         editor.commit();
 

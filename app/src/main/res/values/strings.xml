@@ -69,7 +69,10 @@
     <string name="network_error_message">RapidPro is unable to connect to the internet. Make sure you are connected to WiFi and that your mobile data is enabled.  If problems persist, try rebooting your device.</string>
     <string name="send_error_message">RapidPro is experiencing problems sending SMS messages. This may be a temporary problem with your network or may be an indication that your SIM is out of credit.  Messages will be retried, but if problems persist, check your phone\'s credit or try rebooting your device.</string>
 
+    <string name="permission_required_message">In order to use the Android SMS Channel, all requested permissions need to be granted. Click here to try again.</string>
     <string name="permission_send_message">Allows the app to send messages</string>
     <string name="permission_services">Allows the app to start its services</string>
+
+    <string name="doze_warning">To ensure the best possible experience, click here to make sure battery optimizations for RapidPro are turned off.</string>
 
 </resources>

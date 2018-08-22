@@ -45,6 +45,7 @@ public class DashboardFragment extends Fragment implements Intents {
 
     private RelativeLayout m_pausedLayout;
     private RelativeLayout m_activeLayout;
+    private RelativeLayout m_dozeWarning;
 
     private DashboardReceiver m_receiver;
 
@@ -60,9 +61,14 @@ public class DashboardFragment extends Fragment implements Intents {
 
         m_networkError = (RelativeLayout)view.findViewById(R.id.network_error);
         m_sendError = (RelativeLayout)view.findViewById(R.id.send_error);
+        m_dozeWarning = (RelativeLayout)view.findViewById(R.id.doze_warning);
 
         m_pausedLayout = (RelativeLayout) view.findViewById(R.id.status_paused);
         m_activeLayout = (RelativeLayout)view.findViewById(R.id.status_active);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            m_dozeWarning.setVisibility(View.VISIBLE);
+        }
 
 
         return view;
@@ -91,12 +97,13 @@ public class DashboardFragment extends Fragment implements Intents {
         m_pausedLayout.setVisibility(!isPaused ? View.GONE : View.VISIBLE);
 
 
+
         int sent = intent.getIntExtra(Intents.SENT_EXTRA, 0);
         int capacity = intent.getIntExtra(Intents.CAPACITY_EXTRA, 0);
         int minutes = (Build.VERSION.SDK_INT < 14) ? 60 : 30;
 
         // show our throttle warning
-        m_throttleLayout.setVisibility(View.VISIBLE);
+        m_throttleLayout.setVisibility(isPaused ? View.GONE : View.VISIBLE);
 
         String title = getResources().getString(R.string.throttle_title_ok);
         String text = getResources().getString(R.string.throttle_ok);

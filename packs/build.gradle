@@ -33,7 +33,7 @@ android {
         }
 
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 26
     }
 
     buildTypes {

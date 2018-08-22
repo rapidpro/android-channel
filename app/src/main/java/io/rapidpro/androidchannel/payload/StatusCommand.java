@@ -124,7 +124,7 @@ public class StatusCommand extends Command {
         m_countryCode = (m_countryCode == null) ? "" : m_countryCode.toUpperCase();
 
         m_powerLevel = preferences.getInt("powerLevel", -1);
-        m_networkType = preferences.getString("networkType", null);
+        m_networkType = preferences.getString("networkType", "");
 
         m_messagePendingCommand = DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, DBCommandHelper.BORN, -1, MTTextMessage.CMD, false);
         m_messagePendingCommand.addAll(DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, MTTextMessage.PENDING, -1, MTTextMessage.CMD, false));

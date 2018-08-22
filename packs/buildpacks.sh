@@ -1,4 +1,5 @@
 #!/bin/sh
+mkdir -p store/apks
 i=1
 while [ $i -le 10 ]
 do
