@@ -38,5 +38,9 @@ public class FCMPingService extends JobIntentService {
                             .build());
         }
 
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putLong(RapidPro.LAST_FCM_TIME, System.currentTimeMillis());
+        editor.commit();
+
     }
 }
