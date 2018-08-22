@@ -80,7 +80,20 @@ public class DBCommandContentProvider extends ContentProvider {
                 break;
             case CMD_ID:
                 // Adding the ID to the original query
-                queryBuilder.appendWhere(DBCommandHelper.COL_ID + "=" + uri.getLastPathSegment());
+                // queryBuilder.appendWhere(DBCommandHelper.COL_ID + "=" + uri.getLastPathSegment());
+
+                String[] newArgs  = new String[selectionArgs.length + 2];
+                System.arraycopy(selectionArgs, 0, newArgs , 0, selectionArgs.length);
+                newArgs[selectionArgs.length] = DBCommandHelper.COL_ID;
+                newArgs[selectionArgs.length + 1] = uri.getLastPathSegment();
+                selectionArgs = newArgs;
+
+                if (selection != null) {
+                    selection = "? = ?";
+                } else {
+                    selection += " and ? = ?";
+                }
+
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);

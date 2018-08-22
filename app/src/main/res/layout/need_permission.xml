@@ -13,10 +13,10 @@
         android:id="@+id/permissions_error_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-5dp"
+        android:layout_marginTop="0dp"
         android:text="@string/icon_android"
         android:textColor="@color/font_red"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/permissions_error_title"
