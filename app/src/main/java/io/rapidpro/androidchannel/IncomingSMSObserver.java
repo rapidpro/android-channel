@@ -42,6 +42,8 @@ public class IncomingSMSObserver extends ContentObserver{
     private long m_lastSMS = System.currentTimeMillis();
 
     public IncomingSMSObserver(){
+        // make sure inbound messages are handled within our app context
+        // otherwise we wont have permission to access our content provider
         super(new Handler(Looper.getMainLooper()));
     }
 
