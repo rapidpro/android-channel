@@ -30,6 +30,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+
+import io.rapidpro.androidchannel.data.DBCommand;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 
 public class DBCommandContentProvider extends ContentProvider {
@@ -61,6 +63,14 @@ public class DBCommandContentProvider extends ContentProvider {
         return false;
     }
 
+    private String[] addToSelectionArgs(String[] selection, String col, String match) {
+        String[] newArgs  = new String[selection.length + 2];
+        System.arraycopy(selection, 0, newArgs , 0, selection.length);
+        newArgs[selection.length] = col;
+        newArgs[selection.length + 1] = match;
+        return newArgs;
+    }
+
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
@@ -80,7 +90,13 @@ public class DBCommandContentProvider extends ContentProvider {
                 break;
             case CMD_ID:
                 // Adding the ID to the original query
-                queryBuilder.appendWhere(DBCommandHelper.COL_ID + "=" + uri.getLastPathSegment());
+                selectionArgs = addToSelectionArgs(selectionArgs, DBCommandHelper.COL_ID, uri.getLastPathSegment());
+                if (TextUtils.isEmpty(selection)) {
+                    selection = "? = ?";
+                } else {
+                    selection += " and ? = ?";
+                }
+
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -134,10 +150,10 @@ public class DBCommandContentProvider extends ContentProvider {
                 case CMD_ID:
                     String id = uri.getLastPathSegment();
                     if (TextUtils.isEmpty(selection)) {
-                        rowsDeleted = db.delete(DBCommandHelper.TABLE, DBCommandHelper.COL_ID + "=" + id, null);
+                        rowsDeleted = db.delete(DBCommandHelper.TABLE, "? = ?", new String[]{ DBCommandHelper.COL_ID, id });
                     } else {
-                        rowsDeleted = db.delete(DBCommandHelper.TABLE,
-                                DBCommandHelper.COL_ID + "=" + id + " and " + selection, selectionArgs);
+                        selectionArgs = addToSelectionArgs(selectionArgs, DBCommandHelper.COL_ID, id);
+                        rowsDeleted = db.delete(DBCommandHelper.TABLE,selection + " and ? = ?", selectionArgs);
                     }
                     break;
 
@@ -173,14 +189,12 @@ public class DBCommandContentProvider extends ContentProvider {
                     if (TextUtils.isEmpty(selection)) {
                         rowsUpdated = db.update(DBCommandHelper.TABLE,
                                 values,
-                                DBCommandHelper.COL_ID + "=" + id,
-                                null);
+                                "? = ?", new String[]{ DBCommandHelper.COL_ID, id });
                     } else {
+                        selectionArgs = addToSelectionArgs(selectionArgs, DBCommandHelper.COL_ID, id);
                         rowsUpdated = db.update(DBCommandHelper.TABLE,
                                 values,
-                                DBCommandHelper.COL_ID + "=" + id
-                                        + " and "
-                                        + selection,
+                                selection + " and ? = ?",
                                 selectionArgs);
                     }
                     break;

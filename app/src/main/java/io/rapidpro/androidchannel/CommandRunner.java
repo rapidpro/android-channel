@@ -18,24 +18,33 @@
 
 package io.rapidpro.androidchannel;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
+import android.support.v4.app.JobIntentService;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.Command;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 
 import java.util.List;
 
-public class CommandRunner extends WakefulIntentService {
+public class CommandRunner extends JobIntentService {
+    /**
+     * Unique job ID for this service.
+     */
+    static final int JOB_ID = 1002;
 
-    public CommandRunner() {
-        super(CommandRunner.class.getSimpleName());
+    /**
+     * Convenience method for enqueuing work in to this service.
+     */
+    static void enqueueWork(Context context, Intent work) {
+        enqueueWork(context, CommandRunner.class, JOB_ID, work);
     }
 
     @Override
-    protected void doWakefulWork(Intent intent) {
+    protected void onHandleWork(Intent intent) {
 
         // prune any of our pending messages we should give up on
         int pruned = DBCommandHelper.prunePendingMessages(this);
@@ -75,7 +84,7 @@ public class CommandRunner extends WakefulIntentService {
         RapidPro.get().printDebug();
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).edit();
-        editor.putLong(RapidProAlarmListener.LAST_RUN_COMMANDS_TIME, System.currentTimeMillis());
+        editor.putLong(RapidPro.LAST_RUN_COMMANDS_TIME, System.currentTimeMillis());
         editor.commit();
     }
 

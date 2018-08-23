@@ -27,9 +27,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.JobIntentService;
 import android.util.Base64;
-
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -55,7 +54,20 @@ import io.rapidpro.androidchannel.util.Http;
 /**
  * Syncs our messages with the server.
  */
-public class SyncService extends WakefulIntentService {
+public class SyncService extends JobIntentService {
+
+    /**
+     * Unique job ID for this service.
+     */
+    public static final int JOB_ID = 1001;
+
+    /**
+     * Convenience method for enqueuing work in to this service.
+     */
+    static void enqueueWork(Context context, Intent work) {
+        enqueueWork(context, SyncService.class, JOB_ID, work);
+    }
+
 
     // how long we should go without a new message before going forward, prevents
     // us from contacting the server too often during periods of lots of activity
@@ -71,10 +83,6 @@ public class SyncService extends WakefulIntentService {
     public static final long AIRPLANE_MODE_WAIT = 1000l * 60 * 10;
 
     public static String ENDPOINT = "https://rapidpro.io";
-
-    public SyncService(){
-        super(SyncService.class.getSimpleName());
-    }
 
     public String computeHash(String secret, String input) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
         Mac mac = Mac.getInstance("HmacSHA256");
@@ -371,7 +379,7 @@ public class SyncService extends WakefulIntentService {
     }
 
     @Override
-    protected void doWakefulWork (Intent intent) {
+    protected void onHandleWork(Intent intent) {
         // Stop if RapidPro is paused
 
         RapidPro.LOG.d("Paused: " + RapidPro.get().isPaused());
@@ -401,7 +409,7 @@ public class SyncService extends WakefulIntentService {
         boolean force = intent.getBooleanExtra(Intents.FORCE_EXTRA, false) || !RapidPro.get().isClaimed();
         long syncTime = intent.getLongExtra(Intents.SYNC_TIME, 0);
 
-        long lastSync = prefs.getLong(RapidProAlarmListener.LAST_SYNC_TIME, -1l);
+        long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1l);
         long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1l);
         long lastReceived = prefs.getLong(SettingsActivity.LAST_SMS_RECEIVED, 0);
         long now = System.currentTimeMillis();
@@ -461,7 +469,7 @@ public class SyncService extends WakefulIntentService {
         // if we successfully synced, then update our last sync time
         if (synced) {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).edit();
-            editor.putLong(RapidProAlarmListener.LAST_SYNC_TIME, syncTime);
+            editor.putLong(RapidPro.LAST_SYNC_TIME, syncTime);
             editor.commit();
         }
 

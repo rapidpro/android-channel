@@ -58,5 +58,15 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ok_status" />
 
+        <include
+            android:id="@+id/doze_warning"
+            layout="@layout/doze_warning"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ok_status" />
+
     </LinearLayout>
 </ScrollView>

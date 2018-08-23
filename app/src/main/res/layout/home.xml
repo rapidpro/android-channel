@@ -21,10 +21,11 @@
             android:layout_weight="1" />
 
     <include
-            android:id="@+id/status_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            layout="@layout/status_bar"/>
+        android:id="@+id/status_bar"
+        layout="@layout/status_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:visibility="gone" />
 
 </LinearLayout>

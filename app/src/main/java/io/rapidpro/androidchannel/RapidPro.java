@@ -18,23 +18,31 @@
 
 package io.rapidpro.androidchannel;
 
+import android.Manifest;
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
+import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,11 +51,13 @@ import java.util.List;
 import java.util.UUID;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
+import io.rapidpro.androidchannel.payload.Command;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.ResetCommand;
 
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+
 public class RapidPro extends Application {
-    public final int NOTIFICATION_ID = 1;
 
     public static Logger LOG = new Logger();
     public static final boolean SHOW_WIRE = true;
@@ -55,6 +65,16 @@ public class RapidPro extends Application {
     private static RapidPro s_this;
 
     public static final String LAST_PACK = "lastPackUsed";
+
+    public static final String LAST_SYNC_TIME = "lastSync";
+    public static final String LAST_FCM_TIME = "lastFcm";
+    public static final String LAST_RUN_COMMANDS_TIME = "lastRun";
+    public static final String FIRST_FCM_TIME = "firstGcm";
+
+    public static final int NOTIFICATION_ID = 1;
+    public static final String NOTIFICATION_CHANNEL_ID = "RapidPro_notification_channel";
+    public static final String NOTIFICATION_CHANNEL_NAME = "RapidPro";
+
 
     /** how many messages we are willing to send per pack per 30 minutes */
     public static int MESSAGE_THROTTLE = 30;
@@ -88,12 +108,16 @@ public class RapidPro extends Application {
 
         s_this = this;
 
+    }
+
+    public void registerObservers() {
+
         // register our sms modem
         m_modem = new SMSModem(this, new SMSListener());
 
         // register our Incoming SMS listener
         m_incomingSMSObserver = new IncomingSMSObserver();
-        getContentResolver().registerContentObserver(Uri.parse("content://sms"), true, m_incomingSMSObserver);
+        getContentResolver().registerContentObserver(Telephony.Sms.CONTENT_URI, true, m_incomingSMSObserver);
 
         // register our call listener
         m_callObserver = new CallObserver();
@@ -107,12 +131,25 @@ public class RapidPro extends Application {
         StatusReceiver receiver = new StatusReceiver();
         getBaseContext().registerReceiver(receiver, statusChanged);
 
-        WakefulIntentService.cancelAlarms(this);
-        WakefulIntentService.scheduleAlarms(new RapidProAlarmListener(), this);
-
         refreshInstalledPacks();
 
         updateNotification();
+
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(new JobInfo.Builder(SyncService.JOB_ID,
+                new ComponentName(this, SyncService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setPeriodic(60000)
+                .build());
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+            notificationChannel.enableLights(true);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 
     public boolean isResetting(){
@@ -171,7 +208,7 @@ public class RapidPro extends Application {
 
     public void showNotification() {
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle("RapidPro")
                         .setContentText("RapidPro is active and relaying messages.")
@@ -292,15 +329,15 @@ public class RapidPro extends Application {
             intent.putExtra(Intents.FORCE_EXTRA, true);
         }
 
-        WakefulIntentService.sendWakefulWork(this, intent);
+        SyncService.enqueueWork(this, intent);
     }
 
     public void pingFCM(){
-        WakefulIntentService.sendWakefulWork(this, new Intent(this, FCMPingService.class));
+        FCMPingService.enqueueWork(this, new Intent(this, FCMPingService.class));
     }
 
     public void runCommands(){
-        WakefulIntentService.sendWakefulWork(this, new Intent(this, CommandRunner.class));
+        CommandRunner.enqueueWork(this, new Intent(this, CommandRunner.class));
     }
 
     public SMSModem getModem() {

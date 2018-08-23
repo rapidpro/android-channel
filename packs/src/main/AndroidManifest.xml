@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="io.rapidpro.androidchannel"
-          android:versionCode="4"
+          android:versionCode="5"
 	  android:versionName="1.1" >
 
    <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="11" />
+        android:targetSdkVersion="26" />
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
-
-    <permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" android:label="RapidPro Messages" android:description="@string/permission_send_message" />
     <uses-permission android:name="io.rapidpro.androidchannel.SEND_MESSAGE" />
 
     <application

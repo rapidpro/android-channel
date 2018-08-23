@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:onClick="handleBatteryOptimizations"
+    android:padding="10dp"
+    android:visibility="gone">
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+        android:id="@+id/doze_warning_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/icon_cog"
+        android:textColor="@color/font_grey"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/doze_warning_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/doze_warning_icon"
+        android:text="Battery Optimizations"
+        android:textColor="@color/font_grey"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/network_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/doze_warning_title"
+        android:layout_marginTop="5dp"
+        android:text="@string/doze_warning"
+        android:textColor="@color/font_black"
+        android:textSize="16dp" />
+
+</RelativeLayout>

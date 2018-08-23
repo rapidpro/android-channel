@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/error_background"
+    android:onClick="handleRequestPermissions"
+    android:padding="10dp"
+    android:visibility="visible">
+
+    <io.rapidpro.androidchannel.ui.IconTextView
+        android:id="@+id/permissions_error_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="@string/icon_android"
+        android:textColor="@color/font_red"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/permissions_error_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/permissions_error_icon"
+        android:text="Android Permissions Required"
+        android:textColor="@color/font_red"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/network_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/permissions_error_title"
+        android:layout_marginTop="5dp"
+        android:text="@string/permission_required_message"
+        android:textColor="@color/font_black"
+        android:textSize="16dp" />
+
+</RelativeLayout>

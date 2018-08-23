@@ -22,7 +22,11 @@ import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.Telephony;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
 
@@ -38,7 +42,9 @@ public class IncomingSMSObserver extends ContentObserver{
     private long m_lastSMS = System.currentTimeMillis();
 
     public IncomingSMSObserver(){
-        super(null);
+        // make sure inbound messages are handled within our app context
+        // otherwise we wont have permission to access our content provider
+        super(new Handler(Looper.getMainLooper()));
     }
 
     @Override
@@ -59,7 +65,7 @@ public class IncomingSMSObserver extends ContentObserver{
             return;
         }
 
-        Uri inboxUri = Uri.parse("content://sms/inbox");
+        Uri inboxUri = Telephony.Sms.Inbox.CONTENT_URI;
 
         // get any new SMS in the inbox
         Cursor cursor = RapidPro.get().getContentResolver().query(inboxUri, null, null, null, "date DESC");

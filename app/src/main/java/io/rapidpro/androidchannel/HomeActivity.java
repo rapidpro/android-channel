@@ -18,14 +18,18 @@
 
 package io.rapidpro.androidchannel;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -42,11 +46,31 @@ import io.rapidpro.androidchannel.util.DateUtil;
 
 public class HomeActivity extends BaseActivity implements Intents {
 
+    private static final int PERMISSIONS_REQUEST = 1;
+
+    private static String[] PERMISSIONS = new String[]{
+        Manifest.permission.RECEIVE_SMS,
+        Manifest.permission.SEND_SMS,
+        Manifest.permission.READ_SMS,
+        Manifest.permission.INTERNET,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.WAKE_LOCK,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.ACCESS_WIFI_STATE,
+        Manifest.permission.CHANGE_WIFI_STATE,
+        Manifest.permission.READ_CALL_LOG,
+        Manifest.permission.READ_CONTACTS,
+        Manifest.permission.RECEIVE_BOOT_COMPLETED
+    };
+
+
     private static final String FRAGMENT_MESSAGE_LIST = "fragmentMessageList";
     private static final String FRAGMENT_UNCLAIMED = "fragmentUnclaimed";
     private static final String FRAGMENT_DASHBOARD = "fragmentDashboard";
     private static final String FRAGMENT_UNREGISTERED = "fragmentUnregistered";
     private static final String FRAGMENT_NO_FCM = "fragmentNoFCM";
+    private static final String FRAGMENT_NEED_PERMISSION = "fragmentNeedPermission";
     private static final String FRAGMENT_RESETTING = "fragmentResetting";
 
     public static final String SHOW_ADVANCED_SETTINGS = "showAdvancedSettings";
@@ -152,8 +176,32 @@ public class HomeActivity extends BaseActivity implements Intents {
         m_retryCount = (TextView) findViewById(R.id.retry_count);
         m_syncCount = (TextView) findViewById(R.id.sync_count);
 
-        // initialize our dashboard
-        updateClaimCode(this);
+        // request our permissions for marshmallow and beyond
+        if (!hasAcceptedPermissions()) {
+            triggerPermissionRequest();
+        } else {
+            RapidPro.get().registerObservers();
+            // initialize our dashboard
+            updateClaimCode(this);
+        }
+    }
+
+    private boolean hasAcceptedPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            for (String perm : PERMISSIONS) {
+                if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED) {
+                    RapidPro.LOG.d("Missing Permission: " + perm);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void triggerPermissionRequest() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
+        }
     }
 
     public void onResume() {
@@ -170,12 +218,32 @@ public class HomeActivity extends BaseActivity implements Intents {
 
         RapidPro.broadcastUpdatedCounts(this);
 
-        updateClaimCode(this);
+        if (hasAcceptedPermissions()) {
+            updateClaimCode(this);
 
-        // if we aren't claimed, force a sync
-        if (!RapidPro.get().isClaimed()){
-            RapidPro.get().sync(true);
+
+            // if we aren't claimed, force a sync
+            if (!RapidPro.get().isClaimed()) {
+                RapidPro.get().sync(true);
+            }
         }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST) {
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    RapidPro.get().pause();
+                    notifyMissingPermissions();
+                    return;
+                }
+            }
+        }
+
+        RapidPro.get().registerObservers();
+        RapidPro.get().resume();
     }
 
     public void onPause() {
@@ -199,6 +267,13 @@ public class HomeActivity extends BaseActivity implements Intents {
         showFragment(new NoFcmFragment(), FRAGMENT_NO_FCM, null, true);
         m_statusBar.setVisibility(View.GONE);
     }
+
+    public void showNeedPermission(){
+        setUpdatedVisibility(View.GONE);
+        showFragment(new NeedPermissionFragment(), FRAGMENT_NEED_PERMISSION, null, true);
+        m_statusBar.setVisibility(View.GONE);
+    }
+
 
     public void showUnclaimed() {
         setUpdatedVisibility(View.GONE);
@@ -229,7 +304,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (RapidPro.get().isClaimed()) {
-            long lastUpdate = prefs.getLong(RapidProAlarmListener.LAST_SYNC_TIME, 0);
+            long lastUpdate = prefs.getLong(RapidPro.LAST_SYNC_TIME, 0);
             if (lastUpdate == 0) {
                 view.setText("Waiting..");
             } else {
@@ -250,7 +325,13 @@ public class HomeActivity extends BaseActivity implements Intents {
     }
 
     public void resumeRapidProApp(View v) {
-        RapidPro.get().resume();
+        if (hasAcceptedPermissions()) {
+            RapidPro.get().resume();
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
+            }
+        }
     }
 
     public void onDestroy(){
@@ -259,6 +340,10 @@ public class HomeActivity extends BaseActivity implements Intents {
 
     public void onStatusClick(View view) {
         showList();
+    }
+
+    private void notifyMissingPermissions() {
+        showNeedPermission();
     }
 
     private void showFragment(Fragment fragment, String tag,  Bundle args, boolean clearBackStack) {
@@ -301,6 +386,18 @@ public class HomeActivity extends BaseActivity implements Intents {
         return fragment != null && fragment.isVisible();
     }
 
+    public void handleRequestPermissions(View view) {
+        triggerPermissionRequest();
+    }
+
+    public void handleBatteryOptimizations(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent myIntent = new Intent();
+            myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+            startActivity(myIntent);
+        }
+    }
+
     class DashboardReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -316,8 +413,14 @@ public class HomeActivity extends BaseActivity implements Intents {
             }
 
             if (intent.getAction().equals(Intents.UPDATE_RELAYER_STATE)){
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 RapidPro.get().updateNotification();
+
+                if (!hasAcceptedPermissions()) {
+                    if (!isFragmentVisible(FRAGMENT_NEED_PERMISSION)) {
+                        showNeedPermission();
+                    }
+                    return;
+                }
 
                 // we are resetting, show that progress
                 if (RapidPro.get().isResetting()){
