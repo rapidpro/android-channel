@@ -151,6 +151,9 @@ public class RapidPro extends Application {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
+        Uri uri = Uri.parse("content://io.rapidpro.androidchannel.commands/cmds");
+        grantUriPermission("io.rapidpro.androidchannel", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
 
     }
 

@@ -294,6 +294,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
 
         RapidPro.LOG.d("Inserting: " + contentValues);
 
+
         Uri uri = context.getContentResolver().insert(DBCommandContentProvider.CONTENT_URI, contentValues);
         return Integer.parseInt(uri.getLastPathSegment());
     }

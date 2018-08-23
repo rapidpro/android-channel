@@ -22,6 +22,8 @@ import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Telephony;
 
@@ -40,7 +42,7 @@ public class IncomingSMSObserver extends ContentObserver{
     private long m_lastSMS = System.currentTimeMillis();
 
     public IncomingSMSObserver(){
-        super(null);
+        super(new Handler(Looper.getMainLooper()));
     }
 
     @Override
