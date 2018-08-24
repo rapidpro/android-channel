@@ -1,23 +1,7 @@
-/*
- * RapidPro Android Channel - Relay SMS messages where MNO connections aren't practical.
- * Copyright (C) 2014 Nyaruka, UNICEF
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package io.rapidpro.androidchannel;
 
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,9 +9,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.app.JobIntentService;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -51,23 +35,12 @@ import io.rapidpro.androidchannel.payload.StatusCommand;
 import io.rapidpro.androidchannel.payload.SyncPayload;
 import io.rapidpro.androidchannel.util.Http;
 
-/**
- * Syncs our messages with the server.
- */
-public class SyncService extends JobIntentService {
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
-    /**
-     * Unique job ID for this service.
-     */
-    public static final int JOB_ID = 1001;
+public class SyncHelper {
 
-    /**
-     * Convenience method for enqueuing work in to this service.
-     */
-    static void enqueueWork(Context context, Intent work) {
-        enqueueWork(context, SyncService.class, JOB_ID, work);
-    }
-
+    // how many seconds between polling
+    public static final long POLLING_INTERVAL = 60;
 
     // how long we should go without a new message before going forward, prevents
     // us from contacting the server too often during periods of lots of activity
@@ -84,6 +57,155 @@ public class SyncService extends JobIntentService {
 
     public static String ENDPOINT = "https://rapidpro.io";
 
+    private Context context;
+    private long syncTime;
+    private boolean force;
+
+    public SyncHelper(Context context, long syncTime, boolean force) {
+        this.context = context;
+        this.syncTime = syncTime;
+        this.force = force;
+    }
+
+    public void sync() {
+
+        synchronized (RapidPro.get()) {
+            // Stop if RapidPro is paused
+            RapidPro.LOG.d("Paused: " + RapidPro.get().isPaused());
+            if (RapidPro.get().isPaused()) {
+                return;
+            }
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1l);
+
+            List<Command> commands = DBCommandHelper.getPendingCommands(context, DBCommandHelper.OUT, DBCommandHelper.BORN, 50, null, false);
+
+            if (force) {
+                // forcing honors our quiet period if we don't have enough messages
+                if (commands.size() >= QUIET_THRESHOLD && syncTime - QUIET_PERIOD < lastSync) {
+                    RapidPro.LOG.d("Skipping sync due enforced quiet period");
+                    return;
+                }
+            } else {
+                // not forcing and no commands, we're done
+                if (commands.size() == 0) {
+                    return;
+                }
+            }
+
+            updateStatus("Syncing");
+            String network = prefs.getString(SettingsActivity.DEFAULT_NETWORK, "none");
+            String fcmId = prefs.getString(SettingsActivity.FCM_ID, "");
+            boolean useAirplane = prefs.getBoolean(SettingsActivity.AIRPLANE_RESET, false);
+
+            RapidPro.LOG.d("Use airplane: " + useAirplane);
+
+            String uuid = RapidPro.get().getUUID();
+
+            // no gcm id?  don't even try to sync
+            if (fcmId.length() == 0) {
+                return;
+            }
+
+            String relayerId = prefs.getString(SettingsActivity.RELAYER_ID, null);
+            String secret = prefs.getString(SettingsActivity.RELAYER_SECRET, null);
+            String endpoint = prefs.getString(SettingsActivity.SERVER, ENDPOINT);
+            String ip = prefs.getString(SettingsActivity.IP_ADDRESS, null);
+
+
+            long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1l);
+            long lastReceived = prefs.getLong(SettingsActivity.LAST_SMS_RECEIVED, 0);
+            long now = System.currentTimeMillis();
+
+            // if this sync was before we actually synced, ignore
+            if (syncTime < lastSync) {
+                updateStatus("");
+                return;
+            }
+
+            // if our endpoint is an ip, add :8000 to it
+            if (endpoint.startsWith("ip")) {
+                endpoint = "http://" + ip;
+                if (!ip.contains(":")) {
+                    endpoint += ":8000";
+                }
+            }
+
+            // flip to whatever network is preferred by our user
+            setNetworkType(network);
+
+            SyncPayload payload = new SyncPayload();
+            payload.addCommand(new FCM(fcmId, uuid));
+            payload.addCommand(new StatusCommand(context));
+            boolean synced = false;
+
+            // we've got everything we need to do proper syncing, go for it
+            if (fcmId != null && relayerId != null && secret != null && secret.length() > 0) {
+                for (Command command : commands) {
+                    payload.addCommand(command);
+                }
+
+                String url = endpoint + "/relayers/relayer/sync/" + relayerId + "/";
+                synced = firePayload(payload, url, secret);
+            }
+            // we don't know our secret or relayer payloadId, we should register
+            else if (fcmId != null) {
+                updateStatus("Registering");
+
+                RapidPro.LOG.d("Endpoint:" + endpoint);
+                String url = endpoint + "/relayers/relayer/register/";
+                synced = firePayload(payload, url, null);
+            }
+
+            // send any queued messages
+            RapidPro.get().runCommands();
+
+            // if we successfully synced, then update our last sync time
+            if (synced) {
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
+                editor.putLong(RapidPro.LAST_SYNC_TIME, syncTime);
+                editor.commit();
+            }
+
+            // if we have messages in an errored state and haven't sent a message in over 10 minutes, then toggle
+            // our airplane mode if we haven't done so recently
+            int retry = DBCommandHelper.getCommandCount(context, DBCommandHelper.IN, MTTextMessage.RETRY, MTTextMessage.CMD);
+            long lastSMSSent = prefs.getLong(SettingsActivity.LAST_SMS_SENT, 0);
+
+            // see whether we should use the airplane mode hack to keep the phone online
+            if (useAirplane && now - lastAirplane > AIRPLANE_MODE_WAIT) {
+
+                boolean toggleAirplane = false;
+
+                // been too long since a successful sync
+                toggleAirplane = now - lastSync > AIRPLANE_MODE_WAIT;
+
+                // been too long since we've received a message
+                if (!toggleAirplane) {
+                    toggleAirplane = now - lastReceived >= NO_INCOMING_FREQUENCY;
+                }
+
+                // haven't successfully sent an SMS in a while
+                if (!toggleAirplane) {
+                    toggleAirplane = retry > 0 && now - lastSMSSent > AIRPLANE_MODE_WAIT;
+                }
+
+                if (toggleAirplane) {
+                    tickleAirplaneMode();
+                }
+            }
+
+            RapidPro.broadcastUpdatedCounts(context);
+
+            // if there are more pending commands, force another sync to work our way through the queue
+            commands = DBCommandHelper.getPendingCommands(context, DBCommandHelper.OUT, DBCommandHelper.BORN, 50, null, false);
+            if (commands.size() > 10) {
+                RapidPro.get().sync(true);
+            }
+        }
+    }
+
     public String computeHash(String secret, String input) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(new SecretKeySpec((secret).getBytes(), "ASCII"));
@@ -97,20 +219,20 @@ public class SyncService extends JobIntentService {
     protected void showAsUnclaimed() {
         Intent statusIntent = new Intent(Intents.UPDATE_STATUS);
         statusIntent.putExtra(Intents.CLAIMED_EXTRA, false);
-        sendBroadcast(statusIntent);
+        context.sendBroadcast(statusIntent);
     }
 
     protected void updateStatus(String status){
         Intent statusIntent = new Intent(Intents.UPDATE_STATUS);
         statusIntent.putExtra(Intents.STATUS_EXTRA, status);
-        sendBroadcast(statusIntent);
+        context.sendBroadcast(statusIntent);
 
-        RapidPro.broadcastUpdatedCounts(this);
+        RapidPro.broadcastUpdatedCounts(context);
     }
 
     private void setDataEnabled(boolean enabled) {
         try{
-            ConnectivityManager conman = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager conman = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
             NetworkInfo data = conman.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
             Class conmanClass = Class.forName(conman.getClass().getName());
@@ -138,11 +260,11 @@ public class SyncService extends JobIntentService {
 
     private void setWifiEnabled(boolean enabled){
         // enable wifi
-        WifiManager manager = (WifiManager)this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager manager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         manager.setWifiEnabled(enabled);
 
         // grab our connectivity manager to test whether it has worked
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         // sleep up to 30 seconds for it to take effect
@@ -157,7 +279,7 @@ public class SyncService extends JobIntentService {
     }
 
     private void checkDataEnabled(boolean enable){
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo data = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
         // if we aren't connected to mobile data, make sure it is enabled
@@ -170,8 +292,8 @@ public class SyncService extends JobIntentService {
     }
 
     private void checkWifiEnabled(boolean enable){
-        WifiManager manager = (WifiManager)this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        WifiManager manager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         // not connected, turn it on manually
@@ -198,8 +320,8 @@ public class SyncService extends JobIntentService {
     }
 
     private boolean toggleConnection(){
-        WifiManager manager = (WifiManager)this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        WifiManager manager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         boolean wifiPossible = prefs.getBoolean(SettingsActivity.WIFI_ENABLED, true);
         boolean dataPossible = prefs.getBoolean(SettingsActivity.DATA_ENABLED, true);
 
@@ -256,7 +378,6 @@ public class SyncService extends JobIntentService {
 
             RapidPro.LOG.d("Toggling airplane mode");
 
-            Context context = this;
             Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 1);
 
             // reload our settings to take effect
@@ -332,7 +453,7 @@ public class SyncService extends JobIntentService {
             if (response.errorId == SyncPayload.NO_ERROR){
                 for (Command cmd: response.commands){
                     try{
-                        cmd.execute(getApplicationContext(), payload);
+                        cmd.execute(context.getApplicationContext(), payload);
                     } catch (Throwable t){
                         RapidPro.LOG.e("Error executing cmd: " + cmd, t);
                     }
@@ -347,7 +468,7 @@ public class SyncService extends JobIntentService {
                 updateStatus("Error");
 
                 // clear our secret and relayer payloadId
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
                 editor.remove(SettingsActivity.RELAYER_SECRET);
                 editor.remove(SettingsActivity.RELAYER_ID);
                 editor.remove(SettingsActivity.RESET);
@@ -371,142 +492,10 @@ public class SyncService extends JobIntentService {
             connectionOk = isGoogleUp();
         }
 
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
         editor.putBoolean(SettingsActivity.CONNECTION_UP, connectionOk);
         editor.commit();
 
         return synced;
-    }
-
-    @Override
-    protected void onHandleWork(Intent intent) {
-        // Stop if RapidPro is paused
-
-        RapidPro.LOG.d("Paused: " + RapidPro.get().isPaused());
-        if (RapidPro.get().isPaused()) return;
-
-        updateStatus("Syncing");
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        String network = prefs.getString(SettingsActivity.DEFAULT_NETWORK, "none");
-        String fcmId = prefs.getString(SettingsActivity.FCM_ID, "");
-        boolean useAirplane = prefs.getBoolean(SettingsActivity.AIRPLANE_RESET, false);
-
-        RapidPro.LOG.d("Use airplane: " + useAirplane);
-
-        String uuid = RapidPro.get().getUUID();
-
-        // no gcm id?  don't even try to sync
-        if (fcmId.length() == 0){
-            return;
-        }
-
-        String relayerId = prefs.getString(SettingsActivity.RELAYER_ID, null);
-        String secret = prefs.getString(SettingsActivity.RELAYER_SECRET, null);
-        String endpoint = prefs.getString(SettingsActivity.SERVER, ENDPOINT);
-        String ip = prefs.getString(SettingsActivity.IP_ADDRESS, null);
-
-        boolean force = intent.getBooleanExtra(Intents.FORCE_EXTRA, false) || !RapidPro.get().isClaimed();
-        long syncTime = intent.getLongExtra(Intents.SYNC_TIME, 0);
-
-        long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1l);
-        long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1l);
-        long lastReceived = prefs.getLong(SettingsActivity.LAST_SMS_RECEIVED, 0);
-        long now = System.currentTimeMillis();
-
-        // if this sync was before we actually synced, ignore
-        if (syncTime < lastSync){
-            updateStatus("");
-            return;
-        }
-
-        // if our endpoint is an ip, add :8000 to it
-        if (endpoint.startsWith("ip")){
-            endpoint = "http://" + ip;
-            if (!ip.contains(":")) {
-                endpoint += ":8000";
-            }
-        }
-
-        syncTime = System.currentTimeMillis();
-        List<Command> commands = DBCommandHelper.getPendingCommands(this, DBCommandHelper.OUT, DBCommandHelper.BORN, 50, null, false);
-
-        // no commands to send out and not forcing?  Return
-        if (commands.size() == 0 && !force){
-            updateStatus("");
-            return;
-        }
-
-        // flip to whatever network is preferred by our user
-        setNetworkType(network);
-
-        SyncPayload payload = new SyncPayload();
-        payload.addCommand(new FCM(fcmId, uuid));
-        payload.addCommand(new StatusCommand(this));
-        boolean synced = false;
-
-        // we've got everything we need to do proper syncing, go for it
-        if (fcmId != null && relayerId != null && secret != null && secret.length() > 0){
-            for (Command command: commands){
-                payload.addCommand(command);
-            }
-
-            String url = endpoint + "/relayers/relayer/sync/" + relayerId + "/";
-            synced = firePayload(payload, url, secret);
-        }
-        // we don't know our secret or relayer payloadId, we should register
-        else if (fcmId != null){
-            updateStatus("Registering");
-
-            RapidPro.LOG.d("Endpoint:" + endpoint);
-            String url = endpoint + "/relayers/relayer/register/";
-            synced = firePayload(payload, url, null);
-        }
-
-        // send any queued messages
-        RapidPro.get().runCommands();
-
-        // if we successfully synced, then update our last sync time
-        if (synced) {
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).edit();
-            editor.putLong(RapidPro.LAST_SYNC_TIME, syncTime);
-            editor.commit();
-        }
-
-        // if we have messages in an errored state and haven't sent a message in over 10 minutes, then toggle
-        // our airplane mode if we haven't done so recently
-        int retry = DBCommandHelper.getCommandCount(this, DBCommandHelper.IN, MTTextMessage.RETRY, MTTextMessage.CMD);
-        long lastSMSSent = prefs.getLong(SettingsActivity.LAST_SMS_SENT, 0);
-
-        // see whether we should use the airplane mode hack to keep the phone online
-        if (useAirplane && now - lastAirplane > AIRPLANE_MODE_WAIT) {
-
-            boolean toggleAirplane = false;
-
-            // been too long since a successful sync
-            toggleAirplane = now - lastSync > AIRPLANE_MODE_WAIT;
-
-            // been too long since we've received a message
-            if (!toggleAirplane) {
-                toggleAirplane = now - lastReceived >= NO_INCOMING_FREQUENCY;
-            }
-
-            // haven't successfully sent an SMS in a while
-            if (!toggleAirplane) {
-                toggleAirplane =  retry > 0 && now - lastSMSSent > AIRPLANE_MODE_WAIT;
-            }
-
-            if (toggleAirplane) {
-                tickleAirplaneMode();
-            }
-        }
-
-        RapidPro.broadcastUpdatedCounts(this);
-
-        // if there are more pending commands, force another sync to work our way through the queue
-        commands = DBCommandHelper.getPendingCommands(this, DBCommandHelper.OUT, DBCommandHelper.BORN, 50, null, false);
-        if (commands.size() > 10){
-            RapidPro.get().sync(true);
-        }
     }
 }

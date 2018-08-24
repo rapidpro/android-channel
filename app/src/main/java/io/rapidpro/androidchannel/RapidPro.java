@@ -18,9 +18,7 @@
 
 package io.rapidpro.androidchannel;
 
-import android.Manifest;
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -33,7 +31,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -42,7 +39,6 @@ import android.provider.CallLog.Calls;
 import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,11 +47,8 @@ import java.util.List;
 import java.util.UUID;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
-import io.rapidpro.androidchannel.payload.Command;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.ResetCommand;
-
-import static android.support.v4.app.ActivityCompat.requestPermissions;
 
 public class RapidPro extends Application {
 
@@ -70,6 +63,7 @@ public class RapidPro extends Application {
     public static final String LAST_FCM_TIME = "lastFcm";
     public static final String LAST_RUN_COMMANDS_TIME = "lastRun";
     public static final String FIRST_FCM_TIME = "firstGcm";
+    public static final String SYNCING = "syncing";
 
     public static final int NOTIFICATION_ID = 1;
     public static final String NOTIFICATION_CHANNEL_ID = "RapidPro_notification_channel";
@@ -135,11 +129,12 @@ public class RapidPro extends Application {
 
         updateNotification();
 
+        JobInfo syncJob = new JobInfo.Builder(SyncJobService.JOB_ID, new ComponentName(getPackageName(), SyncJobService.class.getName()))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setOverrideDeadline(5000).build();
+
         JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(new JobInfo.Builder(SyncService.JOB_ID,
-                new ComponentName(this, SyncService.class))
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setPeriodic(60000)
-                .build());
+        jobScheduler.schedule(syncJob);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
@@ -323,13 +318,13 @@ public class RapidPro extends Application {
         // Stop if RapidPro is paused
         if (isPaused()) return;
 
-        Intent intent = new Intent(this, SyncService.class);
+        Intent intent = new Intent(this, SyncIntentService.class);
         intent.putExtra(Intents.SYNC_TIME, System.currentTimeMillis());
         if (force){
             intent.putExtra(Intents.FORCE_EXTRA, true);
         }
 
-        SyncService.enqueueWork(this, intent);
+        SyncIntentService.enqueueWork(this, intent);
     }
 
     public void pingFCM(){
