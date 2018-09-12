@@ -142,7 +142,7 @@
 
         <provider
             android:permission="io.rapidpro.androidchannel.SERVICE_PERMISSION"
-            android:exported="false"
+            android:exported="true"
             android:name=".contentprovider.DBCommandContentProvider"
             android:authorities="io.rapidpro.androidchannel.commands" />
 
