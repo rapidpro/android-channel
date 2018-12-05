@@ -4,9 +4,6 @@
           android:versionCode="5"
 	  android:versionName="1.1" >
 
-   <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="26" />
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
