@@ -74,15 +74,6 @@
         </service>
 
         <service
-            android:name=".RapidProFirebaseRegistrationService"
-            android:permission="io.rapidpro.androidchannel.SERVICE_PERMISSION">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
-
-        <service
                 android:name="io.rapidpro.androidchannel.SendMessageService"
                 android:enabled="true"
                 android:exported="true"

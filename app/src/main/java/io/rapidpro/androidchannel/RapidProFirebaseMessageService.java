@@ -10,6 +10,7 @@ public class RapidProFirebaseMessageService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        RapidPro.LOG.d("\n===FCM OnMessageReceived: " + remoteMessage.toString());
 
         if (remoteMessage.getData().size() > 0) {
 
@@ -30,4 +31,12 @@ public class RapidProFirebaseMessageService extends FirebaseMessagingService {
     public void onSendError(String s, Exception e) {
         RapidPro.LOG.d("\n===Error: for msg(" + s + ") " + e);
     }
+
+
+    @Override
+    public void onNewToken(String token) {
+        RapidPro.LOG.d("\n===Registered: " +token);
+        SettingsActivity.setFCM(getApplicationContext(),token);
+    }
+
 }
