@@ -175,7 +175,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         m_statusBar = (LinearLayout)findViewById(R.id.status_bar);
 
         m_appVersion = (TextView)findViewById(R.id.appversion);
-        m_appVersion.setText("App version: " + RapidPro.get().getAppVersion());
+        m_appVersion.setText("v" + RapidPro.get().getAppVersion());
 
         s_this = this;
 
