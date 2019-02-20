@@ -40,6 +40,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public static final String LAST_AIRPLANE_TOGGLE = "last_airplane_toggle";
     public static final String UUID = "uuid";
 
+    public static final String APP_VERSION = "appVersion";
+
     public static final String RESET = "reset";
     public static final String AIRPLANE_RESET = "airplane_reset";
 

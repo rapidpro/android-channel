@@ -20,17 +20,20 @@ package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-import io.rapidpro.androidchannel.SettingsActivity;
-import io.rapidpro.androidchannel.RapidPro;
-import io.rapidpro.androidchannel.data.DBCommandHelper;
-import io.rapidpro.androidchannel.json.JSON;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rapidpro.androidchannel.RapidPro;
+import io.rapidpro.androidchannel.SettingsActivity;
+import io.rapidpro.androidchannel.data.DBCommandHelper;
+import io.rapidpro.androidchannel.json.JSON;
 
 public class StatusCommand extends Command {
     public static final String CMD = "status";
@@ -51,6 +54,7 @@ public class StatusCommand extends Command {
 
     private String m_device;
     private String m_os;
+    private String m_appVersion;
 
     public static final String POWER_SOURCE = "p_src";
     public static final String POWER_LEVEL = "p_lvl";
@@ -79,6 +83,7 @@ public class StatusCommand extends Command {
 
     public static final String DEVICE = "dev";
     public static final String OS = "os";
+    public static final String APP_VERSION = "app_version";
 
     public StatusCommand(Context context) {
         super(CMD);
@@ -150,6 +155,9 @@ public class StatusCommand extends Command {
         m_relayerOrg = preferences.getInt(SettingsActivity.RELAYER_ORG, -1);
         m_device = Build.MODEL;
         m_os = Build.VERSION.RELEASE;
+
+        m_appVersion = RapidPro.get().getAppVersion();
+
     }
 
     @Override
@@ -173,6 +181,7 @@ public class StatusCommand extends Command {
 
         json.put(DEVICE, m_device);
         json.put(OS, m_os);
+        json.put(APP_VERSION, m_appVersion);
 
         return json;
     }

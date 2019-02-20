@@ -82,6 +82,8 @@ public class HomeActivity extends BaseActivity implements Intents {
     // private TextView m_secret;
     private TextView m_status;
 
+    private TextView m_appVersion;
+
     private static HomeActivity s_this;
     private DashboardReceiver m_receiver;
 
@@ -169,6 +171,9 @@ public class HomeActivity extends BaseActivity implements Intents {
 
         m_status = (TextView)findViewById(R.id.status);
         m_statusBar = (LinearLayout)findViewById(R.id.status_bar);
+
+        m_appVersion = (TextView)findViewById(R.id.appversion);
+        m_appVersion.setText("App version: " + RapidPro.get().getAppVersion());
 
         s_this = this;
 

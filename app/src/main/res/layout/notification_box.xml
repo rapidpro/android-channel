@@ -74,5 +74,17 @@
                 android:src="@drawable/logo"
                 android:scaleType="fitCenter"/>
 
+        <TextView
+            android:id="@+id/appversion"
+            android:layout_below="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="App version: 2.4.5"
+            android:textColor="@color/font_status_bar"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="5dp"
+            />
+
 
 </RelativeLayout>

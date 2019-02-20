@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -488,6 +489,34 @@ public class RapidPro extends Application {
         }
 
         return uuid;
+    }
+
+    public String refreshAppVersion(){
+        final PackageManager pm = getPackageManager();
+        PackageInfo pinfo = null;
+        String appVersion = null;
+        try {
+            pinfo = pm.getPackageInfo(getPackageName(), 0);
+            appVersion = pinfo.versionName;
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            editor.putString(SettingsActivity.APP_VERSION, appVersion);
+            editor.commit();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            RapidPro.LOG.e("Error getting package version name.", e);
+        }
+        return appVersion;
+    }
+
+    public String getAppVersion() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String appVersion = prefs.getString(SettingsActivity.APP_VERSION, null);
+
+        if (appVersion == null){
+            appVersion = refreshAppVersion();
+        }
+
+        return appVersion;
     }
 
     public void printDebug() {
