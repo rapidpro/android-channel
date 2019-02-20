@@ -108,6 +108,8 @@ public class HomeActivity extends BaseActivity implements Intents {
         m_lastUpdated = findViewById(R.id.last_updated);
         m_lastUpdate = findViewById(R.id.last_update);
 
+        RapidPro.get().refreshAppVersion();
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
         Boolean showAdvancedSettings = prefs.getBoolean(SHOW_ADVANCED_SETTINGS, false);
