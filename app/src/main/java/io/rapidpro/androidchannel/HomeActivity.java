@@ -53,6 +53,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         Manifest.permission.SEND_SMS,
         Manifest.permission.READ_SMS,
         Manifest.permission.INTERNET,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.WAKE_LOCK,
         Manifest.permission.ACCESS_NETWORK_STATE,

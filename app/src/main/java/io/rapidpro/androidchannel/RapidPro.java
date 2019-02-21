@@ -19,11 +19,13 @@
 package io.rapidpro.androidchannel;
 
 import android.app.Application;
+import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -34,13 +36,18 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.provider.Telephony;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.FileProvider;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,6 +57,9 @@ import java.util.UUID;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.ResetCommand;
+
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
+
 
 public class RapidPro extends Application {
 
@@ -458,8 +468,65 @@ public class RapidPro extends Application {
         context.sendBroadcast(intent);
     }
 
+    class DownloadPackFile extends AsyncTask<String, String, String> {
 
-    public void installPack(Context context){
+        @Override
+        protected String doInBackground(String... strings) {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(strings[0]));
+            request.setDescription(strings[1]);
+            request.setTitle(strings[1]);
+
+            request.setDestinationUri(Uri.parse("file:///" + strings[2]));
+            final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            manager.enqueue(request);
+
+            return strings[1];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            File file = new File(getExternalFilesDir("Download"), s);
+            RapidPro.LOG.v(file.getAbsolutePath());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), "io.rapidpro.androidchannel.provider", file);
+                RapidPro.LOG.v(apkUri.toString());
+                Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(intent);
+
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.fromFile(new File(s)), "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+
+            RapidPro.get().refreshInstalledPacks();
+
+        }
+    }
+
+    public String getServerURL(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        String endpoint = prefs.getString(SettingsActivity.SERVER, SyncHelper.ENDPOINT);
+        String ip = prefs.getString(SettingsActivity.IP_ADDRESS, null);
+
+        // if our endpoint is an ip, add :8000 to it
+        if (endpoint.startsWith("ip")) {
+            endpoint = "http://" + ip;
+            if (!ip.contains(":")) {
+                endpoint += ":8000";
+            }
+        }
+
+        return endpoint;
+
+    }
+
+    public void installPack(final Context context){
         List<String> packs = getInstalledPacks();
 
         int packToInstall = 0;
@@ -471,9 +538,20 @@ public class RapidPro extends Application {
         }
 
         if (packToInstall > 0) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=io.rapidpro.androidchannel.pack" + packToInstall));
-            context.startActivity(intent);
+
+            String endpoint = getServerURL(context);
+            String url = endpoint + "/android/?v=" + RapidPro.get().getAppVersion() + "&pack=" + packToInstall;
+
+            File destFolder = context.getExternalFilesDir("Download");
+            String destination = destFolder.getAbsolutePath();
+
+
+            String fileName = "Pack" + packToInstall + ".apk";
+            destination += "/" + fileName;
+            RapidPro.LOG.v(destination);
+
+            new DownloadPackFile().execute(url, fileName, destination);
+
         }
     }
 
