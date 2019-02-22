@@ -87,6 +87,8 @@ public class RapidPro extends Application {
     public static long MESSAGE_THROTTLE_WINDOW = 1000 * 60 * (MESSAGE_THROTTLE_MINUTES + 2);
     public static final long MESSAGE_RATE_LIMITER = 1000;
 
+    public static final String MESSAGE_PACK_VERSION_SUPPORTED = "1.1";
+
     public static final String PREF_LAST_UPDATE = "lastUpdate";
 
     private SMSModem m_modem;
@@ -540,7 +542,7 @@ public class RapidPro extends Application {
         if (packToInstall > 0) {
 
             String endpoint = getServerURL(context);
-            String url = endpoint + "/android/?v=" + RapidPro.get().getAppVersion() + "&pack=" + packToInstall;
+            String url = endpoint + "/android/?v=" + MESSAGE_PACK_VERSION_SUPPORTED + "&pack=" + packToInstall;
 
             File destFolder = context.getExternalFilesDir("Download");
             String destination = destFolder.getAbsolutePath();
