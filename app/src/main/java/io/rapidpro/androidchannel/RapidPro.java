@@ -34,6 +34,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -470,45 +471,68 @@ public class RapidPro extends Application {
         context.sendBroadcast(intent);
     }
 
-    class DownloadPackFile extends AsyncTask<String, String, String> {
+    private class DownloadPackFile extends AsyncTask<Integer, Integer, Long> {
 
         @Override
-        protected String doInBackground(String... strings) {
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(strings[0]));
-            request.setDescription(strings[1]);
-            request.setTitle(strings[1]);
+        protected Long doInBackground(final Integer... packs) {
+            String packToInstall = packs[0].toString();
 
-            request.setDestinationUri(Uri.parse("file:///" + strings[2]));
-            final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            manager.enqueue(request);
+            String endpoint = RapidPro.get().getServerURL(getApplicationContext());
+            String url = endpoint + "/android/?v=" + MESSAGE_PACK_VERSION_SUPPORTED + "&pack=" + packToInstall;
 
-            return strings[1];
-        }
+            String fileName = "Pack" + packToInstall + ".apk";
+            final File file = new File(getExternalFilesDir("Download").getAbsolutePath(), fileName);
 
-        @Override
-        protected void onPostExecute(String s) {
-            File file = new File(getExternalFilesDir("Download"), s);
-            RapidPro.LOG.v(file.getAbsolutePath());
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), "io.rapidpro.androidchannel.provider", file);
-                RapidPro.LOG.v(apkUri.toString());
-                Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(intent);
-
-            } else {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(new File(s)), "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+            if(file.exists()) {
+                file.delete();
             }
 
-            RapidPro.get().refreshInstalledPacks();
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setDescription(fileName);
+            request.setTitle(fileName);
+            request.setDestinationUri(Uri.fromFile(file));
+            request.setVisibleInDownloadsUi(false);
 
+            final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            final Long enqueuedId = manager.enqueue(request);
+
+            final DownloadManager.Query managerQuery = new DownloadManager.Query();
+            managerQuery.setFilterById(enqueuedId);
+
+            BroadcastReceiver receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String action = intent.getAction();
+                    if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+
+                        Cursor cursor = manager.query(managerQuery);
+                        if (cursor.moveToFirst()) {
+                            int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                            if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(columnIndex)) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), "io.rapidpro.androidchannel.provider", file);
+                                    Intent installIntent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+                                    installIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                                    installIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    startActivity(installIntent);
+
+                                } else {
+                                    Intent installIntent = new Intent(Intent.ACTION_VIEW);
+                                    installIntent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                                    installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(installIntent);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+            return enqueuedId;
         }
+
     }
 
     public String getServerURL(Context context) {
@@ -540,20 +564,7 @@ public class RapidPro extends Application {
         }
 
         if (packToInstall > 0) {
-
-            String endpoint = getServerURL(context);
-            String url = endpoint + "/android/?v=" + MESSAGE_PACK_VERSION_SUPPORTED + "&pack=" + packToInstall;
-
-            File destFolder = context.getExternalFilesDir("Download");
-            String destination = destFolder.getAbsolutePath();
-
-
-            String fileName = "Pack" + packToInstall + ".apk";
-            destination += "/" + fileName;
-            RapidPro.LOG.v(destination);
-
-            new DownloadPackFile().execute(url, fileName, destination);
-
+            new DownloadPackFile().execute(packToInstall);
         }
     }
 
