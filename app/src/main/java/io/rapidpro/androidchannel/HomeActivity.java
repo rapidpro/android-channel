@@ -224,6 +224,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(m_receiver, filter);
 
+        RapidPro.get().refreshInstalledPacks();
         RapidPro.broadcastUpdatedCounts(this);
 
         if (hasAcceptedPermissions()) {
