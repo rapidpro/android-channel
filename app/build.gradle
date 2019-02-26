@@ -37,6 +37,8 @@ android {
         applicationId "io.rapidpro.androidchannel"
         minSdkVersion 21
         targetSdkVersion 26
+        versionCode 198
+        versionName "1.9.8"
     }
 
     buildTypes {
