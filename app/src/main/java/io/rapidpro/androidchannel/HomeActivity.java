@@ -53,6 +53,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         Manifest.permission.SEND_SMS,
         Manifest.permission.READ_SMS,
         Manifest.permission.INTERNET,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.WAKE_LOCK,
         Manifest.permission.ACCESS_NETWORK_STATE,
@@ -82,6 +83,8 @@ public class HomeActivity extends BaseActivity implements Intents {
     // private TextView m_secret;
     private TextView m_status;
 
+    private TextView m_appVersion;
+
     private static HomeActivity s_this;
     private DashboardReceiver m_receiver;
 
@@ -105,6 +108,8 @@ public class HomeActivity extends BaseActivity implements Intents {
 
         m_lastUpdated = findViewById(R.id.last_updated);
         m_lastUpdate = findViewById(R.id.last_update);
+
+        RapidPro.get().refreshAppVersion();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
@@ -170,6 +175,9 @@ public class HomeActivity extends BaseActivity implements Intents {
         m_status = (TextView)findViewById(R.id.status);
         m_statusBar = (LinearLayout)findViewById(R.id.status_bar);
 
+        m_appVersion = (TextView)findViewById(R.id.appversion);
+        m_appVersion.setText("v" + RapidPro.get().getAppVersion());
+
         s_this = this;
 
         m_outgoingCount = (TextView) findViewById(R.id.outgoing_count);
@@ -216,6 +224,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(m_receiver, filter);
 
+        RapidPro.get().refreshInstalledPacks();
         RapidPro.broadcastUpdatedCounts(this);
 
         if (hasAcceptedPermissions()) {

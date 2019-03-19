@@ -19,27 +19,36 @@
 package io.rapidpro.androidchannel;
 
 import android.app.Application;
+import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.provider.Telephony;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.FileProvider;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,6 +58,9 @@ import java.util.UUID;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.ResetCommand;
+
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
+
 
 public class RapidPro extends Application {
 
@@ -75,6 +87,8 @@ public class RapidPro extends Application {
     public static int MESSAGE_THROTTLE_MINUTES = 30;
     public static long MESSAGE_THROTTLE_WINDOW = 1000 * 60 * (MESSAGE_THROTTLE_MINUTES + 2);
     public static final long MESSAGE_RATE_LIMITER = 1000;
+
+    public static final String MESSAGE_PACK_VERSION_SUPPORTED = "1.1";
 
     public static final String PREF_LAST_UPDATE = "lastUpdate";
 
@@ -457,8 +471,88 @@ public class RapidPro extends Application {
         context.sendBroadcast(intent);
     }
 
+    private class DownloadPackFile extends AsyncTask<Integer, Integer, Long> {
 
-    public void installPack(Context context){
+        @Override
+        protected Long doInBackground(final Integer... packs) {
+            String packToInstall = packs[0].toString();
+
+            String endpoint = RapidPro.get().getServerURL(getApplicationContext());
+            String url = endpoint + "/android/?v=" + MESSAGE_PACK_VERSION_SUPPORTED + "&pack=" + packToInstall;
+
+            String fileName = "Pack" + packToInstall + ".apk";
+            final File file = new File(getExternalFilesDir("Download").getAbsolutePath(), fileName);
+
+            if(file.exists()) {
+                file.delete();
+            }
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setDescription(fileName);
+            request.setTitle(fileName);
+            request.setDestinationUri(Uri.fromFile(file));
+            request.setVisibleInDownloadsUi(false);
+
+            final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            final Long enqueuedId = manager.enqueue(request);
+
+            final DownloadManager.Query managerQuery = new DownloadManager.Query();
+            managerQuery.setFilterById(enqueuedId);
+
+            BroadcastReceiver receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String action = intent.getAction();
+                    if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+
+                        Cursor cursor = manager.query(managerQuery);
+                        if (cursor.moveToFirst()) {
+                            int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                            if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(columnIndex)) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), "io.rapidpro.androidchannel.provider", file);
+                                    Intent installIntent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+                                    installIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                                    installIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    startActivity(installIntent);
+
+                                } else {
+                                    Intent installIntent = new Intent(Intent.ACTION_VIEW);
+                                    installIntent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                                    installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(installIntent);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+            return enqueuedId;
+        }
+
+    }
+
+    public String getServerURL(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        String endpoint = prefs.getString(SettingsActivity.SERVER, SyncHelper.ENDPOINT);
+        String ip = prefs.getString(SettingsActivity.IP_ADDRESS, null);
+
+        // if our endpoint is an ip, add :8000 to it
+        if (endpoint.startsWith("ip")) {
+            endpoint = "http://" + ip;
+            if (!ip.contains(":")) {
+                endpoint += ":8000";
+            }
+        }
+
+        return endpoint;
+
+    }
+
+    public void installPack(final Context context){
         List<String> packs = getInstalledPacks();
 
         int packToInstall = 0;
@@ -470,9 +564,7 @@ public class RapidPro extends Application {
         }
 
         if (packToInstall > 0) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=io.rapidpro.androidchannel.pack" + packToInstall));
-            context.startActivity(intent);
+            new DownloadPackFile().execute(packToInstall);
         }
     }
 
@@ -488,6 +580,34 @@ public class RapidPro extends Application {
         }
 
         return uuid;
+    }
+
+    public String refreshAppVersion(){
+        final PackageManager pm = getPackageManager();
+        PackageInfo pinfo = null;
+        String appVersion = null;
+        try {
+            pinfo = pm.getPackageInfo(getPackageName(), 0);
+            appVersion = pinfo.versionName;
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            editor.putString(SettingsActivity.APP_VERSION, appVersion);
+            editor.commit();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            RapidPro.LOG.e("Error getting package version name.", e);
+        }
+        return appVersion;
+    }
+
+    public String getAppVersion() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String appVersion = prefs.getString(SettingsActivity.APP_VERSION, null);
+
+        if (appVersion == null){
+            appVersion = refreshAppVersion();
+        }
+
+        return appVersion;
     }
 
     public void printDebug() {

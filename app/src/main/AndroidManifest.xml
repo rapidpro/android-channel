@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.rapidpro.androidchannel"
-    android:versionCode="197"
-    android:versionName="1.9.7" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="io.rapidpro.androidchannel" >
 
     <!-- App receives FCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -14,6 +13,8 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -140,6 +141,16 @@
             android:exported="true"
             android:name=".contentprovider.DBCommandContentProvider"
             android:authorities="io.rapidpro.androidchannel.commands" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="io.rapidpro.androidchannel.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
 
     </application>
 

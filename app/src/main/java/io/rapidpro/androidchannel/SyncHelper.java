@@ -110,8 +110,6 @@ public class SyncHelper {
 
             String relayerId = prefs.getString(SettingsActivity.RELAYER_ID, null);
             String secret = prefs.getString(SettingsActivity.RELAYER_SECRET, null);
-            String endpoint = prefs.getString(SettingsActivity.SERVER, ENDPOINT);
-            String ip = prefs.getString(SettingsActivity.IP_ADDRESS, null);
 
 
             long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1l);
@@ -124,13 +122,7 @@ public class SyncHelper {
                 return;
             }
 
-            // if our endpoint is an ip, add :8000 to it
-            if (endpoint.startsWith("ip")) {
-                endpoint = "http://" + ip;
-                if (!ip.contains(":")) {
-                    endpoint += ":8000";
-                }
-            }
+            String endpoint = RapidPro.get().getServerURL(context);
 
             // flip to whatever network is preferred by our user
             setNetworkType(network);
