@@ -48,7 +48,7 @@
     <string name="claim_direction">You are one step away.</string>
     <string name="claim_code_title">Your claim code</string>
     <string name="claim_code_placeholder">123 GPY H26</string>
-    <string name="claim_instructions">Visit http://rapidpro.io to add this phone to your account.</string>
+    <string name="claim_instructions">Visit https://rapidpro.app.medicmobile.org to add this phone to your account.</string>
     <string name="registering"><b>Registering</b>\nPlease wait a moment, contacting RapidPro to register your device.</string>
 
     <string name="no_gcm"><b>Connecting Google Account</b>\n\nThis may take a few minutes. Make sure you are connected to the internet and have an active Google account on your device.</string>

@@ -46,7 +46,7 @@
                         android:layout="@layout/preference_category">
 
         <ListPreference
-                android:defaultValue="https://rapidpro.io"
+                android:defaultValue="https://rapidpro.app.medicmobile.org"
                 android:entries="@array/servers"
                 android:entryValues="@array/servers_values"
                 android:key="server"
@@ -54,7 +54,7 @@
                 android:title="Server" />
 
         <EditTextPreference
-                android:defaultValue="192.168.0.100"
+                android:defaultValue="18.133.131.240"
                 android:key="ip_address"
                 android:summary="The ip address to use when enabled"
                 android:title="IP Address" />
