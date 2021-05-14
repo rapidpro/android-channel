@@ -77,6 +77,12 @@ public class MTBroadcast extends Command {
                     RapidPro.LOG.d("Resending DELIVERED notification for " + msg.getPhone() + " id: " + to.getId());
                     DBCommandHelper.queueCommand(context, new MTTextDelivered(to.getId(), msg.getPhone()));
                 }
+
+                // Resend from server
+                if (state == MTTextMessage.FAILED || state == MTTextMessage.FAILED_SYNCED) {
+                    RapidPro.LOG.d("Server request to resend for " + msg.getPhone() + " id: " + to.getId());
+                    DBCommandHelper.updateCommandStateWithServerId(context, MTTextMessage.CMD, to.getId(), MTTextMessage.RETRY, "" + 0);
+                }
             }
         }
     }
