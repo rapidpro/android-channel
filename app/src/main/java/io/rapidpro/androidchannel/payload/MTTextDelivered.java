@@ -29,10 +29,10 @@ public class MTTextDelivered extends QueueingCommand {
     public static final String CMD = "mt_dlvd";
 
     private String m_phone;
-    private int m_messageId;
+    private long m_messageId;
     private long m_delivered;
 
-    public MTTextDelivered(int messageId, String phone){
+    public MTTextDelivered(long messageId, String phone){
         super(CMD);
         m_messageId = messageId;
         m_delivered = System.currentTimeMillis();
@@ -41,7 +41,7 @@ public class MTTextDelivered extends QueueingCommand {
 
     public MTTextDelivered(JSON json){
         super(CMD);
-        m_messageId = json.getInt(MESSAGE_ID);
+        m_messageId = json.getLong(MESSAGE_ID);
         m_delivered = json.getLong(SENT);
     }
 

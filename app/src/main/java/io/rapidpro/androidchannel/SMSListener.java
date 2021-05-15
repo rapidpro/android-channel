@@ -73,7 +73,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
 
     @Override
     public void onSMSSendError(Context context, String token, String errorDetails) {
-        int msgId = Integer.parseInt(token);
+        long msgId = Long.parseLong(token);
 
         MTTextMessage msg = (MTTextMessage) DBCommandHelper.withServerId(context, MTTextMessage.CMD, msgId);
         if (msg != null){

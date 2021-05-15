@@ -65,32 +65,41 @@ public class MTBroadcast extends Command {
                 int state = DBCommandHelper.getCommandState(context, MTTextMessage.CMD, to.getId());
 
                 // RapidPro.LOG.d("Stale message: " + state + " for " + msg.getPhone() + " id: " + to.getId());
+                if (state != MTTextMessage.FAILED) {
+                    // we consider this message has been sent, but the server doesn't know it, resend our sync for send
+                    if (state >= MTTextMessage.SENT && state <= MTTextMessage.DELIVERED_SYNCED) {
+                        RapidPro.LOG.d("Resending SENT notification for " + msg.getPhone() + " id: " + to.getId());
+                        DBCommandHelper.queueCommand(context, new MTTextSent(to.getId(), msg.getPhone()));
+                    }
 
-                // we consider this message has been sent, but the server doesn't know it, resend our sync for send
-                if (state >= MTTextMessage.SENT && state <= MTTextMessage.DELIVERED_SYNCED){
-                    RapidPro.LOG.d("Resending SENT notification for " + msg.getPhone() + " id: " + to.getId());
-                    DBCommandHelper.queueCommand(context, new MTTextSent(to.getId(), msg.getPhone()));
+                    // we consider this message has been delivered, resend our sync for delivered
+                    if (state >= MTTextMessage.DELIVERED && state <= MTTextMessage.DELIVERED_SYNCED) {
+                        RapidPro.LOG.d("Resending DELIVERED notification for " + msg.getPhone() + " id: " + to.getId());
+                        DBCommandHelper.queueCommand(context, new MTTextDelivered(to.getId(), msg.getPhone()));
+                    }
                 }
 
-                // we consider this message has been delivered, resend our sync for delivered
-                if (state >= MTTextMessage.DELIVERED && state <= MTTextMessage.DELIVERED_SYNCED){
-                    RapidPro.LOG.d("Resending DELIVERED notification for " + msg.getPhone() + " id: " + to.getId());
-                    DBCommandHelper.queueCommand(context, new MTTextDelivered(to.getId(), msg.getPhone()));
+                // Resend from server
+                if (state == MTTextMessage.FAILED || state == MTTextMessage.FAILED_SYNCED) {
+                    RapidPro.LOG.d("Server request to resend for " + msg.getPhone() + " id: " + to.getId());
+                    DBCommandHelper.updateCommandStateWithServerId(context, MTTextMessage.CMD, to.getId(), MTTextMessage.RETRY, "" + 0);
+                    msg = (MTTextMessage) DBCommandHelper.withServerId(context, MTTextMessage.CMD, to.getId());
+                    DBCommandHelper.queueCommand(context, msg);
                 }
             }
         }
     }
 
     static class To {
-        int m_id;
+        long m_id;
         String m_phone;
 
         public To(JSON json){
-            m_id = json.getInt(ID);
+            m_id = json.getLong(ID);
             m_phone = json.getString(PHONE);
         }
 
-        public int getId(){ return m_id; }
+        public long getId(){ return m_id; }
         public String getPhone(){ return m_phone; }
     }
 

@@ -203,7 +203,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
         return updated;
     }
 
-    public static void updateCommandStateWithServerId(Context context, String cmd, int serverId, int state, String extra){
+    public static void updateCommandStateWithServerId(Context context, String cmd, long serverId, int state, String extra){
 
         Log.d(DBCommandHelper.class.getSimpleName(), "Update state: " + cmd + ":" + serverId + " => " + state);
 
@@ -242,7 +242,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
         return 0;
     }
 
-    public static Command withServerId(Context context, String cmd, int serverId){
+    public static Command withServerId(Context context, String cmd, long serverId){
         Cursor cursor = context.getContentResolver().query(DBCommandContentProvider.CONTENT_URI,
                 ALL_COLS, "serverId = ? and cmd = ?", new String[]{ "" + serverId, cmd}, null);
 
@@ -257,7 +257,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
         }
     }
 
-    public static int getCommandState(Context context, String cmd, int serverId){
+    public static int getCommandState(Context context, String cmd, long serverId){
         Cursor cursor = context.getContentResolver().query(DBCommandContentProvider.CONTENT_URI,
                 ALL_COLS, "serverId = ? and cmd = ?", new String[]{ "" + serverId, cmd}, null);
         try {
