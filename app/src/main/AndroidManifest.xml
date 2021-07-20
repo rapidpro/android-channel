@@ -142,7 +142,7 @@
             android:name=".contentprovider.DBCommandContentProvider"
             android:authorities="io.rapidpro.androidchannel.commands" />
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="io.rapidpro.androidchannel.provider"
             android:exported="false"
             android:grantUriPermissions="true">

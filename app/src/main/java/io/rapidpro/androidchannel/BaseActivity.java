@@ -20,19 +20,19 @@ package io.rapidpro.androidchannel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class BaseActivity extends FragmentActivity {
 
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
 
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        String refreshedToken = FirebaseMessaging.getInstance().getToken().toString();
 
         if (refreshedToken != null) {
             SettingsActivity.setFCM(this, refreshedToken);

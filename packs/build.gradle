@@ -12,8 +12,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
 
     signingConfigs {
         config {
@@ -33,7 +32,7 @@ android {
         }
 
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 30
     }
 
     buildTypes {
