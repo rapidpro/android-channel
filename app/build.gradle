@@ -12,8 +12,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-    compileSdkVersion 30
-    useLibrary 'org.apache.http.legacy'
+    compileSdkVersion 31
 
     signingConfigs {
         config {
@@ -34,10 +33,10 @@ android {
 
     defaultConfig {
         applicationId "io.rapidpro.androidchannel"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 199
-        versionName "1.9.9"
+        minSdkVersion 16
+        targetSdkVersion 31
+        versionCode 201
+        versionName "2.0.1"
     }
 
     buildTypes {
@@ -56,6 +55,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.android.volley:volley:1.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

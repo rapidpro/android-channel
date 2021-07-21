@@ -12,7 +12,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     signingConfigs {
         config {
@@ -31,8 +31,8 @@ android {
             applicationId "io.rapidpro.androidchannel.pack1"
         }
 
-        minSdkVersion 14
-        targetSdkVersion 30
+        minSdkVersion 16
+        targetSdkVersion 31
     }
 
     buildTypes {
