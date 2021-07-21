@@ -96,6 +96,7 @@ public class Http {
                         TIMEOUT,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonObjectRequest.setShouldCache(false);
 
         requestQueue.add(jsonObjectRequest);
 
