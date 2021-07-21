@@ -41,11 +41,11 @@ public class MTTextMessage extends QueueingCommand {
 
     public static final int MAX_SEND_TRIES = 10;
 
-    private int m_serverId;
+    private long m_serverId;
     private String m_phone;
     private String m_message;
 
-    public MTTextMessage(String phone, String message, int serverId){
+    public MTTextMessage(String phone, String message, long serverId){
         super(CMD);
         m_phone = phone;
         m_message = message;
@@ -56,7 +56,7 @@ public class MTTextMessage extends QueueingCommand {
         super(CMD);
         m_phone = json.getString(PHONE);
         m_message = json.getString(MESSAGE);
-        m_serverId = json.getInt(MESSAGE_ID);
+        m_serverId = json.getLong(MESSAGE_ID);
     }
 
     @Override

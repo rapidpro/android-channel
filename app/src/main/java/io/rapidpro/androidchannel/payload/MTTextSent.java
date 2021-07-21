@@ -28,11 +28,11 @@ import io.rapidpro.androidchannel.json.JSON;
 public class MTTextSent extends QueueingCommand {
     public static final String CMD = "mt_sent";
 
-    private int m_messageId;
+    private long m_messageId;
     private long m_sent;
     private String m_phone;
 
-    public MTTextSent(int serverId, String phone){
+    public MTTextSent(long serverId, String phone){
         super(CMD);
         m_messageId = serverId;
         m_sent = System.currentTimeMillis();
@@ -41,7 +41,7 @@ public class MTTextSent extends QueueingCommand {
 
     public MTTextSent(JSON json){
         super(CMD);
-        this.m_messageId = json.getInt(MESSAGE_ID);
+        this.m_messageId = json.getLong(MESSAGE_ID);
         this.m_sent = json.getLong(SENT);
     }
 
