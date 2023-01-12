@@ -28,11 +28,11 @@ import io.rapidpro.androidchannel.json.JSON;
 public class MTTextFailed extends QueueingCommand {
     public static final String CMD = "mt_fail";
 
-    private int m_messageId;
+    private long m_messageId;
     private long m_failed;
     private String m_phone;
 
-    public MTTextFailed(int serverId, String phone){
+    public MTTextFailed(long serverId, String phone){
         super(CMD);
         m_messageId = serverId;
         m_failed = System.currentTimeMillis();
@@ -41,7 +41,7 @@ public class MTTextFailed extends QueueingCommand {
 
     public MTTextFailed(JSON json){
         super(CMD);
-        this.m_messageId = json.getInt(MESSAGE_ID);
+        this.m_messageId = json.getLong(MESSAGE_ID);
         this.m_failed = json.getLong(FAILED);
     }
 

@@ -18,22 +18,23 @@
 
 package io.rapidpro.androidchannel.util;
 
-import android.net.http.AndroidHttpClient;
 import android.os.Build;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+
+import java.util.HashMap;
+import java.util.Map;
 
 import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.json.JSON;
@@ -49,106 +50,61 @@ public class Http {
     private static final int TIMEOUT = 120000;
     private static final String USER_AGENT = "RapidPro/" + Build.VERSION.RELEASE;
 
-    private DefaultHttpClient m_client;
+    public static String contents;
 
     public Http() {
-        initializeClient();
     }
 
-    private void initializeClient() {
-        m_client = new TrustingHttpClient(RapidPro.get());
-        HttpParams params = m_client.getParams();
-        params.setParameter("http.connection-manager.timeout", Integer.valueOf(Http.TIMEOUT));
-        params.setParameter("http.connection.timeout", Integer.valueOf(Http.TIMEOUT));
-        params.setParameter("http.socket.timeout", Integer.valueOf(TIMEOUT));
-        params.setParameter("http.headers.user-agent", USER_AGENT);
-        m_client.setParams(params);
 
-        HttpConnectionParams.setConnectionTimeout(params, TIMEOUT);
-        HttpConnectionParams.setSoTimeout(params, TIMEOUT);
-    }
+    public JSON fetchJSON(String url, String postData) throws JSONException {
 
-    /**
-     * Converts an InputStream to a byte array
-     * @param is
-     * @return
-     * @throws IOException
-     */
-    public byte[] readStreamFully(InputStream is) throws IOException {
-        ByteArrayOutputStream buffer = null;
-        try{
-            buffer = new ByteArrayOutputStream();
+        RequestQueue requestQueue = Volley.newRequestQueue(RapidPro.get());
 
-            int nRead;
-            byte[] data = new byte[16384];
-            while ((nRead = is.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
+        ResponseListener listener = new ResponseListener() {
+            @Override
+            public void onResponse(JSONObject obj) {
+                contents = obj.toString();
             }
+        };
 
-            buffer.flush();
-            byte[] output = buffer.toByteArray();
-            return output;
-        } finally {
-            // close our streams
-            is.close();
-            buffer.close();
-        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, new JSONObject(postData), new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        listener.onResponse(response);
+                        RapidPro.LOG.d("/n/n    " + response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        RapidPro.LOG.e("Error getting response", error);
+
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("User-Agent", USER_AGENT);
+
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        TIMEOUT,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonObjectRequest.setShouldCache(false);
+
+        requestQueue.add(jsonObjectRequest);
+
+        return new JSON(new String(contents));
+
     }
 
-    /**
-     * Fetch content from the wire, first checking if there is a cached version available.
-     */
-    public byte[] fetch(HttpRequestBase request) throws IOException {
-        // add that we accept GZIP compressed content
-        request.setHeader("Accept-Encoding", "gzip");
-
-        // dump the request to the console
-        if (RapidPro.SHOW_WIRE) {
-
-            RapidPro.LOG.d("    " + request.getMethod() + " " + request.getURI());
-            for (Header header : request.getAllHeaders()) {
-                RapidPro.LOG.d("    > " + header.getName() + ": " + header.getValue());
-            }
-        }
-
-        long start = System.currentTimeMillis();
-
-        try {
-            HttpResponse response = m_client.execute(request);
-            InputStream inputStream = new BufferedInputStream(AndroidHttpClient.getUngzippedContent(response.getEntity()));
-            byte[] content = readStreamFully(inputStream);
-
-            if (RapidPro.SHOW_WIRE) {
-                String body = new String(content);
-                RapidPro.LOG.d("\n    " + response.getStatusLine().toString());
-                RapidPro.LOG.d("    Received response with " + content.length + " bytes");
-
-                for (Header header : response.getAllHeaders()) {
-                    RapidPro.LOG.d("    < " + header.getName() + ": " + header.getValue());
-                }
-
-                RapidPro.LOG.d("    " + body);
-                RapidPro.LOG.d("\n");
-            }
-
-            return content;
-
-        } catch (IOException e) {
-            request.abort();
-
-            // no cached response?  throw our exception
-            throw e;
-        } finally {
-            RapidPro.LOG.d("Fetch took: " + (System.currentTimeMillis() - start));
-        }
-    }
-
-    public JSON fetchJSON(String url, String postData) throws IOException {
-        HttpPost post = new HttpPost(url);
-        post.addHeader("Content-Type", "application/json; charset=UTF-8");
-        post.setEntity(new StringEntity(postData, "UTF-8"));
-
-        // fetch our response, we use a cache if available
-        return new JSON(new String(fetch(post)));
+    public interface ResponseListener{
+        public void onResponse(JSONObject obj);
     }
 }

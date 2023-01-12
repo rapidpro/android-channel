@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.JobIntentService;
+import androidx.core.app.JobIntentService;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -27,7 +26,7 @@ public class FCMPingService extends JobIntentService {
 
     @Override
     protected void onHandleWork(Intent intent) {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        String refreshedToken = FirebaseMessaging.getInstance().getToken().toString();
 
         if (refreshedToken != null){
             FirebaseMessaging.getInstance().send(
@@ -40,7 +39,7 @@ public class FCMPingService extends JobIntentService {
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putLong(RapidPro.LAST_FCM_TIME, System.currentTimeMillis());
-        editor.commit();
+        editor.apply();
 
     }
 }
