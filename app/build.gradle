@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.hiya.jacoco-android'
 
 // load our keystore configuration
 def keystore = new Properties()
@@ -16,23 +15,22 @@ android {
         versionName "2.0.1"
     }
     signingConfigs {
-        config {
-            keyAlias keystore['keyAlias']
-            keyPassword keystore['keyPassword']
+        release {
             storeFile file(keystore['storeFile'])
             storePassword keystore['storePassword']
+            keyAlias keystore['keyAlias']
+            keyPassword keystore['keyPassword']
         }
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
     lint {
         abortOnError false
-        checkReleaseBuilds false
     }
     namespace 'io.rapidpro.androidchannel'
 }
