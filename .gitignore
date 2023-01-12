@@ -8,6 +8,8 @@ gradle-app.setting
 
 # Local configuration file (sdk path, etc)
 local.properties
+
+packs/store/apks/
 !packs/local.properties
 
 # Keystore files

@@ -32,8 +32,13 @@ build script for each pack it creates.
 
 ## Building
 
+You need to provide 2 additional deployment specific configuration files:
+
+ * keystore.properties
+ * app/google-services.json
+
 ```bash
-% ./gradlew assembleDebug
+% ./gradlew assembleRelease
 ```
 
 To build the message packs, there's a shell script.
