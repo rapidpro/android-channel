@@ -69,7 +69,7 @@ public class SendMessageService extends IntentService {
             final Intent intent = new Intent(SMS_SENT_REPORT_ACTION);
             intent.setData(Uri.fromParts("sms", token, ""));
             intent.putExtra(SMS_SENT_REPORT_TOKEN_EXTRA, token);
-            final PendingIntent queueIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent queueIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
             final ArrayList<PendingIntent> queueingIntents = new ArrayList<PendingIntent>();
             for (int i = 0; i < message.size(); i++) {
                 queueingIntents.add(queueIntent);
@@ -78,7 +78,7 @@ public class SendMessageService extends IntentService {
             final Intent intent1 = new Intent(SMS_DELIVERED_REPORT_ACTION);
             intent1.setData(Uri.fromParts("sms", token, ""));
             intent1.putExtra(SMS_DELIVERED_REPORT_TOKEN_EXTRA, token);
-            final PendingIntent deliveryIntent = PendingIntent.getBroadcast(context, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent deliveryIntent = PendingIntent.getBroadcast(context, 0, intent1, PendingIntent.FLAG_IMMUTABLE);
             final ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
             for (int i = 0; i < message.size(); i++){
                 deliveryIntents.add(deliveryIntent);
