@@ -54,14 +54,14 @@ public final class SMSModem extends BroadcastReceiver {
 	private final SmsManager smsManager;
 	private final SmsModemListener listener;
 
-    private Map<String, Integer> m_pendingSent = new Hashtable<String, Integer>();
-    private Map<String, Integer> m_pendingDelivered = new Hashtable<String, Integer>();
+    private Map<String, Long> m_pendingSent = new Hashtable<>();
+    private Map<String, Long> m_pendingDelivered = new Hashtable<>();
 
 	public interface SmsModemListener {
-        public void onSMSSent(Context context, String token);
-        public void onSMSDelivered(Context context, String token);
-		public void onSMSSendError(Context context, String token, String errorDetails);
-        public void onSMSSendFailed(Context context, String token);
+        void onSMSSent(Context context, String token);
+        void onSMSDelivered(Context context, String token);
+        void onSMSSendError(Context context, String token, String errorDetails);
+        void onSMSSendFailed(Context context, String token);
 
 	}
 
@@ -69,10 +69,10 @@ public final class SMSModem extends BroadcastReceiver {
 		context = c;
 		listener = l;
 		smsManager = SmsManager.getDefault();
-		
-		final IntentFilter receivedFilter = new IntentFilter();
+
+        final IntentFilter receivedFilter = new IntentFilter();
         receivedFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
-		context.registerReceiver(this, receivedFilter);
+        context.registerReceiver(this, receivedFilter);
 
 		final IntentFilter deliveryFilter = new IntentFilter();
         deliveryFilter.addAction(SMS_SENT_REPORT_ACTION);
@@ -120,10 +120,10 @@ public final class SMSModem extends BroadcastReceiver {
                 sendMessageIntent.putExtra("message", parts);
                 sendMessageIntent.putExtra("token", token);
 
-                m_pendingSent.put(token, parts.size());
+                m_pendingSent.put(token, (long) parts.size());
 
                 // android only returns only one delivery reports for sendMultipleTextMessage
-                m_pendingDelivered.put(token, 1);
+                m_pendingDelivered.put(token, 1L);
                 c.startService(sendMessageIntent);
             }
         }
@@ -134,17 +134,17 @@ public final class SMSModem extends BroadcastReceiver {
 	}
 
 	@Override
-	public void onReceive(Context c, Intent intent) {
-		final String action = intent.getAction();
-        RapidPro.LOG.d("SMSModem got action: " + action + intent.toString());
+    public void onReceive(Context c, Intent intent) {
+        final String action = intent.getAction();
+        RapidPro.LOG.d("SMSModem got action: " + action + intent);
 		if (action.equalsIgnoreCase(SMS_DELIVERED_REPORT_ACTION)) {
 			final int resultCode = getResultCode();
             final String token = intent.getStringExtra(SMS_DELIVERED_REPORT_TOKEN_EXTRA);
             RapidPro.LOG.d("Deliver report, result code '" + resultCode	+ "', token '" + token + "' URI: " + intent.getData());
             if (resultCode == Activity.RESULT_OK){
                 if (m_pendingDelivered.containsKey(token)) {
-                    m_pendingDelivered.put(token, m_pendingDelivered.get(token).intValue() - 1);
-                    if (m_pendingDelivered.get(token).intValue() == 0) {
+                    m_pendingDelivered.put(token, m_pendingDelivered.get(token) - 1);
+                    if (m_pendingDelivered.get(token) == 0) {
                         m_pendingDelivered.remove(token);
 
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
@@ -163,8 +163,8 @@ public final class SMSModem extends BroadcastReceiver {
             RapidPro.LOG.d("Sent to queue report, result code '" + resultCode	+ "', token '" + token + "' URI: " + intent.getData());
             if (resultCode == Activity.RESULT_OK){
                 if (m_pendingSent.containsKey(token)) {
-                    m_pendingSent.put(token, m_pendingSent.get(token).intValue() - 1);
-                    if (m_pendingSent.get(token).intValue() == 0) {
+                    m_pendingSent.put(token, m_pendingSent.get(token) - 1);
+                    if (m_pendingSent.get(token) == 0) {
                         m_pendingSent.remove(token);
 
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
@@ -219,7 +219,7 @@ public final class SMSModem extends BroadcastReceiver {
 	}
 
     // function to serialize keys and values of a HashMap into a string
-    private String serializer(Map<String, Integer> map) {
+    private String serializer(Map<String, Long> map) {
         JSON json = new JSON();
 
         String[] keys = new String[map.size()];
@@ -240,8 +240,8 @@ public final class SMSModem extends BroadcastReceiver {
     }
 
     // function to convert back a seriarized string into a HashMap
-    private HashMap<String, Integer> deserializer(String map_string) {
-        HashMap<String, Integer> output_map = new HashMap<String, Integer>();
+    private HashMap<String, Long> deserializer(String map_string) {
+        HashMap<String, Long> output_map = new HashMap<>();
 
         JSON json = new JSON(map_string);
 
@@ -250,7 +250,7 @@ public final class SMSModem extends BroadcastReceiver {
 
 
         for (int i=0; i < keys.length; i++){
-            output_map.put(keys[i], Integer.parseInt(values[i]));
+            output_map.put(keys[i], Long.parseLong(values[i]));
         }
         return output_map;
     }

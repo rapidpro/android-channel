@@ -34,7 +34,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
         if (RapidPro.get().isPaused()) return;
 
         RapidPro.LOG.d("SMS Sent: " + token);
-        int msgId = Integer.parseInt(token);
+        long msgId = Long.parseLong(token);
 
         DBCommandHelper.updateCommandStateWithServerId(context, MTTextMessage.CMD, msgId, MTTextMessage.SENT, null);
 
@@ -57,7 +57,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
     @Override
     public void onSMSDelivered(Context context, String token) {
         RapidPro.LOG.d("SMS Delivered: " + token);
-        int msgId = Integer.parseInt(token);
+        long msgId = Long.parseLong(token);
 
         DBCommandHelper.updateCommandStateWithServerId(context, MTTextMessage.CMD, msgId, MTTextMessage.DELIVERED, null);
 
