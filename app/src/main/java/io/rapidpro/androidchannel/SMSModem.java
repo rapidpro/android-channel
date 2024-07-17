@@ -78,8 +78,8 @@ public final class SMSModem extends BroadcastReceiver {
         deliveryFilter.addAction(SMS_SENT_REPORT_ACTION);
         deliveryFilter.addAction(SMS_DELIVERED_REPORT_ACTION);
         deliveryFilter.addAction(SMS_FAILED_REPORT_ACTION);
-		deliveryFilter.addDataScheme("sms");
-		context.registerReceiver(this, deliveryFilter);
+        deliveryFilter.addDataScheme("sms");
+        context.registerReceiver(this, deliveryFilter);
 
         final IntentFilter shuttingDownFilter = new IntentFilter();
         shuttingDownFilter.addAction("android.intent.action.ACTION_SHUTDOWN");
@@ -101,7 +101,7 @@ public final class SMSModem extends BroadcastReceiver {
             editor.remove(DELIVERED_KEY);
             RapidPro.LOG.d(String.format("Getting pendingDelivered from DELIVERED_KEY %s in SharedPreferences", pendingDeliveredString));
         }
-        editor.commit();
+        editor.apply();
 	}
 
     public void sendSms(Context c, String address, String message, String token, String pack) {
@@ -137,7 +137,7 @@ public final class SMSModem extends BroadcastReceiver {
     public void onReceive(Context c, Intent intent) {
         final String action = intent.getAction();
         RapidPro.LOG.d("SMSModem got action: " + action + intent);
-		if (action.equalsIgnoreCase(SMS_DELIVERED_REPORT_ACTION)) {
+        if (action.equalsIgnoreCase(SMS_DELIVERED_REPORT_ACTION)) {
 			final int resultCode = getResultCode();
             final String token = intent.getStringExtra(SMS_DELIVERED_REPORT_TOKEN_EXTRA);
             RapidPro.LOG.d("Deliver report, result code '" + resultCode	+ "', token '" + token + "' URI: " + intent.getData());
@@ -151,7 +151,7 @@ public final class SMSModem extends BroadcastReceiver {
 
                         editor.putString(SENT_KEY, serializer(m_pendingSent));
                         editor.putString(DELIVERED_KEY, serializer(m_pendingDelivered));
-                        editor.commit();
+                        editor.apply();
 
                         listener.onSMSDelivered(c, token);
                     }
@@ -171,7 +171,7 @@ public final class SMSModem extends BroadcastReceiver {
 
                         editor.putString(SENT_KEY, serializer(m_pendingSent));
                         editor.putString(DELIVERED_KEY, serializer(m_pendingDelivered));
-                        editor.commit();
+                        editor.apply();
 
                         listener.onSMSSent(c, token);
                     }
@@ -185,7 +185,7 @@ public final class SMSModem extends BroadcastReceiver {
 
                     editor.putString(SENT_KEY, serializer(m_pendingSent));
                     editor.putString(DELIVERED_KEY, serializer(m_pendingDelivered));
-                    editor.commit();
+                    editor.apply();
 
                     listener.onSMSSendError(c, token, extractError(resultCode, intent));
                 }
@@ -202,7 +202,7 @@ public final class SMSModem extends BroadcastReceiver {
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
                 editor.putString(SENT_KEY, serializer(m_pendingSent));
                 editor.putString(DELIVERED_KEY, serializer(m_pendingDelivered));
-                editor.commit();
+                editor.apply();
 
                 listener.onSMSSendFailed(c, token);
             }
@@ -213,7 +213,7 @@ public final class SMSModem extends BroadcastReceiver {
             editor.putString(SENT_KEY, serializer(m_pendingSent));
             editor.putString(DELIVERED_KEY, serializer(m_pendingDelivered));
             RapidPro.LOG.d(String.format("Added the pendingSent %s and pendingDelivered %s to SharedPreferences", serializer(m_pendingSent), serializer(m_pendingDelivered)));
-            editor.commit();
+            editor.apply();
 
         }
 	}

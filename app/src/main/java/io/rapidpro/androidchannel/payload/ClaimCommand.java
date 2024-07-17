@@ -50,7 +50,7 @@ public class ClaimCommand extends Command {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putInt(SettingsActivity.RELAYER_ORG, m_orgId);
         editor.remove(SettingsActivity.RESET);
-        editor.commit();
+        editor.apply();
 
         // update our home activity
         Intent intent = new Intent(Intents.UPDATE_RELAYER_STATE);

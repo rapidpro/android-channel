@@ -78,6 +78,6 @@ public class ResetCommand extends QueueingCommand {
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.remove(SettingsActivity.RESET);
-        editor.commit();
+        editor.apply();
     }
 }

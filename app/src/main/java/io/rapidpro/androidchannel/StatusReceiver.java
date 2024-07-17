@@ -84,7 +84,7 @@ public class StatusReceiver extends BroadcastReceiver {
             editor.putString(NETWORK_TYPE, networkType);
         }
 
-        editor.commit();
+        editor.apply();
 
     }
 }

@@ -99,5 +99,7 @@ public class CallObserver extends ContentObserver {
             RapidPro.get().refreshHome();
             RapidPro.get().sync();
         }
+
+        cursor.close();
     }
 }

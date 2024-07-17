@@ -95,7 +95,7 @@ public class RegistrationCommand extends QueueingCommand {
         editor.remove(SettingsActivity.RELAYER_ORG);
         editor.remove(SettingsActivity.RESET);
 
-        editor.commit();
+        editor.apply();
 
         // notify that our state has changed
         Intent intent = new Intent(Intents.UPDATE_RELAYER_STATE);

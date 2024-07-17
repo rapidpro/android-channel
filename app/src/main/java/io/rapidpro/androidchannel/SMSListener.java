@@ -42,7 +42,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
         // are having trouble sending messages
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putLong(SettingsActivity.LAST_SMS_SENT, System.currentTimeMillis());
-        editor.commit();
+        editor.apply();
 
         MTTextMessage msg = (MTTextMessage) DBCommandHelper.withServerId(context, MTTextMessage.CMD, msgId);
         if (msg != null){

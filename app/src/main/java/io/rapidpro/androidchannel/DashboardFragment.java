@@ -66,10 +66,7 @@ public class DashboardFragment extends Fragment implements Intents {
         m_pausedLayout = (RelativeLayout) view.findViewById(R.id.status_paused);
         m_activeLayout = (RelativeLayout)view.findViewById(R.id.status_active);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            m_dozeWarning.setVisibility(View.VISIBLE);
-        }
-
+        m_dozeWarning.setVisibility(View.VISIBLE);
 
         return view;
     }
@@ -100,7 +97,7 @@ public class DashboardFragment extends Fragment implements Intents {
 
         int sent = intent.getIntExtra(Intents.SENT_EXTRA, 0);
         int capacity = intent.getIntExtra(Intents.CAPACITY_EXTRA, 0);
-        int minutes = (Build.VERSION.SDK_INT < 14) ? 60 : 30;
+        int minutes = 30;
 
         // show our throttle warning
         m_throttleLayout.setVisibility(isPaused ? View.GONE : View.VISIBLE);

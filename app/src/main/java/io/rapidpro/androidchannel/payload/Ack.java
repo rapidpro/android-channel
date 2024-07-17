@@ -55,6 +55,6 @@ public class Ack extends Command {
 
     @Override
     public JSON asJSON() {
-        throw new RuntimeException("Ack commands are not seriazable.");
+        throw new RuntimeException("Ack commands are not serializable.");
     }
 }

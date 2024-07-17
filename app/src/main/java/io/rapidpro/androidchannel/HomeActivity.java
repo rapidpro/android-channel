@@ -131,7 +131,7 @@ public class HomeActivity extends BaseActivity implements Intents {
                                 } else {
                                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                                     editor.putBoolean(SHOW_ADVANCED_SETTINGS, true);
-                                    editor.commit();
+                                    editor.apply();
                                     Toast.makeText(getApplicationContext(), "Advanced Settings Activated", Toast.LENGTH_SHORT).show();
                                 }
                             }  else {
@@ -193,21 +193,17 @@ public class HomeActivity extends BaseActivity implements Intents {
     }
 
     private boolean hasAcceptedPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (String perm : PERMISSIONS) {
-                if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED) {
-                    RapidPro.LOG.d("Missing Permission: " + perm);
-                    return false;
-                }
+        for (String perm : PERMISSIONS) {
+            if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED) {
+                RapidPro.LOG.d("Missing Permission: " + perm);
+                return false;
             }
         }
         return true;
     }
 
     private void triggerPermissionRequest() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
-        }
+        requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
     }
 
     public void onResume() {
@@ -335,9 +331,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         if (hasAcceptedPermissions()) {
             RapidPro.get().resume();
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
-            }
+            requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
         }
     }
 
@@ -398,11 +392,9 @@ public class HomeActivity extends BaseActivity implements Intents {
     }
 
     public void handleBatteryOptimizations(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent myIntent = new Intent();
-            myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-            startActivity(myIntent);
-        }
+        Intent myIntent = new Intent();
+        myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+        startActivity(myIntent);
     }
 
     class DashboardReceiver extends BroadcastReceiver {

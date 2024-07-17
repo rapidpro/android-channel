@@ -85,7 +85,7 @@ public class CommandRunner extends JobIntentService {
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).edit();
         editor.putLong(RapidPro.LAST_RUN_COMMANDS_TIME, System.currentTimeMillis());
-        editor.commit();
+        editor.apply();
     }
 
     private void executeCommands(List<Command> cmds){
