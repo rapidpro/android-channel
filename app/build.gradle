@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "io.rapidpro.androidchannel"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 210
         versionName "2.1.0"

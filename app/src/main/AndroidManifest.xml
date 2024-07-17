@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- App receives FCM messages. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- FCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
