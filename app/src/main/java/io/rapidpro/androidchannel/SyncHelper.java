@@ -1,12 +1,17 @@
 package io.rapidpro.androidchannel;
 
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -70,7 +75,7 @@ public class SyncHelper {
             }
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-            long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1L);
+            long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1l);
 
             List<Command> commands = DBCommandHelper.getPendingCommands(context, DBCommandHelper.OUT, DBCommandHelper.BORN, 50, null, false);
 
@@ -103,7 +108,7 @@ public class SyncHelper {
             String secret = prefs.getString(SettingsActivity.RELAYER_SECRET, null);
 
 
-            long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1L);
+            long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1l);
             long lastReceived = prefs.getLong(SettingsActivity.LAST_SMS_RECEIVED, 0);
             long now = System.currentTimeMillis();
 
@@ -268,17 +273,18 @@ public class SyncHelper {
     }
 
     private void setNetworkType(String type){
-        switch (type) {
-            case "wifi":
-                checkWifiEnabled(true);
-                break;
-            case "data":
-                checkDataEnabled(true);
-                break;
+        if (type.equals("wifi")){
+            checkWifiEnabled(true);
+        }
+        else if (type.equals("data")){
+            checkDataEnabled(true);
+        }
+        else if (type.equals("none")){
+            // last case is a no-op, we don't change anything
         }
     }
 
-    private void toggleConnection(){
+    private boolean toggleConnection(){
         WifiManager manager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         boolean wifiPossible = prefs.getBoolean(SettingsActivity.WIFI_ENABLED, true);
@@ -290,7 +296,7 @@ public class SyncHelper {
             if (dataPossible){
                 RapidPro.LOG.d("Toggling connection to data");
                 setNetworkType("data");
-                return;
+                return true;
             }
         }
         // wifi is off
@@ -299,11 +305,12 @@ public class SyncHelper {
             if (wifiPossible){
                 RapidPro.LOG.d("Toggling connection to wifi");
                 setNetworkType("wifi");
-                return;
+                return true;
             }
         }
 
         RapidPro.LOG.d("Not toggling, no other choice available");
+        return false;
     }
 
     protected boolean isGoogleUp(){

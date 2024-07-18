@@ -31,6 +31,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import io.rapidpro.androidchannel.data.DBCommand;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 
 public class DBCommandContentProvider extends ContentProvider {
@@ -102,8 +103,9 @@ public class DBCommandContentProvider extends ContentProvider {
         }
 
         SQLiteDatabase db = m_db.getReadableDatabase();
+        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
 
-        return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        return cursor;
     }
 
     @Override
@@ -115,13 +117,15 @@ public class DBCommandContentProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase db = m_db.getWritableDatabase();
-        long id;
+        long id = 0;
 
         try {
-            if (uriType == CMDS) {
-                id = db.insert(DBCommandHelper.TABLE, null, values);
-            } else {
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+            switch (uriType) {
+                case CMDS:
+                    id = db.insert(DBCommandHelper.TABLE, null, values);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown URI: " + uri);
             }
 
             getContext().getContentResolver().notifyChange(uri, null);
@@ -135,7 +139,7 @@ public class DBCommandContentProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase db = m_db.getWritableDatabase();
-        int rowsDeleted;
+        int rowsDeleted = 0;
 
         try{
             switch (uriType) {
@@ -169,7 +173,7 @@ public class DBCommandContentProvider extends ContentProvider {
 
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase db = m_db.getWritableDatabase();
-        int rowsUpdated;
+        int rowsUpdated = 0;
 
         try{
             switch (uriType) {
@@ -212,8 +216,8 @@ public class DBCommandContentProvider extends ContentProvider {
                 return;
             }
 
-            HashSet<String> requestedColumns = new HashSet<>(Arrays.asList(projection));
-            HashSet<String> availableColumns = new HashSet<>(Arrays.asList(DBCommandHelper.ALL_COLS));
+            HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
+            HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(DBCommandHelper.ALL_COLS));
 
             // Check if all columns which are requested are available
             if (!availableColumns.containsAll(requestedColumns)) {

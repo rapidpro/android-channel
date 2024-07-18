@@ -18,6 +18,7 @@
 
 package io.rapidpro.androidchannel;
 
+import android.text.Html;
 import android.util.Log;
 
 public class Logger {

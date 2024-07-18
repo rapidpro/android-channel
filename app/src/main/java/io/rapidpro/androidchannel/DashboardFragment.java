@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.text.Html;
@@ -44,6 +45,7 @@ public class DashboardFragment extends Fragment implements Intents {
 
     private RelativeLayout m_pausedLayout;
     private RelativeLayout m_activeLayout;
+    private RelativeLayout m_dozeWarning;
 
     private DashboardReceiver m_receiver;
 
@@ -51,18 +53,18 @@ public class DashboardFragment extends Fragment implements Intents {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dashboard, container, false);
 
-        m_throttleLayout = view.findViewById(R.id.throttle);
-        m_throttleIcon = view.findViewById(R.id.throttle_icon);
-        m_throttleTitle = view.findViewById(R.id.throttle_title);
-        m_throttleMessage = view.findViewById(R.id.throttle_message);
-        m_throttleInstallMessage = view.findViewById(R.id.throttle_install_message);
+        m_throttleLayout = (RelativeLayout)view.findViewById(R.id.throttle);
+        m_throttleIcon = (TextView)view.findViewById(R.id.throttle_icon);
+        m_throttleTitle = (TextView)view.findViewById(R.id.throttle_title);
+        m_throttleMessage = (TextView)view.findViewById(R.id.throttle_message);
+        m_throttleInstallMessage = (TextView)view.findViewById(R.id.throttle_install_message);
 
-        m_networkError = view.findViewById(R.id.network_error);
-        m_sendError = view.findViewById(R.id.send_error);
-        RelativeLayout m_dozeWarning = view.findViewById(R.id.doze_warning);
+        m_networkError = (RelativeLayout)view.findViewById(R.id.network_error);
+        m_sendError = (RelativeLayout)view.findViewById(R.id.send_error);
+        m_dozeWarning = (RelativeLayout)view.findViewById(R.id.doze_warning);
 
-        m_pausedLayout = view.findViewById(R.id.status_paused);
-        m_activeLayout = view.findViewById(R.id.status_active);
+        m_pausedLayout = (RelativeLayout) view.findViewById(R.id.status_paused);
+        m_activeLayout = (RelativeLayout)view.findViewById(R.id.status_active);
 
         m_dozeWarning.setVisibility(View.VISIBLE);
 

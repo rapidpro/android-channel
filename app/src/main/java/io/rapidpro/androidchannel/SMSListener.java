@@ -24,6 +24,8 @@ import android.preference.PreferenceManager;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.*;
 
+import java.util.Date;
+
 public class SMSListener implements SMSModem.SmsModemListener {
 
     @Override

@@ -18,6 +18,8 @@
 
 package io.rapidpro.androidchannel.payload;
 
+import io.rapidpro.androidchannel.json.JSON;
+
 /**
  * A command that is queued for later execution.
  *

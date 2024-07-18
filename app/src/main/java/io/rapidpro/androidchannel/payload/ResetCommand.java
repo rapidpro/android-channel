@@ -19,9 +19,10 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
+import io.rapidpro.androidchannel.Intents;
 import io.rapidpro.androidchannel.SettingsActivity;
 import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.data.DBCommandHelper;

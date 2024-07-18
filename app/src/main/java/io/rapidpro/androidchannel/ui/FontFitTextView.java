@@ -23,8 +23,9 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
+import io.rapidpro.androidchannel.RapidPro;
 
-public class FontFitTextView extends androidx.appcompat.widget.AppCompatTextView {
+public class FontFitTextView extends TextView {
 
     public FontFitTextView(Context context) {
         super(context);

@@ -271,7 +271,9 @@ public class DBCommandHelper extends SQLiteOpenHelper {
         }
     }
 
-    public static void queueCommand(Context context, QueueingCommand cmd){
+    public static int queueCommand(Context context, QueueingCommand cmd){
+        int result = queueCommand(context, cmd, BORN);
+        return result;
     }
 
     public static int queueCommand(Context context, QueueingCommand cmd, int complete){
@@ -298,7 +300,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
     }
 
     // the number of seconds to wait for each level of retry
-    public static final long MINUTE = 60 * 1000L;
+    public static final long MINUTE = 60 * 1000l;
     public static final long[] RETRY_WAITS = new long[]{ 1 * MINUTE,
                                                          1 * MINUTE,
                                                          1 * MINUTE,
@@ -341,7 +343,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
         Cursor cursor = context.getContentResolver().query(DBCommandContentProvider.CONTENT_URI, ALL_COLS, match , values , "_id" + ((max != -1) ? " LIMIT " + max : ""));
 
         try {
-            List<Command> commands = new ArrayList<>();
+            List<Command> commands = new ArrayList<Command>();
             while (cursor.moveToNext()) {
                 commands.add(Command.fromCursor(cursor));
             }
@@ -373,7 +375,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
         Cursor cursor = context.getContentResolver().query(DBCommandContentProvider.CONTENT_URI, ALL_COLS, match , values , "_id" + ((max != -1) ? " LIMIT " + max : ""));
 
         try {
-            List<Command> commands = new ArrayList<>();
+            List<Command> commands = new ArrayList<Command>();
             while (cursor.moveToNext()) {
                 commands.add(Command.fromCursor(cursor));
             }

@@ -89,8 +89,8 @@ public class SyncPayload {
         return json;
     }
 
-    public ArrayList<Command> commands = new ArrayList<>();
-    public HashMap<Integer, Command> commandsByPayload = new HashMap<>();
+    public ArrayList<Command> commands = new ArrayList<Command>();
+    public HashMap<Integer, Command> commandsByPayload = new HashMap<Integer, Command>();
 
     public String error;
     public int errorId;

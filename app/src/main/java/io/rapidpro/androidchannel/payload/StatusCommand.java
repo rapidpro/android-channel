@@ -20,6 +20,8 @@ package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -43,8 +45,10 @@ public class StatusCommand extends Command {
     private String m_networkType;
     private String m_countryCode;
 
-    private List<Long> m_messagePendingIds = new ArrayList<>();
-    private List<Long> m_messageRetryIds = new ArrayList<>();
+    private List<Command> m_messagePendingCommand;
+    private List<Command> m_messageRetryCommand;
+    private List<Long> m_messagePendingIds = new ArrayList<Long>();
+    private List<Long> m_messageRetryIds = new ArrayList<Long>();
 
     private int m_relayerOrg;
 
@@ -127,14 +131,14 @@ public class StatusCommand extends Command {
         m_powerLevel = preferences.getInt("powerLevel", -1);
         m_networkType = preferences.getString("networkType", "");
 
-        List<Command> m_messagePendingCommand = DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, DBCommandHelper.BORN, -1, MTTextMessage.CMD, false);
+        m_messagePendingCommand = DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, DBCommandHelper.BORN, -1, MTTextMessage.CMD, false);
         m_messagePendingCommand.addAll(DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, MTTextMessage.PENDING, -1, MTTextMessage.CMD, false));
 
-        List<Command> m_messageRetryCommand = DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, MTTextMessage.RETRY, -1, MTTextMessage.CMD, false);
+        m_messageRetryCommand = DBCommandHelper.getPendingCommands(context, DBCommandHelper.IN, MTTextMessage.RETRY, -1, MTTextMessage.CMD, false);
 
         if (m_messagePendingCommand.size() != 0){
             RapidPro.LOG.d(String.format("m_messagePending has %d elements", m_messagePendingCommand.size()));
-            for(Command cmd : m_messagePendingCommand){
+            for(Command cmd :m_messagePendingCommand){
                 MTTextMessage pendingMessage = (MTTextMessage) cmd;
                 m_messagePendingIds.add(pendingMessage.getServerId());
             }
@@ -142,7 +146,7 @@ public class StatusCommand extends Command {
 
         if (m_messageRetryCommand.size() != 0){
             RapidPro.LOG.d(String.format("m_messagePending has %d elements", m_messageRetryCommand.size()));
-            for (Command cmd : m_messageRetryCommand){
+            for (Command cmd :m_messageRetryCommand){
                 MTTextMessage retryMessage = (MTTextMessage) cmd;
                 m_messageRetryIds.add(retryMessage.getServerId());
             }

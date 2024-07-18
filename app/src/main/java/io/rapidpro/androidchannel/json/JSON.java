@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,6 +63,8 @@ public class JSON {
         try {
             m_o = new JSONObject(json);
         } catch (Throwable t) {
+            // Amtrak.LOG.e("Error parsing JSON.", t);
+            // Amtrak.LOG.d(json);
             throw new JSONException(t, json);
         }
     }
@@ -150,7 +153,7 @@ public class JSON {
     public List<JSON> getJSONList(String key) {
         try {
             if (m_o.isNull(key)) {
-                return new ArrayList<>();
+                return new ArrayList<JSON>();
             } else {
                 JSONArray array = m_o.getJSONArray(key);
                 return arrayToList(array);
@@ -214,7 +217,11 @@ public class JSON {
                 return true;
             }
 
-            return m_o.getString(key).equals("Y");
+            if (m_o.getString(key).equals("Y")) {
+                return true;
+            }
+
+            return false;
 
         } catch (Throwable t) {
             throw new JSONException(t);
