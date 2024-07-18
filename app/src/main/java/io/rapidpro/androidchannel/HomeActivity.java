@@ -26,7 +26,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -76,14 +75,11 @@ public class HomeActivity extends BaseActivity implements Intents {
 
     // initialize m_touch_count to 8 to force exactly ten touch from the user
     private int m_debugTapsRemaining = 8;
-    private long m_lastTouch = 0l;
+    private long m_lastTouch = 0L;
 
     // private TextView m_secret;
     private TextView m_status;
 
-    private TextView m_appVersion;
-
-    private static HomeActivity s_this;
     private DashboardReceiver m_receiver;
 
     private LinearLayout m_statusBar;
@@ -91,7 +87,6 @@ public class HomeActivity extends BaseActivity implements Intents {
     private View m_lastUpdated;
     private View m_lastUpdate;
 
-    private View m_logo;
     private View m_settings;
 
     private TextView m_outgoingCount;
@@ -115,72 +110,66 @@ public class HomeActivity extends BaseActivity implements Intents {
 
 
         if (!showAdvancedSettings) {
-            m_logo = findViewById(R.id.logo);
+            View m_logo = findViewById(R.id.logo);
 
-            m_logo.setOnTouchListener(new View.OnTouchListener(){
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    int action = MotionEventCompat.getActionMasked(motionEvent);
+            m_logo.setOnTouchListener((view, motionEvent) -> {
+                int action = MotionEventCompat.getActionMasked(motionEvent);
 
-                    switch(action) {
-                        case (MotionEvent.ACTION_DOWN) :
-                            long now = System.currentTimeMillis();
-                            if (now - m_lastTouch < 2000){
-                                if (m_debugTapsRemaining >= 1) {
-                                    m_debugTapsRemaining--;
-                                } else {
-                                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-                                    editor.putBoolean(SHOW_ADVANCED_SETTINGS, true);
-                                    editor.apply();
-                                    Toast.makeText(getApplicationContext(), "Advanced Settings Activated", Toast.LENGTH_SHORT).show();
-                                }
-                            }  else {
-                                // reset m_touch_count to 8 to force exactly 10 touch from the user
-                                m_debugTapsRemaining = 8;
+                switch(action) {
+                    case (MotionEvent.ACTION_DOWN) :
+                        long now = System.currentTimeMillis();
+                        if (now - m_lastTouch < 2000){
+                            if (m_debugTapsRemaining >= 1) {
+                                m_debugTapsRemaining--;
+                            } else {
+                                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                                editor.putBoolean(SHOW_ADVANCED_SETTINGS, true);
+                                editor.apply();
+                                Toast.makeText(getApplicationContext(), "Advanced Settings Activated", Toast.LENGTH_SHORT).show();
                             }
-                            m_lastTouch = now;
+                        }  else {
+                            // reset m_touch_count to 8 to force exactly 10 touch from the user
+                            m_debugTapsRemaining = 8;
+                        }
+                        m_lastTouch = now;
 
-                            return false;
+                        return false;
 
-                        default :
-                            return false;
-                    }
+                    default :
+                        return false;
                 }
             });
         }
 
         m_settings = findViewById(R.id.settings_icon);
-        m_settings.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                int action = MotionEventCompat.getActionMasked(motionEvent);
+        m_settings.setOnTouchListener((view, motionEvent) -> {
+            int action = MotionEventCompat.getActionMasked(motionEvent);
 
-                switch(action) {
-                    case (MotionEvent.ACTION_DOWN) :
-                        m_settings.setBackgroundColor(Color.argb(32, 255, 255, 255));
-                        return false;
-                    case (MotionEvent.ACTION_UP):
-                        m_settings.setBackgroundColor(Color.TRANSPARENT);
-                        return false;
-                    default:
-                        return false;
-
-                }
+            switch(action) {
+                case (MotionEvent.ACTION_DOWN) :
+                    m_settings.setBackgroundColor(Color.argb(32, 255, 255, 255));
+                    return false;
+                case (MotionEvent.ACTION_UP):
+                    m_settings.setBackgroundColor(Color.TRANSPARENT);
+                    return false;
+                default:
+                    return false;
 
             }
+
         });
 
-        m_status = (TextView)findViewById(R.id.status);
-        m_statusBar = (LinearLayout)findViewById(R.id.status_bar);
+        m_status = findViewById(R.id.status);
+        m_statusBar = findViewById(R.id.status_bar);
 
-        m_appVersion = (TextView)findViewById(R.id.appversion);
+        TextView m_appVersion = findViewById(R.id.appversion);
         m_appVersion.setText("v" + RapidPro.get().getAppVersion());
 
-        s_this = this;
+        HomeActivity s_this = this;
 
-        m_outgoingCount = (TextView) findViewById(R.id.outgoing_count);
-        m_retryCount = (TextView) findViewById(R.id.retry_count);
-        m_syncCount = (TextView) findViewById(R.id.sync_count);
+        m_outgoingCount = findViewById(R.id.outgoing_count);
+        m_retryCount = findViewById(R.id.retry_count);
+        m_syncCount = findViewById(R.id.sync_count);
 
         // request our permissions for marshmallow and beyond
         if (!hasAcceptedPermissions()) {
@@ -235,6 +224,7 @@ public class HomeActivity extends BaseActivity implements Intents {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST) {
             for (int result : grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {

@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import io.rapidpro.androidchannel.Intents;
 import io.rapidpro.androidchannel.SettingsActivity;
-import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.json.JSON;
 

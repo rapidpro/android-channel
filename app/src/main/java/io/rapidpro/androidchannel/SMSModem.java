@@ -21,16 +21,10 @@ package io.rapidpro.androidchannel;
 import java.util.*;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.*;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
-import android.telephony.SmsMessage;
-import android.util.Log;
+
 import io.rapidpro.androidchannel.json.JSON;
 
 public final class SMSModem extends BroadcastReceiver {

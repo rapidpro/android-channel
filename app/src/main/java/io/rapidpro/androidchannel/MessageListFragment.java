@@ -196,8 +196,8 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
 
                 String type = cursor.getString(DBCommandHelper.CMD_IDX);
 
-                IconTextView v1 = (IconTextView) parent.findViewById(R.id.small1);
-                IconTextView v2 = (IconTextView) parent.findViewById(R.id.small2);
+                IconTextView v1 = parent.findViewById(R.id.small1);
+                IconTextView v2 = parent.findViewById(R.id.small2);
 
                 v2.setText(getResources().getString(R.string.icon_bubble_check));
 

@@ -60,32 +60,16 @@ public class Http {
 
         RequestQueue requestQueue = Volley.newRequestQueue(RapidPro.get());
 
-        ResponseListener listener = new ResponseListener() {
-            @Override
-            public void onResponse(JSONObject obj) {
-                contents = obj.toString();
-            }
-        };
+        ResponseListener listener = obj -> contents = obj.toString();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, url, new JSONObject(postData), new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        listener.onResponse(response);
-                        RapidPro.LOG.d("/n/n    " + response.toString());
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        RapidPro.LOG.e("Error getting response", error);
-
-                    }
-                }) {
+                (Request.Method.POST, url, new JSONObject(postData), response -> {
+                    listener.onResponse(response);
+                    RapidPro.LOG.d("/n/n    " + response.toString());
+                }, error -> RapidPro.LOG.e("Error getting response", error)) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
                 headers.put("User-Agent", USER_AGENT);
 
                 return headers;

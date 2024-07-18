@@ -93,9 +93,9 @@ public class RapidPro extends Application {
     private CallObserver m_callObserver;
     private IncomingSMSObserver m_incomingSMSObserver;
 
-    private List<String> m_installedPacks = new ArrayList<String>();
+    private List<String> m_installedPacks = new ArrayList<>();
 
-    private HashMap<String, ArrayList<Long>> m_sendReports = new HashMap<String, ArrayList<Long>>();
+    private HashMap<String, ArrayList<Long>> m_sendReports = new HashMap<>();
 
     @Override
     public void onCreate() {
@@ -180,7 +180,7 @@ public class RapidPro extends Application {
         final PackageManager pm = getPackageManager();
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
-        List<String> packs = new ArrayList<String>();
+        List<String> packs = new ArrayList<>();
         for (ApplicationInfo packageInfo : packages) {
             if (packageInfo.packageName.startsWith("io.rapidpro.androidchannel") &&
                     packageInfo.packageName.indexOf("surveyor") <= 0) {
@@ -236,7 +236,7 @@ public class RapidPro extends Application {
         ArrayList<Long> sends = m_sendReports.get(pack);
 
         if (sends == null) {
-            sends = new ArrayList<Long>();
+            sends = new ArrayList<>();
             m_sendReports.put(pack, sends);
         }
 
@@ -573,7 +573,7 @@ public class RapidPro extends Application {
 
     public String refreshAppVersion(){
         final PackageManager pm = getPackageManager();
-        PackageInfo pinfo = null;
+        PackageInfo pinfo;
         String appVersion = null;
         try {
             pinfo = pm.getPackageInfo(getPackageName(), 0);

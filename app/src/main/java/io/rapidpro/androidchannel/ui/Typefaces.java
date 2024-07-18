@@ -26,7 +26,7 @@ import java.util.Hashtable;
 
 public class Typefaces {
 
-    private static final Hashtable<String, Typeface> s_fontCache = new Hashtable<String, Typeface>();
+    private static final Hashtable<String, Typeface> s_fontCache = new Hashtable<>();
 
     public static Typeface get(Context c, String assetPath) {
         synchronized (s_fontCache) {

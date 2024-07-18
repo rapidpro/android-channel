@@ -126,26 +126,36 @@ public abstract class Command {
         String type = json.getString(COMMAND);
         Command cmd;
 
-        if (type.equals(MTBroadcast.CMD)){
-            cmd = new MTBroadcast(json);
-        } else if (type.equals(RegistrationCommand.CMD)){
-            cmd = new RegistrationCommand(json);
-        } else if (type.equals(MOTextMessage.CMD)) {
-            cmd = new MOTextMessage(json);
-        } else if (type.equals(Ack.CMD)) {
-            cmd = new Ack(json);
-        } else if (type.equals(MTTextSent.CMD)){
-            cmd = new MTTextSent(json);
-        } else if (type.equals(ReleaseCommand.CMD)) {
-            cmd = new ReleaseCommand(json);
-        } else if (type.equals(MTTextFailed.CMD)){
-            cmd = new MTTextFailed(json);
-        } else if (type.equals(ClaimCommand.CMD)) {
-            cmd = new ClaimCommand(json);
-        } else if (type.equals(ResetCommand.CMD)){
-            cmd = new ResetCommand(json);
-        } else {
-            throw new RuntimeException("Unknown command: " + json.toString());
+        switch (type) {
+            case MTBroadcast.CMD:
+                cmd = new MTBroadcast(json);
+                break;
+            case RegistrationCommand.CMD:
+                cmd = new RegistrationCommand(json);
+                break;
+            case MOTextMessage.CMD:
+                cmd = new MOTextMessage(json);
+                break;
+            case Ack.CMD:
+                cmd = new Ack(json);
+                break;
+            case MTTextSent.CMD:
+                cmd = new MTTextSent(json);
+                break;
+            case ReleaseCommand.CMD:
+                cmd = new ReleaseCommand(json);
+                break;
+            case MTTextFailed.CMD:
+                cmd = new MTTextFailed(json);
+                break;
+            case ClaimCommand.CMD:
+                cmd = new ClaimCommand(json);
+                break;
+            case ResetCommand.CMD:
+                cmd = new ResetCommand(json);
+                break;
+            default:
+                throw new RuntimeException("Unknown command: " + json.toString());
         }
 
         return cmd;

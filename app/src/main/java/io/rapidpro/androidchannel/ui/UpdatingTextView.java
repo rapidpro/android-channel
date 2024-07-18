@@ -27,10 +27,9 @@ import android.widget.TextView;
 import io.rapidpro.androidchannel.R;
 import io.rapidpro.androidchannel.RapidPro;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class UpdatingTextView extends TextView {
+public class UpdatingTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     private long m_frequency = -1;
     private String m_updateMethod = null;

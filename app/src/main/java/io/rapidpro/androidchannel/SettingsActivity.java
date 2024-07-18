@@ -47,8 +47,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     public static final String IS_PAUSED = "rapidproPaused";
 
-    private Boolean showAdvancedSettings;
-
     public static final String DEFAULT_NETWORK = "default_network";
     public static final String DATA_ENABLED = "network_data";
     public static final String WIFI_ENABLED = "network_wifi";
@@ -64,7 +62,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        showAdvancedSettings =  prefs.getBoolean(HomeActivity.SHOW_ADVANCED_SETTINGS, false);
+        Boolean showAdvancedSettings = prefs.getBoolean(HomeActivity.SHOW_ADVANCED_SETTINGS, false);
 
         if (!showAdvancedSettings) {
             getPreferenceScreen().removePreference(getPreferenceManager().findPreference("advanced_settings"));

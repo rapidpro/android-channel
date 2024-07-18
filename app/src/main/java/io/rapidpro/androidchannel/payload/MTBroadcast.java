@@ -19,7 +19,7 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
-import android.util.Log;
+
 import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.json.JSON;
@@ -37,7 +37,7 @@ public class MTBroadcast extends Command {
 
     public int m_id;
     public String m_msg;
-    public List<To> m_tos = new ArrayList<To>();
+    public List<To> m_tos = new ArrayList<>();
 
     public MTBroadcast(JSON json){
         super(CMD);

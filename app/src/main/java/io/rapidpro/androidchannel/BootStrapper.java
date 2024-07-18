@@ -34,13 +34,11 @@ public class BootStrapper extends BroadcastReceiver {
         checkService(context);
     }
 
-    public static boolean checkService(Context context){
+    public static void checkService(Context context){
         // check if our service is running, start it if not
         if (!isServiceRunning(context)){
             startService(context);
-            return false;
         } else {
-            return true;
         }
     }
 

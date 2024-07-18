@@ -25,7 +25,6 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import io.rapidpro.androidchannel.R;
-import io.rapidpro.androidchannel.RapidPro;
 
 public class IconStatus extends RelativeLayout {
     public IconStatus(Context context, AttributeSet attrs) {
@@ -73,7 +72,7 @@ public class IconStatus extends RelativeLayout {
     }
 
     public void setIcon(int id, int color) {
-        IconTextView tv = (IconTextView) findViewById(R.id.icon);
+        IconTextView tv = findViewById(R.id.icon);
         tv.setText(id);
         tv.setTextColor(getResources().getColor(color));
     }
