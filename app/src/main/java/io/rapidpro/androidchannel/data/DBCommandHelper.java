@@ -273,8 +273,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
     }
 
     public static int queueCommand(Context context, QueueingCommand cmd){
-        int result = queueCommand(context, cmd, BORN);
-        return result;
+        return queueCommand(context, cmd, BORN);
     }
 
     public static int queueCommand(Context context, QueueingCommand cmd, int complete){
@@ -301,10 +300,10 @@ public class DBCommandHelper extends SQLiteOpenHelper {
     }
 
     // the number of seconds to wait for each level of retry
-    public static final long MINUTE = 60 * 1000l;
-    public static final long[] RETRY_WAITS = new long[]{ 1 * MINUTE,
-                                                         1 * MINUTE,
-                                                         1 * MINUTE,
+    public static final long MINUTE = 60 * 1000L;
+    public static final long[] RETRY_WAITS = new long[]{MINUTE, // 1 * MINUTE
+                                                        MINUTE, // 1 * MINUTE
+                                                        MINUTE, // 1 * MINUTE
                                                          5 * MINUTE,
                                                          5 * MINUTE,
                                                         15 * MINUTE,

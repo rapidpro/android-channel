@@ -573,10 +573,9 @@ public class RapidPro extends Application {
 
     public String refreshAppVersion(){
         final PackageManager pm = getPackageManager();
-        PackageInfo pinfo = null;
         String appVersion = null;
         try {
-            pinfo = pm.getPackageInfo(getPackageName(), 0);
+            PackageInfo pinfo = pm.getPackageInfo(getPackageName(), 0);
             appVersion = pinfo.versionName;
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
             editor.putString(SettingsActivity.APP_VERSION, appVersion);

@@ -20,7 +20,6 @@ package io.rapidpro.androidchannel.util;
 
 import android.os.Build;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -83,7 +82,7 @@ public class Http {
                     }
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<String, String>();
                 headers.put("User-Agent", USER_AGENT);
 

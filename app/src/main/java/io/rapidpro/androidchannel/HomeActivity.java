@@ -75,7 +75,7 @@ public class HomeActivity extends BaseActivity implements Intents {
 
     // initialize m_touch_count to 8 to force exactly ten touch from the user
     private int m_debugTapsRemaining = 8;
-    private long m_lastTouch = 0l;
+    private long m_lastTouch = 0L;
 
     // private TextView m_secret;
     private TextView m_status;

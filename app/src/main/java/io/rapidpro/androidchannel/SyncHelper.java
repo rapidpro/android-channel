@@ -71,7 +71,7 @@ public class SyncHelper {
             }
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-            long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1l);
+            long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1L);
 
             List<Command> commands = DBCommandHelper.getPendingCommands(context, DBCommandHelper.OUT, DBCommandHelper.BORN, 50, null, false);
 
@@ -104,7 +104,7 @@ public class SyncHelper {
             String secret = prefs.getString(SettingsActivity.RELAYER_SECRET, null);
 
 
-            long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1l);
+            long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1L);
             long lastReceived = prefs.getLong(SettingsActivity.LAST_SMS_RECEIVED, 0);
             long now = System.currentTimeMillis();
 
@@ -210,7 +210,7 @@ public class SyncHelper {
             while (sleeps < 30 && data.isConnected() != enabled){
                 try{
                     Thread.sleep(1000);
-                } catch (Throwable t){}
+                } catch (Throwable ignored){}
                 data = conman.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
                 sleeps++;
             }
@@ -233,7 +233,7 @@ public class SyncHelper {
         while (sleeps < 30 && wifi.isConnected() != enabled){
             try{
                 Thread.sleep(1000);
-            } catch (Throwable t){}
+            } catch (Throwable ignored){}
             wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             sleeps++;
         }
@@ -269,14 +269,16 @@ public class SyncHelper {
     }
 
     private void setNetworkType(String type){
-        if (type.equals("wifi")){
-            checkWifiEnabled(true);
-        }
-        else if (type.equals("data")){
-            checkDataEnabled(true);
-        }
-        else if (type.equals("none")){
-            // last case is a no-op, we don't change anything
+        switch (type) {
+            case "wifi":
+                checkWifiEnabled(true);
+                break;
+            case "data":
+                checkDataEnabled(true);
+                break;
+            case "none":
+                // last case is a no-op, we don't change anything
+                break;
         }
     }
 

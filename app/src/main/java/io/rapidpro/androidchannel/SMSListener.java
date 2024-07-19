@@ -82,7 +82,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
         if (msg != null){
             String extra = msg.getExtra();
             int tries = 0;
-            try{ tries = Integer.parseInt(extra); } catch (Throwable t){}
+            try{ tries = Integer.parseInt(extra); } catch (Throwable ignored){}
             tries++;
 
             if (tries < MTTextMessage.MAX_SEND_TRIES){
