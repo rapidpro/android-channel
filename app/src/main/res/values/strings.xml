@@ -74,5 +74,8 @@
     <string name="permission_services">Allows the app to start its services</string>
 
     <string name="doze_warning">To ensure the best possible experience, click here to make sure battery optimizations for RapidPro are turned off.</string>
+    <string name="last_updated">Last Updated</string>
+    <string name="moments_ago">moments ago</string>
+    <string name="logo">logo</string>
 
 </resources>

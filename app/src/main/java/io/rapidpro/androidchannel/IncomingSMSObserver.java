@@ -84,7 +84,7 @@ public class IncomingSMSObserver extends ContentObserver{
             long id = cursor.getLong(cursor.getColumnIndex("_id"));
             long time = cursor.getLong(cursor.getColumnIndex("date"));
 
-            // update our most recent message if needbe
+            // update our most recent message if needed
             if (time > newLastSMS){
                 newLastSMS = time;
             }

@@ -28,6 +28,6 @@ public class IconTextView extends UpdatingTextView {
     }
 
     public void setIconColor(int color) {
-        setTextColor(getResources().getColor(color));
+        setTextColor(getContext().getColor(color));
     }
 }

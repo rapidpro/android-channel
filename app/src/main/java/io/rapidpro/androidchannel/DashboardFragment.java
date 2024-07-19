@@ -127,13 +127,13 @@ public class DashboardFragment extends Fragment implements Intents {
         text = text.replace("MINUTES", "" + minutes);
 
         m_throttleTitle.setText(title);
-        m_throttleTitle.setTextColor(getResources().getColor(color));
+        m_throttleTitle.setTextColor(getContext().getColor(color));
 
         m_throttleIcon.setText(icon);
-        m_throttleIcon.setTextColor(getResources().getColor(color));
+        m_throttleIcon.setTextColor(getContext().getColor(color));
 
         m_throttleMessage.setText(Html.fromHtml(text));
-        m_throttleLayout.setBackgroundDrawable(getResources().getDrawable(background));
+        m_throttleLayout.setBackground(getContext().getDrawable(background));
 
         boolean networkUp = intent.getBooleanExtra(Intents.CONNECTION_UP_EXTRA, true);
         m_networkError.setVisibility(networkUp ? View.GONE : View.VISIBLE);

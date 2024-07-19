@@ -241,7 +241,7 @@ public final class SMSModem extends BroadcastReceiver {
         return json.toString();
     }
 
-    // function to convert back a seriarized string into a HashMap
+    // function to convert back a serialized string into a HashMap
     private HashMap<String, Long> deserializer(String map_string) {
         HashMap<String, Long> output_map = new HashMap<>();
 

@@ -62,8 +62,6 @@ public class JSON {
         try {
             m_o = new JSONObject(json);
         } catch (Throwable t) {
-            // Amtrak.LOG.e("Error parsing JSON.", t);
-            // Amtrak.LOG.d(json);
             throw new JSONException(t, json);
         }
     }

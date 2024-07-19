@@ -59,7 +59,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.layout.settings);
+        addPreferencesFromResource(R.layout.preference_settings);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);

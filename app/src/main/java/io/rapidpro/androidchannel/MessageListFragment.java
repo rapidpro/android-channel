@@ -155,23 +155,23 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
 
                 if (mt_failed){
                     img.setText(getString(R.string.icon_bubble_bang));
-                    img.setTextColor(getResources().getColor(R.color.font_red));
+                    img.setTextColor(getContext().getColor(R.color.font_red));
                 } else if (cmd.equals("call")){
                         img.setText(getString(R.string.icon_call));
-                        img.setTextColor(getResources().getColor(R.color.font_green));
+                        img.setTextColor(getContext().getColor(R.color.font_green));
                 } else if (cmd.equals("mo_sms")){
                     img.setText(getString(R.string.icon_bubble_person));
-                    img.setTextColor(getResources().getColor(R.color.font_green));
+                    img.setTextColor(getContext().getColor(R.color.font_green));
                 } else if (cmd.equals("mt_sms")){
                     img.setText(getString(R.string.icon_bubble_right));
-                    img.setTextColor(getResources().getColor(R.color.font_green));
+                    img.setTextColor(getContext().getColor(R.color.font_green));
                 } else {
                     img.setText(getString(R.string.icon_cloud));
-                    img.setTextColor(getResources().getColor(R.color.font_green));
+                    img.setTextColor(getContext().getColor(R.color.font_green));
                 }
 
                 if (!complete){
-                    img.setTextColor(getResources().getColor(R.color.font_orange));
+                    img.setTextColor(getContext().getColor(R.color.font_orange));
                 }
             }
 

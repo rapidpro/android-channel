@@ -75,7 +75,7 @@ public class IconStatus extends RelativeLayout {
     public void setIcon(int id, int color) {
         IconTextView tv = (IconTextView) findViewById(R.id.icon);
         tv.setText(id);
-        tv.setTextColor(getResources().getColor(color));
+        tv.setTextColor(getContext().getColor(color));
     }
 
     private void setMessage(Spanned message) {

@@ -101,7 +101,7 @@ public class RapidPro extends Application {
     public void onCreate() {
         super.onCreate();
 
-        PreferenceManager.setDefaultValues(this, R.layout.settings, false);
+        PreferenceManager.setDefaultValues(this, R.layout.preference_settings, false);
 
         s_this = this;
 

@@ -35,7 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -120,7 +119,7 @@ public class HomeActivity extends BaseActivity implements Intents {
             m_logo.setOnTouchListener(new View.OnTouchListener(){
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    int action = MotionEventCompat.getActionMasked(motionEvent);
+                    int action = motionEvent.getAction();
 
                     switch(action) {
                         case (MotionEvent.ACTION_DOWN) :
@@ -153,7 +152,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         m_settings.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                int action = MotionEventCompat.getActionMasked(motionEvent);
+                int action = motionEvent.getAction();
 
                 switch(action) {
                     case (MotionEvent.ACTION_DOWN) :
