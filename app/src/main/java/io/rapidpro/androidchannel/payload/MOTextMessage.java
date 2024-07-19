@@ -19,10 +19,11 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
-import io.rapidpro.androidchannel.data.DBCommandHelper;
-import io.rapidpro.androidchannel.json.JSON;
 
 import java.util.Date;
+
+import io.rapidpro.androidchannel.data.DBCommandHelper;
+import io.rapidpro.androidchannel.json.JSON;
 
 public class MOTextMessage extends QueueingCommand {
     public static final String CMD = "mo_sms";

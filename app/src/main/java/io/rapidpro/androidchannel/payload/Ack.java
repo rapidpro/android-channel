@@ -19,6 +19,7 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
+
 import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.json.JSON;
 

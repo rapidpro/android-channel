@@ -20,6 +20,7 @@ package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
 import android.database.Cursor;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.json.JSON;
 

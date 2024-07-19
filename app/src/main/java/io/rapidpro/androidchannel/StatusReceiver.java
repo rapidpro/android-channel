@@ -25,8 +25,8 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
-import android.preference.PreferenceManager;
-import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 
 public class StatusReceiver extends BroadcastReceiver {

@@ -39,13 +39,13 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.provider.Telephony;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.ArrayList;

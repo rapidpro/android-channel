@@ -24,13 +24,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.provider.Telephony;
+
+import androidx.preference.PreferenceManager;
+
+import java.util.Date;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
-
-import java.util.Date;
 
 
 /**

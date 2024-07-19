@@ -1,18 +1,16 @@
 package io.rapidpro.androidchannel;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
+import static android.content.Context.CONNECTIVITY_SERVICE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Base64;
+
+import androidx.preference.PreferenceManager;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -34,8 +32,6 @@ import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.StatusCommand;
 import io.rapidpro.androidchannel.payload.SyncPayload;
 import io.rapidpro.androidchannel.util.Http;
-
-import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class SyncHelper {
 

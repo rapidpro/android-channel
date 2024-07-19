@@ -25,6 +25,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.contentprovider.DBCommandContentProvider;
 import io.rapidpro.androidchannel.payload.Command;
@@ -32,10 +37,6 @@ import io.rapidpro.androidchannel.payload.MOTextMessage;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.MTTextSent;
 import io.rapidpro.androidchannel.payload.QueueingCommand;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class DBCommandHelper extends SQLiteOpenHelper {
 

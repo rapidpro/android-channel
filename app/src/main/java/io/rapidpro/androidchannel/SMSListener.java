@@ -20,11 +20,14 @@ package io.rapidpro.androidchannel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import io.rapidpro.androidchannel.data.DBCommandHelper;
-import io.rapidpro.androidchannel.payload.*;
 
-import java.util.Date;
+import androidx.preference.PreferenceManager;
+
+import io.rapidpro.androidchannel.data.DBCommandHelper;
+import io.rapidpro.androidchannel.payload.MTTextDelivered;
+import io.rapidpro.androidchannel.payload.MTTextFailed;
+import io.rapidpro.androidchannel.payload.MTTextMessage;
+import io.rapidpro.androidchannel.payload.MTTextSent;
 
 public class SMSListener implements SMSModem.SmsModemListener {
 

@@ -18,27 +18,36 @@
 
 package io.rapidpro.androidchannel;
 
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.ListFragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
-import android.view.View;
-import android.widget.*;
+
+import java.text.DateFormat;
+import java.util.Date;
+
 import io.rapidpro.androidchannel.contentprovider.DBCommandContentProvider;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.ui.IconTextView;
-
-import java.text.DateFormat;
-import java.util.Date;
 
 public class MessageListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 

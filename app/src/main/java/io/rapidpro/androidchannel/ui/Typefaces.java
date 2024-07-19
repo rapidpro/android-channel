@@ -20,9 +20,10 @@ package io.rapidpro.androidchannel.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import io.rapidpro.androidchannel.RapidPro;
 
 import java.util.Hashtable;
+
+import io.rapidpro.androidchannel.RapidPro;
 
 public class Typefaces {
 

@@ -20,8 +20,9 @@ package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
 import android.telephony.SmsManager;
-import io.rapidpro.androidchannel.SMSModem;
+
 import io.rapidpro.androidchannel.RapidPro;
+import io.rapidpro.androidchannel.SMSModem;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.json.JSON;
 

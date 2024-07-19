@@ -18,19 +18,21 @@
 
 package io.rapidpro.androidchannel;
 
-import java.util.*;
-
 import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.*;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.telephony.SmsManager;
-import android.telephony.SmsMessage;
-import android.util.Log;
+
+import androidx.preference.PreferenceManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+
 import io.rapidpro.androidchannel.json.JSON;
 
 public final class SMSModem extends BroadcastReceiver {

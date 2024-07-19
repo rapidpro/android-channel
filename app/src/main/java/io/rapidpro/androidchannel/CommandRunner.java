@@ -21,14 +21,15 @@ package io.rapidpro.androidchannel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
 import androidx.core.app.JobIntentService;
+import androidx.preference.PreferenceManager;
+
+import java.util.List;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.Command;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
-
-import java.util.List;
 
 public class CommandRunner extends JobIntentService {
     /**

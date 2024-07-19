@@ -24,8 +24,8 @@ import android.text.Spanned;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import io.rapidpro.androidchannel.R;
-import io.rapidpro.androidchannel.RapidPro;
 
 public class IconStatus extends RelativeLayout {
     public IconStatus(Context context, AttributeSet attrs) {
