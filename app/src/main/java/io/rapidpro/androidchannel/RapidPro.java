@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
@@ -183,8 +184,17 @@ public class RapidPro extends Application {
         List<String> packs = new ArrayList<String>();
         for (ApplicationInfo packageInfo : packages) {
             if (packageInfo.packageName.startsWith("io.rapidpro.androidchannel") &&
-                    packageInfo.packageName.indexOf("surveyor") <= 0) {
-                packs.add(packageInfo.packageName);
+                    packageInfo.packageName.indexOf("surveyor") <= 0){
+                PackageInfo pInfo = null;
+                try {
+                    pInfo = pm.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA);
+                } catch (PackageManager.NameNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String version = pInfo.versionName;
+                if (Objects.equals(version, MESSAGE_PACK_VERSION_SUPPORTED)) {
+                    packs.add(packageInfo.packageName);
+                }
             }
         }
 
