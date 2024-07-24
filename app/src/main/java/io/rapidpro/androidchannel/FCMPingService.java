@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -26,20 +31,31 @@ public class FCMPingService extends JobIntentService {
 
     @Override
     protected void onHandleWork(Intent intent) {
-        String refreshedToken = FirebaseMessaging.getInstance().getToken().toString();
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(FCMPingService.class.getSimpleName(), "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
 
-        if (refreshedToken != null){
-            FirebaseMessaging.getInstance().send(
-                    new RemoteMessage.Builder(refreshedToken + "@gcm.googleapis.com")
-                            .setMessageId("" + System.currentTimeMillis())
-                            .addData("msg", "ping")
-                            .addData("ts", "" + System.currentTimeMillis())
-                            .build());
-        }
+                        // Get new FCM registration token
+                        String refreshedToken = task.getResult();
+                        if (refreshedToken != null){
+                            FirebaseMessaging.getInstance().send(
+                                    new RemoteMessage.Builder(refreshedToken + "@gcm.googleapis.com")
+                                            .setMessageId("" + System.currentTimeMillis())
+                                            .addData("msg", "ping")
+                                            .addData("ts", "" + System.currentTimeMillis())
+                                            .build());
+                        }
 
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putLong(RapidPro.LAST_FCM_TIME, System.currentTimeMillis());
-        editor.apply();
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                        editor.putLong(RapidPro.LAST_FCM_TIME, System.currentTimeMillis());
+                        editor.apply();
 
+                    }
+                });
     }
 }
