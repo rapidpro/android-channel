@@ -39,13 +39,13 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.provider.CallLog.Calls;
 import android.provider.Telephony;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -101,15 +101,7 @@ public class RapidPro extends Application {
     public void onCreate() {
         super.onCreate();
 
-        PreferenceManager.setDefaultValues(this, R.layout.settings, false);
-
-        // earlier versions of android are allowed to have higher message throughput
-        // before Build.VERSION_CODES.ICE_CREAM_SANDWICH which is 14
-        if (Build.VERSION.SDK_INT < 14) {
-            MESSAGE_THROTTLE = 100;
-            MESSAGE_THROTTLE_MINUTES = 60;
-            MESSAGE_THROTTLE_WINDOW = 1000*60*(MESSAGE_THROTTLE_MINUTES + 2);
-        }
+        PreferenceManager.setDefaultValues(this, R.layout.preference_settings, false);
 
         s_this = this;
 
@@ -298,7 +290,7 @@ public class RapidPro extends Application {
             if (getSendsForPack(candidate).size() + numMessages < RapidPro.MESSAGE_THROTTLE) {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt(LAST_PACK, packNumber);
-                editor.commit();
+                editor.apply();
                 return candidate;
             }
 
@@ -373,7 +365,7 @@ public class RapidPro extends Application {
             // set a flag in settings to pause
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
             editor.putBoolean(SettingsActivity.IS_PAUSED, true);
-            editor.commit();
+            editor.apply();
 
             // hide the notification in status bar
             updateNotification();
@@ -390,7 +382,7 @@ public class RapidPro extends Application {
             // set the pause flag to resume
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
             editor.putBoolean(SettingsActivity.IS_PAUSED, false);
-            editor.commit();
+            editor.apply();
 
             // show notification
             updateNotification();
@@ -412,7 +404,7 @@ public class RapidPro extends Application {
         // trigger a reset
         editor.putBoolean(SettingsActivity.RESET, true);
         editor.putBoolean(SettingsActivity.IS_PAUSED, false);
-        editor.commit();
+        editor.apply();
 
         // queue our reset command
         DBCommandHelper.queueCommand(this, new ResetCommand());
@@ -429,7 +421,7 @@ public class RapidPro extends Application {
         editor.remove(SettingsActivity.RELAYER_SECRET);
         editor.remove(SettingsActivity.RELAYER_ID);
         editor.remove(SettingsActivity.RELAYER_ORG);
-        editor.commit();
+        editor.apply();
 
         // remove all commands
         DBCommandHelper.clearCommands(context);
@@ -573,7 +565,7 @@ public class RapidPro extends Application {
             uuid = UUID.randomUUID().toString();
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(SettingsActivity.UUID, uuid);
-            editor.commit();
+            editor.apply();
         }
 
         return uuid;
@@ -581,14 +573,13 @@ public class RapidPro extends Application {
 
     public String refreshAppVersion(){
         final PackageManager pm = getPackageManager();
-        PackageInfo pinfo = null;
         String appVersion = null;
         try {
-            pinfo = pm.getPackageInfo(getPackageName(), 0);
+            PackageInfo pinfo = pm.getPackageInfo(getPackageName(), 0);
             appVersion = pinfo.versionName;
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
             editor.putString(SettingsActivity.APP_VERSION, appVersion);
-            editor.commit();
+            editor.apply();
 
         } catch (PackageManager.NameNotFoundException e) {
             RapidPro.LOG.e("Error getting package version name.", e);

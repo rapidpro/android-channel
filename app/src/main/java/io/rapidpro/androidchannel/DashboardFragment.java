@@ -22,15 +22,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 public class DashboardFragment extends Fragment implements Intents {
 
@@ -66,10 +66,7 @@ public class DashboardFragment extends Fragment implements Intents {
         m_pausedLayout = (RelativeLayout) view.findViewById(R.id.status_paused);
         m_activeLayout = (RelativeLayout)view.findViewById(R.id.status_active);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            m_dozeWarning.setVisibility(View.VISIBLE);
-        }
-
+        m_dozeWarning.setVisibility(View.VISIBLE);
 
         return view;
     }
@@ -100,7 +97,7 @@ public class DashboardFragment extends Fragment implements Intents {
 
         int sent = intent.getIntExtra(Intents.SENT_EXTRA, 0);
         int capacity = intent.getIntExtra(Intents.CAPACITY_EXTRA, 0);
-        int minutes = (Build.VERSION.SDK_INT < 14) ? 60 : 30;
+        int minutes = 30;
 
         // show our throttle warning
         m_throttleLayout.setVisibility(isPaused ? View.GONE : View.VISIBLE);
@@ -130,13 +127,13 @@ public class DashboardFragment extends Fragment implements Intents {
         text = text.replace("MINUTES", "" + minutes);
 
         m_throttleTitle.setText(title);
-        m_throttleTitle.setTextColor(getResources().getColor(color));
+        m_throttleTitle.setTextColor(getContext().getColor(color));
 
         m_throttleIcon.setText(icon);
-        m_throttleIcon.setTextColor(getResources().getColor(color));
+        m_throttleIcon.setTextColor(getContext().getColor(color));
 
         m_throttleMessage.setText(Html.fromHtml(text));
-        m_throttleLayout.setBackgroundDrawable(getResources().getDrawable(background));
+        m_throttleLayout.setBackground(getContext().getDrawable(background));
 
         boolean networkUp = intent.getBooleanExtra(Intents.CONNECTION_UP_EXTRA, true);
         m_networkError.setVisibility(networkUp ? View.GONE : View.VISIBLE);

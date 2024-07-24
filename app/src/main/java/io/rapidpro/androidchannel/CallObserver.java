@@ -20,8 +20,8 @@ package io.rapidpro.androidchannel;
 
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.os.Handler;
 import android.provider.CallLog.Calls;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.CallLog;
 
@@ -99,5 +99,7 @@ public class CallObserver extends ContentObserver {
             RapidPro.get().refreshHome();
             RapidPro.get().sync();
         }
+
+        cursor.close();
     }
 }

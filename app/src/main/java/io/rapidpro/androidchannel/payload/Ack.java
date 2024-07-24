@@ -19,6 +19,7 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
+
 import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.json.JSON;
 
@@ -55,6 +56,6 @@ public class Ack extends Command {
 
     @Override
     public JSON asJSON() {
-        throw new RuntimeException("Ack commands are not seriazable.");
+        throw new RuntimeException("Ack commands are not serializable.");
     }
 }

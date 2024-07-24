@@ -21,7 +21,9 @@ package io.rapidpro.androidchannel.payload;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
+
 import io.rapidpro.androidchannel.Intents;
 import io.rapidpro.androidchannel.SettingsActivity;
 import io.rapidpro.androidchannel.json.JSON;
@@ -50,7 +52,7 @@ public class ClaimCommand extends Command {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putInt(SettingsActivity.RELAYER_ORG, m_orgId);
         editor.remove(SettingsActivity.RESET);
-        editor.commit();
+        editor.apply();
 
         // update our home activity
         Intent intent = new Intent(Intents.UPDATE_RELAYER_STATE);

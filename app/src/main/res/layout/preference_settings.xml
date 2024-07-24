@@ -28,12 +28,6 @@
                 android:title="Preferred Network" />
 
         <CheckBoxPreference
-                android:key="airplane_reset"
-                android:summary="Whether to toggle Airplane Mode to recover from network errors"
-                android:defaultValue="false"
-                android:title="Enable Airplane Reset" />
-
-        <CheckBoxPreference
                 android:key="sms_auto_delete"
                 android:summary="Whether SMS messages should be deleted automatically from the inbox after they are sent to RapidPro."
                 android:defaultValue="false"

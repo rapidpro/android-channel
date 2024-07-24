@@ -20,7 +20,6 @@ package io.rapidpro.androidchannel.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 public class IconTextView extends UpdatingTextView {
     public IconTextView(Context context, AttributeSet attrs) {
@@ -29,6 +28,6 @@ public class IconTextView extends UpdatingTextView {
     }
 
     public void setIconColor(int color) {
-        setTextColor(getResources().getColor(color));
+        setTextColor(getContext().getColor(color));
     }
 }

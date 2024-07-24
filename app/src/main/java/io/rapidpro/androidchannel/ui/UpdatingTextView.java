@@ -24,11 +24,11 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
+
+import java.lang.reflect.Method;
+
 import io.rapidpro.androidchannel.R;
 import io.rapidpro.androidchannel.RapidPro;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class UpdatingTextView extends TextView {
 

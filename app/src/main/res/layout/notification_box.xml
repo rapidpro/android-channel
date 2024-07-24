@@ -5,18 +5,20 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onSync"
-                android:clickable="true">
+                android:clickable="true"
+                android:focusable="true">
 
         <ImageView
             android:paddingBottom="45dp"
-            android:paddingLeft="20dp"
-            android:layout_alignParentRight="true"
+            android:paddingStart="20dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_three_dots"
             android:id="@+id/settings_icon"
+            android:contentDescription="@string/menu_settings"
             android:paddingTop="10dp"
             android:onClick="onShowSettings"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -24,13 +26,13 @@
             android:id="@+id/last_updated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/settings_icon"
-            android:layout_marginRight="-20dp"
+            android:layout_toStartOf="@id/settings_icon"
+            android:layout_marginEnd="-20dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:textColor="@color/font_white"
-            android:text="Last Updated"
+            android:text="@string/last_updated"
             android:visibility="visible"/>
 
         <io.rapidpro.androidchannel.ui.UpdatingTextView
@@ -38,11 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/font_white"
-                android:text="moments ago"
+                android:text="@string/moments_ago"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:layout_toLeftOf="@id/settings_icon"
-                android:layout_marginRight="-20dp"
+                android:layout_toStartOf="@id/settings_icon"
+                android:layout_marginEnd="-20dp"
                 android:layout_marginTop="-5dp"
                 android:layout_below="@+id/last_updated"
                 rapidpro:onUpdateText="updateLastSync"
@@ -53,10 +55,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginRight="-20dp"
+                android:layout_marginEnd="-20dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/last_update"
-                android:layout_toLeftOf="@id/settings_icon"
+                android:layout_toStartOf="@id/settings_icon"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/font_status_bar"
@@ -65,12 +67,13 @@
 
         <ImageView
                 android:id="@+id/logo"
+                android:contentDescription="@string/logo"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:src="@drawable/logo"
                 android:scaleType="fitCenter"/>
 

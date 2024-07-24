@@ -19,12 +19,12 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import io.rapidpro.androidchannel.Intents;
-import io.rapidpro.androidchannel.SettingsActivity;
+
+import androidx.preference.PreferenceManager;
+
 import io.rapidpro.androidchannel.RapidPro;
+import io.rapidpro.androidchannel.SettingsActivity;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.json.JSON;
 
@@ -78,6 +78,6 @@ public class ResetCommand extends QueueingCommand {
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.remove(SettingsActivity.RESET);
-        editor.commit();
+        editor.apply();
     }
 }

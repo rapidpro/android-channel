@@ -1,13 +1,13 @@
 package io.rapidpro.androidchannel;
 
+import static io.rapidpro.androidchannel.SyncHelper.POLLING_INTERVAL;
+
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
-
-import static io.rapidpro.androidchannel.SyncHelper.POLLING_INTERVAL;
 
 public class SyncJobService extends JobService {
 

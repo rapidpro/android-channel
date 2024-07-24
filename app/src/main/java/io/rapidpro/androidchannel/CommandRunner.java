@@ -21,14 +21,15 @@ package io.rapidpro.androidchannel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
 import androidx.core.app.JobIntentService;
+import androidx.preference.PreferenceManager;
+
+import java.util.List;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.Command;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
-
-import java.util.List;
 
 public class CommandRunner extends JobIntentService {
     /**
@@ -85,7 +86,7 @@ public class CommandRunner extends JobIntentService {
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).edit();
         editor.putLong(RapidPro.LAST_RUN_COMMANDS_TIME, System.currentTimeMillis());
-        editor.commit();
+        editor.apply();
     }
 
     private void executeCommands(List<Command> cmds){

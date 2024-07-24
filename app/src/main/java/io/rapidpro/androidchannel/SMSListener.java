@@ -20,11 +20,14 @@ package io.rapidpro.androidchannel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import io.rapidpro.androidchannel.data.DBCommandHelper;
-import io.rapidpro.androidchannel.payload.*;
 
-import java.util.Date;
+import androidx.preference.PreferenceManager;
+
+import io.rapidpro.androidchannel.data.DBCommandHelper;
+import io.rapidpro.androidchannel.payload.MTTextDelivered;
+import io.rapidpro.androidchannel.payload.MTTextFailed;
+import io.rapidpro.androidchannel.payload.MTTextMessage;
+import io.rapidpro.androidchannel.payload.MTTextSent;
 
 public class SMSListener implements SMSModem.SmsModemListener {
 
@@ -42,7 +45,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
         // are having trouble sending messages
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putLong(SettingsActivity.LAST_SMS_SENT, System.currentTimeMillis());
-        editor.commit();
+        editor.apply();
 
         MTTextMessage msg = (MTTextMessage) DBCommandHelper.withServerId(context, MTTextMessage.CMD, msgId);
         if (msg != null){
@@ -79,7 +82,7 @@ public class SMSListener implements SMSModem.SmsModemListener {
         if (msg != null){
             String extra = msg.getExtra();
             int tries = 0;
-            try{ tries = Integer.parseInt(extra); } catch (Throwable t){}
+            try{ tries = Integer.parseInt(extra); } catch (Throwable ignored){}
             tries++;
 
             if (tries < MTTextMessage.MAX_SEND_TRIES){

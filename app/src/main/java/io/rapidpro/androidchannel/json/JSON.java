@@ -23,7 +23,6 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,8 +62,6 @@ public class JSON {
         try {
             m_o = new JSONObject(json);
         } catch (Throwable t) {
-            // Amtrak.LOG.e("Error parsing JSON.", t);
-            // Amtrak.LOG.d(json);
             throw new JSONException(t, json);
         }
     }

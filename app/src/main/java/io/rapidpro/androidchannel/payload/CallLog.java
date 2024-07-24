@@ -19,6 +19,7 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
+
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.json.JSON;
 
@@ -89,14 +90,15 @@ public class CallLog extends QueueingCommand {
 
     @Override
     public String getBody() {
-        if (m_type.equals(INCOMING)){
-            return "Incoming call from " + m_phone + " lasting " + m_duration + " seconds";
-        } else if (m_type.equals(OUTGOING)){
-            return "Outgoing call to " + m_phone + " lasting " + m_duration + " seconds";
-        } else if (m_type.equals(MISSED)){
-            return "Missed call from " + m_phone;
-        } else {
-            return "Call " + m_phone;
+        switch (m_type) {
+            case INCOMING:
+                return "Incoming call from " + m_phone + " lasting " + m_duration + " seconds";
+            case OUTGOING:
+                return "Outgoing call to " + m_phone + " lasting " + m_duration + " seconds";
+            case MISSED:
+                return "Missed call from " + m_phone;
+            default:
+                return "Call " + m_phone;
         }
     }
 

@@ -24,13 +24,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.provider.Telephony;
+
+import androidx.preference.PreferenceManager;
+
+import java.util.Date;
 
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
-
-import java.util.Date;
 
 
 /**
@@ -61,7 +62,7 @@ public class IncomingSMSObserver extends ContentObserver{
             m_lastSMS = System.currentTimeMillis();
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(RapidPro.get().getApplicationContext()).edit();
             editor.putLong(SettingsActivity.LAST_SMS_RECEIVED, m_lastSMS);
-            editor.commit();
+            editor.apply();
             return;
         }
 
@@ -83,7 +84,7 @@ public class IncomingSMSObserver extends ContentObserver{
             long id = cursor.getLong(cursor.getColumnIndex("_id"));
             long time = cursor.getLong(cursor.getColumnIndex("date"));
 
-            // update our most recent message if needbe
+            // update our most recent message if needed
             if (time > newLastSMS){
                 newLastSMS = time;
             }
@@ -111,11 +112,13 @@ public class IncomingSMSObserver extends ContentObserver{
             m_lastSMS = newLastSMS;
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(RapidPro.get().getApplicationContext()).edit();
             editor.putLong(SettingsActivity.LAST_SMS_RECEIVED, m_lastSMS);
-            editor.commit();
+            editor.apply();
 
             RapidPro.get().refreshHome();
             RapidPro.broadcastUpdatedCounts(RapidPro.get().getApplicationContext());
             RapidPro.get().sync(true);
         }
+
+        cursor.close();
     }
 }

@@ -19,13 +19,13 @@
 package io.rapidpro.androidchannel.payload;
 
 import android.content.Context;
-import android.util.Log;
-import io.rapidpro.androidchannel.RapidPro;
-import io.rapidpro.androidchannel.data.DBCommandHelper;
-import io.rapidpro.androidchannel.json.JSON;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rapidpro.androidchannel.RapidPro;
+import io.rapidpro.androidchannel.data.DBCommandHelper;
+import io.rapidpro.androidchannel.json.JSON;
 
 public class MTBroadcast extends Command {
     public static final String CMD = "mt_bcast";

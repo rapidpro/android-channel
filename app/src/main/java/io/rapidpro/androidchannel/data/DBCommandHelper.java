@@ -25,6 +25,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import io.rapidpro.androidchannel.RapidPro;
 import io.rapidpro.androidchannel.contentprovider.DBCommandContentProvider;
 import io.rapidpro.androidchannel.payload.Command;
@@ -32,10 +37,6 @@ import io.rapidpro.androidchannel.payload.MOTextMessage;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.payload.MTTextSent;
 import io.rapidpro.androidchannel.payload.QueueingCommand;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class DBCommandHelper extends SQLiteOpenHelper {
 
@@ -272,8 +273,7 @@ public class DBCommandHelper extends SQLiteOpenHelper {
     }
 
     public static int queueCommand(Context context, QueueingCommand cmd){
-        int result = queueCommand(context, cmd, BORN);
-        return result;
+        return queueCommand(context, cmd, BORN);
     }
 
     public static int queueCommand(Context context, QueueingCommand cmd, int complete){
@@ -300,10 +300,10 @@ public class DBCommandHelper extends SQLiteOpenHelper {
     }
 
     // the number of seconds to wait for each level of retry
-    public static final long MINUTE = 60 * 1000l;
-    public static final long[] RETRY_WAITS = new long[]{ 1 * MINUTE,
-                                                         1 * MINUTE,
-                                                         1 * MINUTE,
+    public static final long MINUTE = 60 * 1000L;
+    public static final long[] RETRY_WAITS = new long[]{MINUTE, // 1 * MINUTE
+                                                        MINUTE, // 1 * MINUTE
+                                                        MINUTE, // 1 * MINUTE
                                                          5 * MINUTE,
                                                          5 * MINUTE,
                                                         15 * MINUTE,

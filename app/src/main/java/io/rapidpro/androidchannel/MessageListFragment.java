@@ -18,27 +18,36 @@
 
 package io.rapidpro.androidchannel;
 
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.ListFragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
-import android.view.View;
-import android.widget.*;
+
+import java.text.DateFormat;
+import java.util.Date;
+
 import io.rapidpro.androidchannel.contentprovider.DBCommandContentProvider;
 import io.rapidpro.androidchannel.data.DBCommandHelper;
 import io.rapidpro.androidchannel.payload.MOTextMessage;
 import io.rapidpro.androidchannel.payload.MTTextMessage;
 import io.rapidpro.androidchannel.ui.IconTextView;
-
-import java.text.DateFormat;
-import java.util.Date;
 
 public class MessageListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -146,23 +155,23 @@ public class MessageListFragment extends ListFragment implements LoaderManager.L
 
                 if (mt_failed){
                     img.setText(getString(R.string.icon_bubble_bang));
-                    img.setTextColor(getResources().getColor(R.color.font_red));
+                    img.setTextColor(getContext().getColor(R.color.font_red));
                 } else if (cmd.equals("call")){
                         img.setText(getString(R.string.icon_call));
-                        img.setTextColor(getResources().getColor(R.color.font_green));
+                        img.setTextColor(getContext().getColor(R.color.font_green));
                 } else if (cmd.equals("mo_sms")){
                     img.setText(getString(R.string.icon_bubble_person));
-                    img.setTextColor(getResources().getColor(R.color.font_green));
+                    img.setTextColor(getContext().getColor(R.color.font_green));
                 } else if (cmd.equals("mt_sms")){
                     img.setText(getString(R.string.icon_bubble_right));
-                    img.setTextColor(getResources().getColor(R.color.font_green));
+                    img.setTextColor(getContext().getColor(R.color.font_green));
                 } else {
                     img.setText(getString(R.string.icon_cloud));
-                    img.setTextColor(getResources().getColor(R.color.font_green));
+                    img.setTextColor(getContext().getColor(R.color.font_green));
                 }
 
                 if (!complete){
-                    img.setTextColor(getResources().getColor(R.color.font_orange));
+                    img.setTextColor(getContext().getColor(R.color.font_orange));
                 }
             }
 

@@ -24,7 +24,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
@@ -43,7 +44,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public static final String APP_VERSION = "appVersion";
 
     public static final String RESET = "reset";
-    public static final String AIRPLANE_RESET = "airplane_reset";
 
     public static final String IS_PAUSED = "rapidproPaused";
 
@@ -59,7 +59,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.layout.settings);
+        addPreferencesFromResource(R.layout.preference_settings);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -82,7 +82,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             editor.putString(SettingsActivity.FCM_ID, id);
             editor.putLong(RapidPro.FIRST_FCM_TIME, System.currentTimeMillis());
         }
-        editor.commit();
+        editor.apply();
 
         // update our state
         Intent intent = new Intent(Intents.UPDATE_RELAYER_STATE);
@@ -100,7 +100,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             editor.remove(RELAYER_SECRET);
             editor.remove(RELAYER_CLAIM_CODE);
             editor.putBoolean(IS_PAUSED, false);
-            editor.commit();
+            editor.apply();
             RapidPro.get().sync();
             finish();
         }

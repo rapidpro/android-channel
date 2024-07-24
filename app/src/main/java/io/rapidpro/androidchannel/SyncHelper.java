@@ -1,18 +1,16 @@
 package io.rapidpro.androidchannel;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
+import static android.content.Context.CONNECTIVITY_SERVICE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Base64;
+
+import androidx.preference.PreferenceManager;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -35,8 +33,6 @@ import io.rapidpro.androidchannel.payload.StatusCommand;
 import io.rapidpro.androidchannel.payload.SyncPayload;
 import io.rapidpro.androidchannel.util.Http;
 
-import static android.content.Context.CONNECTIVITY_SERVICE;
-
 public class SyncHelper {
 
     // how many seconds between polling
@@ -52,8 +48,6 @@ public class SyncHelper {
     // how long between receiving messages to attempt toggling airplane
     public static final long NO_INCOMING_FREQUENCY = 1000*60*20;
 
-    // minimum time between us trying airplane mode shenanigans
-    public static final long AIRPLANE_MODE_WAIT = 1000l * 60 * 10;
 
     public static String ENDPOINT = "https://rapidpro.io";
 
@@ -77,7 +71,7 @@ public class SyncHelper {
             }
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-            long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1l);
+            long lastSync = prefs.getLong(RapidPro.LAST_SYNC_TIME, -1L);
 
             List<Command> commands = DBCommandHelper.getPendingCommands(context, DBCommandHelper.OUT, DBCommandHelper.BORN, 50, null, false);
 
@@ -97,9 +91,7 @@ public class SyncHelper {
             updateStatus("Syncing");
             String network = prefs.getString(SettingsActivity.DEFAULT_NETWORK, "none");
             String fcmId = prefs.getString(SettingsActivity.FCM_ID, "");
-            boolean useAirplane = prefs.getBoolean(SettingsActivity.AIRPLANE_RESET, false);
 
-            RapidPro.LOG.d("Use airplane: " + useAirplane);
 
             String uuid = RapidPro.get().getUUID();
 
@@ -112,7 +104,7 @@ public class SyncHelper {
             String secret = prefs.getString(SettingsActivity.RELAYER_SECRET, null);
 
 
-            long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1l);
+            long lastAirplane = prefs.getLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, -1L);
             long lastReceived = prefs.getLong(SettingsActivity.LAST_SMS_RECEIVED, 0);
             long now = System.currentTimeMillis();
 
@@ -157,36 +149,13 @@ public class SyncHelper {
             if (synced) {
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
                 editor.putLong(RapidPro.LAST_SYNC_TIME, syncTime);
-                editor.commit();
+                editor.apply();
             }
 
             // if we have messages in an errored state and haven't sent a message in over 10 minutes, then toggle
             // our airplane mode if we haven't done so recently
             int retry = DBCommandHelper.getCommandCount(context, DBCommandHelper.IN, MTTextMessage.RETRY, MTTextMessage.CMD);
             long lastSMSSent = prefs.getLong(SettingsActivity.LAST_SMS_SENT, 0);
-
-            // see whether we should use the airplane mode hack to keep the phone online
-            if (useAirplane && now - lastAirplane > AIRPLANE_MODE_WAIT) {
-
-                boolean toggleAirplane = false;
-
-                // been too long since a successful sync
-                toggleAirplane = now - lastSync > AIRPLANE_MODE_WAIT;
-
-                // been too long since we've received a message
-                if (!toggleAirplane) {
-                    toggleAirplane = now - lastReceived >= NO_INCOMING_FREQUENCY;
-                }
-
-                // haven't successfully sent an SMS in a while
-                if (!toggleAirplane) {
-                    toggleAirplane = retry > 0 && now - lastSMSSent > AIRPLANE_MODE_WAIT;
-                }
-
-                if (toggleAirplane) {
-                    tickleAirplaneMode();
-                }
-            }
 
             RapidPro.broadcastUpdatedCounts(context);
 
@@ -241,7 +210,7 @@ public class SyncHelper {
             while (sleeps < 30 && data.isConnected() != enabled){
                 try{
                     Thread.sleep(1000);
-                } catch (Throwable t){}
+                } catch (Throwable ignored){}
                 data = conman.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
                 sleeps++;
             }
@@ -264,7 +233,7 @@ public class SyncHelper {
         while (sleeps < 30 && wifi.isConnected() != enabled){
             try{
                 Thread.sleep(1000);
-            } catch (Throwable t){}
+            } catch (Throwable ignored){}
             wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             sleeps++;
         }
@@ -300,14 +269,16 @@ public class SyncHelper {
     }
 
     private void setNetworkType(String type){
-        if (type.equals("wifi")){
-            checkWifiEnabled(true);
-        }
-        else if (type.equals("data")){
-            checkDataEnabled(true);
-        }
-        else if (type.equals("none")){
-            // last case is a no-op, we don't change anything
+        switch (type) {
+            case "wifi":
+                checkWifiEnabled(true);
+                break;
+            case "data":
+                checkDataEnabled(true);
+                break;
+            case "none":
+                // last case is a no-op, we don't change anything
+                break;
         }
     }
 
@@ -356,50 +327,6 @@ public class SyncHelper {
             return false;
         } finally {
             conn.disconnect();
-        }
-    }
-
-    public void tickleAirplaneMode(){
-        try {
-
-            RapidPro.LOG.d("Attempting airplane toggle");
-            // Don't attempt an airplane toggle if we are on 4.2 or higher
-            if (Build.VERSION.SDK_INT >= 17) {
-                return;
-            }
-
-            RapidPro.LOG.d("Toggling airplane mode");
-
-            Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 1);
-
-            // reload our settings to take effect
-            Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            intent.putExtra("state", true);
-            context.sendBroadcast(intent);
-
-            // sleep 15 seconds for things to take effect
-            try {
-                Thread.sleep(15000);
-            } catch (Throwable ignore){}
-
-            // then toggle back
-            Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
-
-            // reload our settings to take effect
-            intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            intent.putExtra("state", false);
-            context.sendBroadcast(intent);
-
-            // sleep 20 seconds for things to take effect
-            try {
-                Thread.sleep(20000);
-            } catch (Throwable ignore){}
-
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-            editor.putLong(SettingsActivity.LAST_AIRPLANE_TOGGLE, System.currentTimeMillis());
-            editor.commit();
-        } catch (Throwable t) {
-            // on 4.2, we don't get to toggle airplane mode anymore
         }
     }
 
@@ -464,7 +391,7 @@ public class SyncHelper {
                 editor.remove(SettingsActivity.RELAYER_SECRET);
                 editor.remove(SettingsActivity.RELAYER_ID);
                 editor.remove(SettingsActivity.RESET);
-                editor.commit();
+                editor.apply();
                 showAsUnclaimed();
             }
 
@@ -486,7 +413,7 @@ public class SyncHelper {
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
         editor.putBoolean(SettingsActivity.CONNECTION_UP, connectionOk);
-        editor.commit();
+        editor.apply();
 
         return synced;
     }

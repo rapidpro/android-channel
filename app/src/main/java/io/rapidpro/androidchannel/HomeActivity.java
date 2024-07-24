@@ -26,20 +26,19 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import io.rapidpro.androidchannel.ui.UpdatingTextView;
 import io.rapidpro.androidchannel.util.DateUtil;
@@ -76,7 +75,7 @@ public class HomeActivity extends BaseActivity implements Intents {
 
     // initialize m_touch_count to 8 to force exactly ten touch from the user
     private int m_debugTapsRemaining = 8;
-    private long m_lastTouch = 0l;
+    private long m_lastTouch = 0L;
 
     // private TextView m_secret;
     private TextView m_status;
@@ -120,7 +119,7 @@ public class HomeActivity extends BaseActivity implements Intents {
             m_logo.setOnTouchListener(new View.OnTouchListener(){
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    int action = MotionEventCompat.getActionMasked(motionEvent);
+                    int action = motionEvent.getAction();
 
                     switch(action) {
                         case (MotionEvent.ACTION_DOWN) :
@@ -131,7 +130,7 @@ public class HomeActivity extends BaseActivity implements Intents {
                                 } else {
                                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                                     editor.putBoolean(SHOW_ADVANCED_SETTINGS, true);
-                                    editor.commit();
+                                    editor.apply();
                                     Toast.makeText(getApplicationContext(), "Advanced Settings Activated", Toast.LENGTH_SHORT).show();
                                 }
                             }  else {
@@ -153,7 +152,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         m_settings.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                int action = MotionEventCompat.getActionMasked(motionEvent);
+                int action = motionEvent.getAction();
 
                 switch(action) {
                     case (MotionEvent.ACTION_DOWN) :
@@ -193,21 +192,17 @@ public class HomeActivity extends BaseActivity implements Intents {
     }
 
     private boolean hasAcceptedPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (String perm : PERMISSIONS) {
-                if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED) {
-                    RapidPro.LOG.d("Missing Permission: " + perm);
-                    return false;
-                }
+        for (String perm : PERMISSIONS) {
+            if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED) {
+                RapidPro.LOG.d("Missing Permission: " + perm);
+                return false;
             }
         }
         return true;
     }
 
     private void triggerPermissionRequest() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
-        }
+        requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
     }
 
     public void onResume() {
@@ -335,9 +330,7 @@ public class HomeActivity extends BaseActivity implements Intents {
         if (hasAcceptedPermissions()) {
             RapidPro.get().resume();
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
-            }
+            requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST);
         }
     }
 
@@ -398,11 +391,9 @@ public class HomeActivity extends BaseActivity implements Intents {
     }
 
     public void handleBatteryOptimizations(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent myIntent = new Intent();
-            myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-            startActivity(myIntent);
-        }
+        Intent myIntent = new Intent();
+        myIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+        startActivity(myIntent);
     }
 
     class DashboardReceiver extends BroadcastReceiver {

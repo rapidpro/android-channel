@@ -18,11 +18,6 @@
 
 package io.rapidpro.androidchannel.data;
 
-import android.content.Context;
-import android.database.Cursor;
-import io.rapidpro.androidchannel.json.JSON;
-import io.rapidpro.androidchannel.payload.Command;
-
 /**
  * Our DB representation of a command.
  *
